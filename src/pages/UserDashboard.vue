@@ -64,7 +64,7 @@
             <!-- Main Content Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
                 <!-- Left Column: Instructions -->
-                <div class="lg:col-span-1 space-y-4 md:space-y-6">
+                <div class="lg:col-span-1 order-1 space-y-4 md:space-y-6">
                     <!-- Instructions Card -->
                     <div class="bg-white rounded-lg p-5 md:p-6 shadow-md">
                         <div class="flex items-center gap-3 mb-4">
@@ -95,8 +95,8 @@
                         </div>
                     </div>
 
-                    <!-- Important Notice -->
-                    <div class="bg-amber-50 rounded-lg p-5 md:p-6 shadow-md border-l-4 border-amber-400">
+                    <!-- Important Notice (hidden on mobile) -->
+                    <div class="hidden lg:block bg-amber-50 rounded-lg p-5 md:p-6 shadow-md border-l-4 border-amber-400">
                         <div class="flex items-start gap-3">
                             <svg class="w-6 h-6 flex-shrink-0" style="color: #f59e0b;" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
@@ -108,8 +108,8 @@
                         </div>
                     </div>
 
-                    <!-- Quick Info -->
-                    <div class="bg-white rounded-lg p-5 md:p-6 shadow-md">
+                    <!-- System Information (hidden on mobile) -->
+                    <div class="hidden lg:block bg-white rounded-lg p-5 md:p-6 shadow-md">
                         <h3 class="font-bold text-sm md:text-base mb-3" style="color: #002147;">System Information</h3>
                         <div class="space-y-2">
                             <div class="flex justify-between text-xs md:text-sm">
@@ -129,7 +129,7 @@
                 </div>
 
                 <!-- Right Column: Form -->
-                <div class="lg:col-span-2">
+                <div class="lg:col-span-2 order-2">
                     <div class="bg-white rounded-lg p-5 md:p-6 space-y-5 md:space-y-6 shadow-md">
                         <div class="flex items-center gap-3 p-4 rounded-lg" style="background: #eff6ff; border-left: 4px solid #002147;">
                             <div class="rounded-lg p-2" style="background: #002147;">
@@ -312,6 +312,41 @@
                                 <p class="text-xs md:text-sm font-bold" style="color: #92400e;">
                                     <span style="color: #dc2626;">*</span> Required fields must be filled out before submitting
                                 </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom: Important Notice & System Info (visible on mobile only) -->
+                <div class="lg:hidden lg:col-span-3 order-3 grid grid-cols-1 gap-4">
+                    <!-- Important Notice -->
+                    <div class="bg-amber-50 rounded-lg p-4 shadow-md border-l-4 border-amber-400">
+                        <div class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0" style="color: #f59e0b;" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <div>
+                                <h3 class="font-bold text-sm mb-1" style="color: #92400e;">Important Notice</h3>
+                                <p class="text-xs" style="color: #92400e;">Ensure all information is accurate before submission. Screenshots must be clear and readable.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Information -->
+                    <div class="bg-white rounded-lg p-4 shadow-md">
+                        <h3 class="font-bold text-sm mb-3" style="color: #002147;">System Information</h3>
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs">
+                                <span class="text-gray-600">Status:</span>
+                                <span class="font-bold text-green-600">● Active</span>
+                            </div>
+                            <div class="flex justify-between text-xs">
+                                <span class="text-gray-600">Registered Users:</span>
+                                <span class="font-bold" style="color: #002147;">{{ allUsers.length }}</span>
+                            </div>
+                            <div class="flex justify-between text-xs">
+                                <span class="text-gray-600">Max File Size:</span>
+                                <span class="font-bold" style="color: #002147;">25 MB</span>
                             </div>
                         </div>
                     </div>
