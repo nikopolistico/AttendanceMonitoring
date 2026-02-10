@@ -1,66 +1,80 @@
 <template>
-    <div class="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-800 via-blue-900 to-slate-900">
-        <!-- Police badge background decoration -->
+    <div class="min-h-screen flex items-center justify-center" style="background: #f3f1ee;">
+        <!-- PNP badge background decoration -->
         <div class="absolute inset-0 opacity-5">
-            <div class="absolute top-10 left-10 text-white text-6xl">★</div>
-            <div class="absolute bottom-10 right-10 text-white text-6xl">★</div>
+            <div class="absolute top-10 left-10 text-6xl" style="color: #002147;">★</div>
+            <div class="absolute bottom-10 right-10 text-6xl" style="color: #002147;">★</div>
+            <div class="absolute top-1/3 right-1/4 text-5xl" style="color: #004595;">★</div>
+            <div class="absolute bottom-1/3 left-1/4 text-5xl" style="color: #004595;">★</div>
         </div>
         
-        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm relative z-10 border-t-4 border-blue-900">
-            <!-- Header with police badge icon -->
-            <div class="text-center mb-4">
-                <div class="inline-block bg-blue-900 rounded-full p-2 mb-2">
-                    <svg class="w-8 h-8 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                    </svg>
+        <div class="bg-white rounded p-8 w-full max-w-md relative z-10 shadow-xl" style="border-top: 4px solid #002147;">
+            <!-- Header with PNP logo -->
+            <div class="text-center mb-8">
+                <div class="flex justify-center mb-5">
+                    <div class="rounded-full p-4" style="background: #f3f1ee;">
+                        <img src="../assets/pnplogo.png" alt="PNP Logo" class="w-20 h-20 object-contain" />
+                    </div>
                 </div>
-                <h1 class="text-xl font-bold text-blue-900 mb-1">POLICE DEPARTMENT</h1>
-                <p class="text-xs text-gray-600 font-semibold tracking-wide">ATTENDANCE MONITORING</p>
+                <h1 class="text-xl font-bold uppercase mb-2 tracking-wide" style="color: #002147;">Philippine National Police</h1>
+                <p class="text-sm uppercase font-semibold tracking-widest" style="color: #00397a;">Attendance System</p>
             </div>
             
             <!-- Dropdown for selecting login type -->
-            <div class="mb-4">
-                <label class="block text-blue-900 text-xs font-bold mb-1 uppercase tracking-wide">Login As:</label>
-                <select 
-                    v-model="loginType" 
-                    class="w-full px-3 py-2 text-sm border-2 border-blue-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition bg-gray-50 font-semibold text-gray-700"
-                >
-                    <option value="administrator">Administrator</option>
-                    <option value="user">Officer / Personnel</option>
-                </select>
+            <div class="mb-6">
+                <label class="block text-sm font-bold mb-3 uppercase tracking-wide" style="color: #002147;">Login As:</label>
+                <div class="relative">
+                    <select 
+                        v-model="loginType" 
+                        class="w-full px-4 py-3 text-sm border-2 rounded-lg focus:outline-none focus:ring-2 transition font-semibold appearance-none cursor-pointer shadow-sm" style="border-color: #e5e7eb; color: #002147; background: #ffffff;"
+                    >
+                        <option value="administrator">🔐 Administrator</option>
+                        <option value="user">👤 Officer / Personnel</option>
+                    </select>
+                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <svg class="w-5 h-5" style="color: #00397a;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                </div>
             </div>
 
             <!-- Administrator Login Form -->
-            <div v-if="loginType === 'administrator'" class="space-y-3">
+            <div v-if="loginType === 'administrator'" class="space-y-5">
                 <!-- Error Message -->
-                <div v-if="errorMessage" class="bg-red-100 border-l-4 border-red-500 p-2 rounded">
-                    <p class="text-red-700 text-xs font-semibold">{{ errorMessage }}</p>
+                <div v-if="errorMessage" class="border-l-4 p-4 rounded" style="background: #fee2e2; border-color: #dc2626;">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5" style="color: #dc2626;" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                        </svg>
+                        <p class="text-sm font-bold" style="color: #dc2626;">{{ errorMessage }}</p>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="block text-blue-900 text-xs font-bold mb-1 uppercase tracking-wide">Email:</label>
+                <div>
+                    <label class="block text-sm font-bold mb-3 uppercase tracking-wide" style="color: #002147;">Email:</label>
                     <input 
                         v-model="email" 
                         type="email" 
                         placeholder="Enter your email"
-                        class="w-full px-3 py-2 text-sm border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-blue-900 transition bg-gray-50"
+                        class="w-full px-4 py-3 text-sm border-2 rounded focus:outline-none focus:ring-2 transition font-medium" style="border-color: #e5e7eb; color: #002147; background: #ffffff;"
                         @keyup.enter="handleAdminLogin"
                     />
                 </div>
-                <div class="mb-3">
-                    <label class="block text-blue-900 text-xs font-bold mb-1 uppercase tracking-wide">Password:</label>
+                <div>
+                    <label class="block text-sm font-bold mb-3 uppercase tracking-wide" style="color: #002147;">Password:</label>
                     <div class="relative">
                         <input 
                             v-model="password" 
                             :type="showPassword ? 'text' : 'password'"
                             placeholder="Enter your password"
-                            class="w-full px-3 py-2 pr-10 text-sm border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-blue-900 transition bg-gray-50"
+                            class="w-full px-4 py-3 pr-12 text-sm border-2 rounded focus:outline-none focus:ring-2 transition font-medium" style="border-color: #e5e7eb; color: #002147; background: #ffffff;"
                             @keyup.enter="handleAdminLogin"
                         />
                         <button
                             type="button"
                             @click="showPassword = !showPassword"
-                            class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-blue-900 focus:outline-none"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none transition" style="color: #6b7280;"
                         >
                             <svg v-if="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -75,35 +89,56 @@
                 <button 
                     @click="handleAdminLogin"
                     :disabled="isLoading"
-                    class="w-full bg-blue-900 hover:bg-blue-800 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-2 text-sm rounded-md transition duration-200 shadow-lg hover:shadow-xl uppercase tracking-wide"
-                >
+                    class="w-full text-white font-bold py-4 text-sm rounded-lg transition duration-200 uppercase tracking-widest disabled:opacity-50 hover:opacity-90 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl" style="background: #002147;">
+                    <svg v-if="!isLoading" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                    </svg>
+                    <svg v-else class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
                     <span v-if="isLoading">Logging in...</span>
-                    <span v-else>Secure Login</span>
+                    <span v-else>Login</span>
                 </button>
             </div>
 
             <!-- User Login (Proceed only) -->
-            <div v-else class="space-y-3">
+            <div v-else class="space-y-5">
                 <!-- Error Message -->
-                <div v-if="errorMessage" class="bg-red-100 border-l-4 border-red-500 p-2 rounded">
-                    <p class="text-red-700 text-xs font-semibold">{{ errorMessage }}</p>
+                <div v-if="errorMessage" class="border-l-4 p-4 rounded" style="background: #fee2e2; border-color: #dc2626;">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5" style="color: #dc2626;" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                        </svg>
+                        <p class="text-sm font-bold" style="color: #dc2626;">{{ errorMessage }}</p>
+                    </div>
                 </div>
 
-                <div class="bg-blue-50 border-l-4 border-blue-900 p-3 mb-2">
-                    <p class="text-blue-900 text-center text-sm font-semibold">Officer/Personnel Access</p>
-                    <p class="text-gray-600 text-center text-xs mt-1">Click proceed to continue</p>
+                <div class="border-l-4 p-5 rounded-lg shadow-sm" style="background: #f3f1ee; border-color: #004595;">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="rounded-lg p-2" style="background: #004595;">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </div>
+                        <p class="text-base font-bold" style="color: #002147;">Officer/Personnel Access</p>
+                    </div>
+                    <p class="text-sm font-semibold" style="color: #00397a;">Click proceed to record your attendance</p>
                 </div>
                 <button 
                     @click="handleUserProceed"
-                    class="w-full bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-bold py-2 text-sm rounded-md transition duration-200 shadow-lg hover:shadow-xl uppercase tracking-wide"
+                    class="w-full text-white font-bold py-4 text-sm rounded-lg transition duration-200 uppercase tracking-widest hover:opacity-90 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl" style="background: #004595;"
                 >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
                     Proceed
                 </button>
             </div>
             
             <!-- Footer -->
-            <div class="mt-4 pt-3 border-t border-gray-200">
-                <p class="text-center text-xs text-gray-500">Authorized Personnel Only</p>
+            <div class="mt-6 pt-4 border-t" style="border-color: #e5e7eb;">
+                <p class="text-center text-xs font-semibold" style="color: #6b7280;">Authorized Personnel Only</p>
             </div>
         </div>
     </div>
