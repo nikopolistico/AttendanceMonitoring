@@ -2,22 +2,22 @@
     <div class="min-h-screen py-12 px-4" style="background: #f3f1ee;">
         <div class="max-w-3xl mx-auto">
             <!-- Header -->
-            <div class="rounded p-8 mb-8 text-white relative shadow-xl" style="background: #002147; border-bottom: 4px solid #004595;">
-                <div class="flex items-center justify-between relative z-10">
-                    <div class="flex items-center gap-5">
-                        <div class="rounded-full p-3" style="background: #f3f1ee;">
-                            <img src="../assets/pnplogo.png" alt="PNP Logo" class="w-16 h-16 object-contain" />
+            <div class="rounded p-4 sm:p-6 md:p-8 mb-8 text-white relative shadow-xl" style="background: #002147; border-bottom: 4px solid #004595;">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0 relative z-10">
+                    <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-5 w-full sm:w-auto">
+                        <div class="rounded-full p-2 sm:p-3" style="background: #f3f1ee;">
+                            <img src="../assets/pnplogo.png" alt="PNP Logo" class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 object-contain" />
                         </div>
-                        <div>
-                            <h1 class="text-2xl font-bold uppercase tracking-wide mb-1">Attendance Check-In</h1>
-                            <p class="text-sm font-semibold tracking-wide" style="color: #f3f1ee;">Philippine National Police • Officer/Personnel Portal</p>
+                        <div class="text-center sm:text-left">
+                            <h1 class="text-lg sm:text-xl md:text-2xl font-bold uppercase tracking-wide mb-1">Attendance Check-In</h1>
+                            <p class="text-xs sm:text-sm font-semibold tracking-wide" style="color: #f3f1ee;">Philippine National Police • Officer/Personnel Portal</p>
                         </div>
                     </div>
                     <button 
                         @click="returnToLogin"
-                        class="text-white font-bold px-6 py-3.5 rounded flex items-center gap-2 hover:opacity-90 transition" style="background: #00397a;"
+                        class="text-white font-bold px-4 sm:px-6 py-2.5 sm:py-3.5 rounded flex items-center gap-2 hover:opacity-90 transition w-full sm:w-auto justify-center text-sm sm:text-base" style="background: #00397a;"
                     >
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
                         Back to Login
