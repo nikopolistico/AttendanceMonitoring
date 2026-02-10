@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-br from-indigo-900 via-blue-800 to-purple-900 py-12 px-4">
+    <div class="min-h-screen bg-linear-to-br from-indigo-900 via-blue-800 to-purple-900 py-12 px-4">
         <div class="max-w-3xl mx-auto">
             <!-- Header -->
             <div class="bg-linear-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-3xl shadow-2xl p-8 mb-8 text-white relative overflow-hidden">

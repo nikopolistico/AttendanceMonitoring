@@ -1,17 +1,17 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100">
+    <div class="min-h-screen bg-linear-to-br from-gray-50 via-blue-50 to-indigo-100">
         <!-- Sidebar - Fixed -->
-        <div class="fixed left-0 top-0 h-screen w-64 bg-gradient-to-b from-blue-900 via-blue-950 to-slate-900 text-white flex flex-col shadow-2xl z-40">
+        <div class="fixed left-0 top-0 h-screen w-64 bg-linear-to-b from-blue-900 via-blue-950 to-slate-900 text-white flex flex-col shadow-2xl z-40">
             <!-- Sidebar Header -->
-            <div class="p-6 bg-gradient-to-r from-blue-950 to-indigo-950 border-b border-blue-800/50">
+            <div class="p-6 bg-linear-to-r from-blue-950 to-indigo-950 border-b border-blue-800/50">
                 <div class="flex items-center gap-3">
-                    <div class="bg-gradient-to-br from-yellow-400 to-amber-500 rounded-full p-2.5 shadow-lg">
+                    <div class="bg-linear-to-br from-yellow-400 to-amber-500 rounded-full p-2.5 shadow-lg">
                         <svg class="w-6 h-6 text-blue-900" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                         </svg>
                     </div>
                     <div>
-                        <h1 class="text-lg font-bold bg-gradient-to-r from-white to-blue-200 text-transparent bg-clip-text">Admin Dashboard</h1>
+                        <h1 class="text-lg font-bold bg-linear-to-r from-white to-blue-200 text-transparent bg-clip-text">Admin Dashboard</h1>
                         <p class="text-xs text-blue-300">Police Attendance System</p>
                     </div>
                 </div>
