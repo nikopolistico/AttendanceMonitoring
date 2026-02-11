@@ -88,32 +88,62 @@
                 </div>
 
                 <!-- Statistics Card -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mb-4 sm:mb-6">
-                    <div class="rounded-lg p-4 sm:p-5 lg:p-6 border-l-4 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group" style="background: #ffffff; border-left-color: #004595;">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-4 sm:mb-6">
+                    <div class="rounded-lg p-4 sm:p-5 border-l-4 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group" style="background: #ffffff; border-left-color: #004595;">
                         <div class="flex items-center justify-between">
                             <div class="flex-1">
-                                <p class="text-xs font-bold uppercase mb-2 sm:mb-3 tracking-wider" style="color: #6b7280;">Total Officers</p>
-                                <p class="text-3xl sm:text-4xl font-bold mb-1 sm:mb-2" style="color: #004595;">{{ officers.length }}</p>
-                                <p class="text-xs sm:text-sm font-semibold" style="color: #9ca3af;">Registered</p>
+                                <p class="text-xs font-bold uppercase mb-2 tracking-wider" style="color: #6b7280;">Total Officers</p>
+                                <p class="text-3xl sm:text-4xl font-bold mb-1" style="color: #004595;">{{ officers.length }}</p>
+                                <p class="text-xs font-semibold" style="color: #9ca3af;">Registered</p>
                             </div>
                             <div class="rounded-xl p-2 sm:p-3 group-hover:scale-110 transition-transform duration-300" style="background: linear-gradient(135deg, #004595 0%, #0369a1 100%);">
-                                <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                                 </svg>
                             </div>
                         </div>
                     </div>
 
-                    <div class="rounded-lg p-4 sm:p-5 lg:p-6 border-l-4 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group" style="background: #ffffff; border-left-color: #10b981;">
+                    <div class="rounded-lg p-4 sm:p-5 border-l-4 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group" style="background: #ffffff; border-left-color: #10b981;">
                         <div class="flex items-center justify-between">
                             <div class="flex-1">
-                                <p class="text-xs font-bold uppercase mb-2 sm:mb-3 tracking-wider" style="color: #6b7280;">Active Today</p>
-                                <p class="text-3xl sm:text-4xl font-bold mb-1 sm:mb-2" style="color: #10b981;">{{ activeToday }}</p>
-                                <p class="text-xs sm:text-sm font-semibold" style="color: #9ca3af;">Checked in</p>
+                                <p class="text-xs font-bold uppercase mb-2 tracking-wider" style="color: #6b7280;">Present Today</p>
+                                <p class="text-3xl sm:text-4xl font-bold mb-1" style="color: #10b981;">{{ presentOfficers.length }}</p>
+                                <p class="text-xs font-semibold" style="color: #9ca3af;">Checked in</p>
                             </div>
                             <div class="rounded-xl p-2 sm:p-3 group-hover:scale-110 transition-transform duration-300" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-                                <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg p-4 sm:p-5 border-l-4 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group" style="background: #ffffff; border-left-color: #ef4444;">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <p class="text-xs font-bold uppercase mb-2 tracking-wider" style="color: #6b7280;">Absent Today</p>
+                                <p class="text-3xl sm:text-4xl font-bold mb-1" style="color: #ef4444;">{{ absentOfficers.length }}</p>
+                                <p class="text-xs font-semibold" style="color: #9ca3af;">Not checked in</p>
+                            </div>
+                            <div class="rounded-xl p-2 sm:p-3 group-hover:scale-110 transition-transform duration-300" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg p-4 sm:p-5 border-l-4 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group" style="background: #ffffff; border-left-color: #f59e0b;">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <p class="text-xs font-bold uppercase mb-2 tracking-wider" style="color: #6b7280;">Attendance Rate</p>
+                                <p class="text-3xl sm:text-4xl font-bold mb-1" style="color: #f59e0b;">{{ attendanceRate }}%</p>
+                                <p class="text-xs font-semibold" style="color: #9ca3af;">Today's rate</p>
+                            </div>
+                            <div class="rounded-xl p-2 sm:p-3 group-hover:scale-110 transition-transform duration-300" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                 </svg>
                             </div>
                         </div>
@@ -180,121 +210,118 @@
                 </div>
 
                 <!-- Recent Check-ins Timeline -->
-                <div class="bg-white rounded-lg overflow-hidden shadow-sm mb-6">
-                    <div class="p-6 border-b" style="background: #f0fdf4; border-color: #e5e7eb;">
-                        <div class="flex items-center gap-3">
-                            <div class="rounded-lg p-2" style="background: #10b981;">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h2 class="text-base font-bold" style="color: #002147;">Recent Check-ins</h2>
-                                <p class="text-sm font-semibold" style="color: #166534;">Latest attendance activity</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="p-6 max-h-96 overflow-y-auto">
-                        <div v-if="recentCheckIns.length > 0" class="space-y-3">
-                            <div 
-                                v-for="(checkIn, index) in recentCheckIns" 
-                                :key="checkIn.id"
-                                class="flex items-center gap-4 p-4 rounded-lg border-l-4 hover:shadow-md transition-all duration-200"
-                                style="background: #fefefe; border-left-color: #10b981; border: 1px solid #e5e7eb;"
-                            >
-                                <div class="flex-shrink-0">
-                                    <div class="rounded-full p-3" style="background: #dcfce7;">
-                                        <svg class="w-5 h-5" style="color: #10b981;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="font-bold text-sm mb-1" style="color: #002147;">{{ checkIn.officerName }}</p>
-                                    <p class="text-xs font-semibold" style="color: #10b981;">Checked in</p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-xs font-bold mb-1" style="color: #6b7280;">{{ formatTime(checkIn.created_at) }}</p>
-                                    <span class="text-xs font-semibold px-2.5 py-1 rounded-full" style="background: #dcfce7; color: #166534;">
-                                        On Time
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div v-else class="text-center py-8">
-                            <div class="rounded-full p-4 mx-auto w-fit mb-3" style="background: #f3f1ee;">
-                                <svg class="w-8 h-8" style="color: #9ca3af;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                            </div>
-                            <p class="text-sm font-bold" style="color: #002147;">No check-ins yet</p>
-                            <p class="text-xs mt-1" style="color: #9ca3af;">Recent activity will appear here</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Officers Grid -->
-                <div class="bg-white rounded-lg overflow-hidden shadow-sm">
-                    <div class="p-6 border-b" style="background: #f3f1ee; border-color: #e5e7eb;">
-                        <div class="flex items-center justify-between">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
+                    <div class="lg:col-span-1 bg-white rounded-lg overflow-hidden shadow-sm">
+                        <div class="p-5 border-b" style="background: #f0fdf4; border-color: #e5e7eb;">
                             <div class="flex items-center gap-3">
-                                <div class="rounded-lg p-2" style="background: #004595;">
+                                <div class="rounded-lg p-2" style="background: #10b981;">
                                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                 </div>
                                 <div>
-                                    <h2 class="text-base font-bold" style="color: #002147;">
-                                        {{ statusFilter === 'all' ? 'All Officers' : statusFilter === 'present' ? 'Present Officers' : 'Absent Officers' }}
-                                    </h2>
-                                    <p class="text-sm font-semibold" style="color: #00397a;">{{ displayedOfficers.length }} officers found</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs font-bold px-3 py-1.5 rounded-full" 
-                                    :style="statusFilter === 'all' ? 'background: #f3f1ee; color: #002147;' : statusFilter === 'present' ? 'background: #dcfce7; color: #166534;' : 'background: #fee2e2; color: #991b1b;'">
-                                    {{ statusFilter === 'all' ? 'Viewing All' : statusFilter === 'present' ? 'Viewing Present' : 'Viewing Absent' }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="p-4 sm:p-6">
-                        <div v-if="displayedOfficers.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                            <div 
-                                v-for="officer in displayedOfficers" 
-                                :key="officer.id"
-                                class="border-2 rounded-lg p-4 sm:p-5 hover:shadow-md transition-all duration-200" style="background: #ffffff; border-color: #e5e7eb;"
-                            >
-                                <div class="flex items-start gap-3">
-                                    <div class="rounded-lg p-2 sm:p-3" style="background: #f3f1ee;">
-                                        <svg class="w-6 h-6 sm:w-7 sm:h-7" style="color: #002147;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                        </svg>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="font-bold text-sm mb-2 truncate" style="color: #002147;">{{ officer.rank_full_name }}</p>
-                                        <span 
-                                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold uppercase"
-                                            :style="officer.hasAttendanceToday ? 'background: #dcfce7; color: #15803d;' : 'background: #fee2e2; color: #991b1b;'"
-                                        >
-                                            <span class="w-1.5 h-1.5 rounded-full" :style="officer.hasAttendanceToday ? 'background: #15803d;' : 'background: #991b1b;'"></span>
-                                            {{ officer.hasAttendanceToday ? 'Present' : 'Absent' }}
-                                        </span>
-                                    </div>
+                                    <h2 class="text-sm font-bold" style="color: #002147;">Recent Check-ins</h2>
+                                    <p class="text-xs font-semibold" style="color: #166534;">Latest activity</p>
                                 </div>
                             </div>
                         </div>
                         
-                        <div v-else class="text-center py-12">
-                            <div class="rounded p-3 mx-auto w-12 h-12 flex items-center justify-center mb-3" style="background: #f3f1ee;">
-                                <svg class="w-6 h-6" style="color: #9ca3af;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                                </svg>
+                        <div class="p-4 max-h-[500px] overflow-y-auto">
+                            <div v-if="recentCheckIns.length > 0" class="space-y-2">
+                                <div 
+                                    v-for="(checkIn, index) in recentCheckIns" 
+                                    :key="checkIn.id"
+                                    class="flex items-center gap-3 p-3 rounded-lg border-l-4 hover:shadow-md transition-all duration-200"
+                                    style="background: #fefefe; border-left-color: #10b981; border: 1px solid #e5e7eb;"
+                                >
+                                    <div class="flex-shrink-0">
+                                        <div class="rounded-full p-2" style="background: #dcfce7;">
+                                            <svg class="w-4 h-4" style="color: #10b981;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-bold text-xs mb-0.5 truncate" style="color: #002147;">{{ checkIn.officerName }}</p>
+                                        <p class="text-xs font-semibold" style="color: #10b981;">{{ formatTime(checkIn.created_at) }}</p>
+                                    </div>
+                                    <span class="text-xs font-bold px-2 py-0.5 rounded-full" style="background: #dcfce7; color: #166534;">
+                                        ✓
+                                    </span>
+                                </div>
                             </div>
-                            <p class="font-bold text-sm mb-1" style="color: #002147;">No officers found</p>
-                            <p class="text-xs" style="color: #6b7280;">Try adjusting your search</p>
+                            <div v-else class="text-center py-8">
+                                <div class="rounded-full p-3 mx-auto w-fit mb-2" style="background: #f3f1ee;">
+                                    <svg class="w-6 h-6" style="color: #9ca3af;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <p class="text-xs font-bold" style="color: #002147;">No check-ins yet</p>
+                                <p class="text-xs mt-1" style="color: #9ca3af;">Activity will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Officers Grid -->
+                    <div class="lg:col-span-2 bg-white rounded-lg overflow-hidden shadow-sm">
+                        <div class="p-5 border-b" style="background: #f3f1ee; border-color: #e5e7eb;">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="rounded-lg p-2" style="background: #004595;">
+                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-sm font-bold" style="color: #002147;">
+                                            {{ statusFilter === 'all' ? 'All Officers' : statusFilter === 'present' ? 'Present Officers' : 'Absent Officers' }}
+                                        </h2>
+                                        <p class="text-xs font-semibold" style="color: #00397a;">{{ displayedOfficers.length }} officers found</p>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-bold px-3 py-1.5 rounded-full" 
+                                    :style="statusFilter === 'all' ? 'background: #f3f1ee; color: #002147;' : statusFilter === 'present' ? 'background: #dcfce7; color: #166534;' : 'background: #fee2e2; color: #991b1b;'">
+                                    {{ statusFilter === 'all' ? 'Viewing All' : statusFilter === 'present' ? 'Present' : 'Absent' }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 max-h-[500px] overflow-y-auto">
+                            <div v-if="displayedOfficers.length > 0" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div 
+                                    v-for="officer in displayedOfficers" 
+                                    :key="officer.id"
+                                    class="border-2 rounded-lg p-3 hover:shadow-md transition-all duration-200" style="background: #ffffff; border-color: #e5e7eb;"
+                                >
+                                    <div class="flex items-start gap-3">
+                                        <div class="rounded-lg p-2" style="background: #f3f1ee;">
+                                            <svg class="w-5 h-5" style="color: #002147;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="font-bold text-xs mb-1.5 truncate" style="color: #002147;">{{ officer.rank_full_name }}</p>
+                                            <span 
+                                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold uppercase"
+                                                :style="officer.hasAttendanceToday ? 'background: #dcfce7; color: #15803d;' : 'background: #fee2e2; color: #991b1b;'"
+                                            >
+                                                <span class="w-1.5 h-1.5 rounded-full" :style="officer.hasAttendanceToday ? 'background: #15803d;' : 'background: #991b1b;'"></span>
+                                                {{ officer.hasAttendanceToday ? 'Present' : 'Absent' }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div v-else class="text-center py-12">
+                                <div class="rounded p-3 mx-auto w-12 h-12 flex items-center justify-center mb-3" style="background: #f3f1ee;">
+                                    <svg class="w-6 h-6" style="color: #9ca3af;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                    </svg>
+                                </div>
+                                <p class="font-bold text-xs mb-1" style="color: #002147;">No officers found</p>
+                                <p class="text-xs" style="color: #6b7280;">Try adjusting your search</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -485,6 +512,11 @@ const displayedOfficers = computed(() => filteredOfficers.value)
 
 const activeToday = computed(() => {
     return officers.value.filter(o => o.hasAttendanceToday).length
+})
+
+const attendanceRate = computed(() => {
+    if (officers.value.length === 0) return 0
+    return Math.round((presentOfficers.value.length / officers.value.length) * 100)
 })
 
 // Format time helper
