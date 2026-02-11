@@ -1,7 +1,10 @@
 <template>
     <div class="min-h-screen" style="background: #f3f1ee;">
-        <!-- Sidebar - Fixed -->
-        <div class="fixed left-0 top-0 h-screen w-64 text-white flex flex-col shadow-2xl z-40" style="background: #002147;">
+        <!-- Sidebar - Desktop Only -->
+        <div 
+            class="hidden lg:flex fixed left-0 top-0 h-screen w-64 text-white flex-col shadow-2xl z-40"
+            style="background: linear-gradient(180deg, #001a3a 0%, #002147 50%, #00295a 100%);"
+        >
             <!-- Sidebar Header -->
             <div class="p-6 border-b border-white/10">
                 <div class="flex flex-col items-center text-center gap-4">
@@ -67,35 +70,35 @@
         </div>
 
         <!-- Main Content -->
-        <div class="ml-64 min-h-screen overflow-auto">
-            <div class="p-8">
+        <div class="lg:ml-64 min-h-screen overflow-auto pb-20 lg:pb-0">
+            <div class="p-4 sm:p-6 lg:p-8">
                 <!-- Page Header -->
-                <div class="mb-8 p-6 rounded-lg shadow-sm" style="background: #ffffff; border-left: 4px solid #004595;">
-                    <div class="flex items-center gap-4">
-                        <div class="rounded-full p-3" style="background: #f3f1ee;">
-                            <svg class="w-8 h-8" style="color: #002147;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="mb-6 lg:mb-8 p-4 sm:p-5 lg:p-6 rounded-lg shadow-sm" style="background: #ffffff; border-left: 4px solid #004595;">
+                    <div class="flex items-center gap-3 sm:gap-4">
+                        <div class="rounded-full p-2 sm:p-3" style="background: #f3f1ee;">
+                            <svg class="w-6 h-6 sm:w-8 sm:h-8" style="color: #002147;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
                             </svg>
                         </div>
                         <div>
-                            <h1 class="text-2xl font-bold mb-1" style="color: #002147;">Attendance Records</h1>
-                            <p class="text-sm font-semibold" style="color: #00397a;">Filter and view attendance records by date</p>
+                            <h1 class="text-lg sm:text-xl lg:text-2xl font-bold mb-1" style="color: #002147;">Attendance Records</h1>
+                            <p class="text-xs sm:text-sm font-semibold" style="color: #00397a;">Filter and view attendance records by date</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Filter and Tabs Section -->
-                <div class="bg-white rounded-lg p-6 mb-6 shadow-sm">
-                    <div class="flex items-center justify-between gap-4 flex-wrap">
+                <div class="bg-white rounded-lg p-4 sm:p-5 lg:p-6 mb-4 sm:mb-6 shadow-sm">
+                    <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
                         <!-- Tab Buttons -->
-                        <div class="flex gap-2">
+                        <div class="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
                             <button 
                                 @click="activeTab = 'with-attendance'"
                                 :class="activeTab === 'with-attendance' 
                                     ? 'text-white shadow-lg' 
                                     : 'bg-white border-2'"
                                 :style="activeTab === 'with-attendance' ? 'background: #004595; color: #ffffff;' : 'background: #ffffff; color: #002147; border-color: #e5e7eb;'"
-                                class="px-4 py-2.5 rounded-lg font-bold text-sm uppercase flex items-center gap-2 transition hover:opacity-90"
+                                class="px-3 sm:px-4 py-2.5 rounded-lg font-bold text-xs sm:text-sm uppercase flex items-center justify-center gap-2 transition hover:opacity-90"
                             >
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -109,7 +112,7 @@
                                     ? 'text-white shadow-lg' 
                                     : 'bg-white border-2'"
                                 :style="activeTab === 'without-attendance' ? 'background: #ef4444; color: #ffffff;' : 'background: #ffffff; color: #002147; border-color: #e5e7eb;'"
-                                class="px-4 py-2.5 rounded-lg font-bold text-sm uppercase flex items-center gap-2 transition hover:opacity-90"
+                                class="px-3 sm:px-4 py-2.5 rounded-lg font-bold text-xs sm:text-sm uppercase flex items-center justify-center gap-2 transition hover:opacity-90"
                             >
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -120,10 +123,10 @@
                         </div>
 
                         <!-- Date Filter -->
-                        <div class="flex items-center gap-3">
-                            <label class="text-sm font-bold uppercase flex items-center gap-2" style="color: #002147;">
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full lg:w-auto">
+                            <label class="text-xs sm:text-sm font-bold uppercase flex items-center gap-2" style="color: #002147;">
                                 <div class="rounded-lg p-1.5" style="background: #f3f1ee;">
-                                    <svg class="w-4 h-4" style="color: #004595;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" style="color: #004595;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                     </svg>
                                 </div>
@@ -132,12 +135,12 @@
                             <input 
                                 v-model="selectedDate" 
                                 type="date" 
-                                class="px-4 py-2.5 border-2 rounded-lg focus:outline-none text-sm font-medium" style="border-color: #e5e7eb; color: #002147;"
+                                class="px-3 sm:px-4 py-2.5 border-2 rounded-lg focus:outline-none text-xs sm:text-sm font-medium w-full sm:w-auto" style="border-color: #e5e7eb; color: #002147;"
                                 @change="filterRecords"
                             />
                             <button 
                                 @click="resetFilters"
-                                class="text-white px-4 py-2.5 rounded-lg font-bold text-sm uppercase hover:opacity-90 flex items-center gap-2 transition" style="background: #00397a;"
+                                class="text-white px-3 sm:px-4 py-2.5 rounded-lg font-bold text-xs sm:text-sm uppercase hover:opacity-90 flex items-center justify-center gap-2 transition" style="background: #00397a;"
                             >
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -150,32 +153,32 @@
 
                 <!-- Tab Content -->
                 <!-- With Attendance Tab -->
-                <div v-if="activeTab === 'with-attendance'" class="bg-white rounded overflow-hidden">
-                    <div class="p-5 border-b" style="background: #f3f1ee; border-color: #e5e7eb;">
-                        <h2 class="text-base font-bold flex items-center gap-2" style="color: #002147;">
+                <div v-if="activeTab === 'with-attendance'" class="bg-white rounded overflow-hidden shadow-sm">
+                    <div class="p-4 sm:p-5 border-b" style="background: #f3f1ee; border-color: #e5e7eb;">
+                        <h2 class="text-sm sm:text-base font-bold flex items-center gap-2" style="color: #002147;">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                             </svg>
                             All Attendance Records
                         </h2>
-                        <p class="text-sm mt-1" style="color: #00397a;">Showing {{ filteredRecords.length }} records</p>
+                        <p class="text-xs sm:text-sm mt-1" style="color: #00397a;">Showing {{ filteredRecords.length }} records</p>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full">
+                        <table class="w-full min-w-[600px]">
                             <thead class="text-white" style="background: #002147;">
                                 <tr>
-                                    <th class="px-4 py-3 text-left text-xs font-bold uppercase">Date & Time</th>
-                                    <th class="px-4 py-3 text-left text-xs font-bold uppercase">Name</th>
-                                    <th class="px-4 py-3 text-left text-xs font-bold uppercase">Status</th>
-                                    <th class="px-4 py-3 text-left text-xs font-bold uppercase">Actions</th>
+                                    <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs font-bold uppercase">Date & Time</th>
+                                    <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs font-bold uppercase">Name</th>
+                                    <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs font-bold uppercase">Status</th>
+                                    <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs font-bold uppercase">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-100">
                                 <tr v-for="record in filteredRecords" :key="record.id" 
                                     class="hover:bg-gray-50">
-                                    <td class="px-4 py-3 text-sm text-gray-900">{{ record.date }}</td>
-                                    <td class="px-4 py-3 text-sm text-gray-900">{{ record.name }}</td>
-                                    <td class="px-4 py-3">
+                                    <td class="px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-900">{{ record.date }}</td>
+                                    <td class="px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-900">{{ record.name }}</td>
+                                    <td class="px-3 sm:px-4 py-2.5 sm:py-3">
                                         <span 
                                             v-if="record.status === true"
                                             class="px-3 py-1 inline-flex text-xs font-bold rounded" style="background: #d1fae5; color: #065f46;"
@@ -189,11 +192,11 @@
                                             Absent
                                         </span>
                                     </td>
-                                    <td class="px-4 py-3">
-                                        <div class="flex gap-2">
+                                    <td class="px-3 sm:px-4 py-2.5 sm:py-3">
+                                        <div class="flex flex-col sm:flex-row gap-2">
                                             <button 
                                                 @click="previewReport(record)"
-                                                class="text-white px-4 py-2 rounded font-bold flex items-center gap-2 text-xs" style="background: #004595;"
+                                                class="text-white px-3 sm:px-4 py-2 rounded font-bold flex items-center justify-center gap-2 text-xs" style="background: #004595;"
                                             >
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -224,22 +227,22 @@
                 </div>
 
                 <!-- Without Attendance Tab -->
-                <div v-if="activeTab === 'without-attendance'" class="bg-white rounded p-5">
-                    <div class="mb-5 rounded p-5 text-white" style="background: #ef4444;">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h2 class="text-lg font-bold flex items-center gap-2">
+                <div v-if="activeTab === 'without-attendance'" class="bg-white rounded p-4 sm:p-5 shadow-sm">
+                    <div class="mb-4 sm:mb-5 rounded p-4 sm:p-5 text-white" style="background: #ef4444;">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+                            <div class="flex-1">
+                                <h2 class="text-base sm:text-lg font-bold flex items-center gap-2">
                                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                                     </svg>
                                     Officers Without Attendance
                                 </h2>
-                                <p class="text-sm mt-1">{{ officersWithoutAttendance.length }} officer(s) without attendance</p>
+                                <p class="text-xs sm:text-sm mt-1">{{ officersWithoutAttendance.length }} officer(s) without attendance</p>
                             </div>
-                            <div v-if="officersWithoutAttendance.length > 0" class="flex gap-2">
+                            <div v-if="officersWithoutAttendance.length > 0" class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                                 <button 
                                     @click="previewWithoutAttendanceReport"
-                                    class="bg-white px-5 py-2.5 rounded font-bold text-xs uppercase flex items-center gap-2 hover:opacity-90" style="color: #004595;"
+                                    class="bg-white px-4 sm:px-5 py-2.5 rounded font-bold text-xs uppercase flex items-center justify-center gap-2 hover:opacity-90" style="color: #004595;"
                                 >
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -345,6 +348,139 @@
                 </div>
             </div>
         </div>
+
+        <!-- Logout Confirmation Modal -->
+        <div v-if="showLogoutConfirm" 
+            class="fixed inset-0 z-50 flex items-center justify-center animate-fade-in"
+            style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"
+        >
+            <!-- Backdrop overlay -->
+            <div 
+                @click="showLogoutConfirm = false"
+                class="absolute inset-0 bg-opacity-40"
+            ></div>
+            
+            <!-- Modal dialog -->
+            <div 
+                @click.stop
+                class="relative bg-white rounded-2xl max-w-md w-full mx-4 transform transition-all animate-scale-in shadow-2xl overflow-hidden"
+            >
+                <!-- Modal Header with gradient -->
+                <div class="relative px-8 pt-8 pb-6" style="background: linear-gradient(135deg, #002147 0%, #004595 100%);">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="rounded-lg p-2.5" style="background: rgba(255, 255, 255, 0.15);">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-white uppercase tracking-wide">Logout Confirmation</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="px-8 py-6">
+                    <div class="flex items-start gap-4 mb-6">
+                        <div class="flex-shrink-0">
+                            <div class="rounded-full p-3" style="background: #fef2f2;">
+                                <svg class="h-7 w-7" style="color: #dc2626;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-base font-bold mb-2" style="color: #002147;">Are you sure you want to logout?</h4>
+                            <p class="text-sm leading-relaxed" style="color: #6b7280;">
+                                You will be signed out from the admin dashboard and redirected to the login page.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Important Info Box -->
+                    <div class="rounded-lg p-4 mb-6 border-l-4" style="background: #f0f9ff; border-left-color: #002147;">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4" style="color: #002147;" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                            </svg>
+                            <p class="text-xs font-semibold" style="color: #002147;">You can login again anytime using your credentials</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex gap-3">
+                        <button 
+                            @click="showLogoutConfirm = false"
+                            class="flex-1 font-bold py-3.5 px-5 rounded-lg text-sm uppercase tracking-wider transition-all duration-200 hover:shadow-lg border-2" 
+                            style="background: #ffffff; color: #002147; border-color: #e5e7eb;"
+                        >
+                            <div class="flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                Cancel
+                            </div>
+                        </button>
+                        <button 
+                            @click="handleLogout"
+                            class="flex-1 text-white font-bold py-3.5 px-5 rounded-lg text-sm uppercase tracking-wider transition-all duration-200 hover:shadow-lg" 
+                            style="background: #dc2626;"
+                        >
+                            <div class="flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                                </svg>
+                                Logout
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Bottom Navigation -->
+        <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-50" style="box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);">
+            <!-- Top Border Gradient -->
+            <div class="h-1" style="background: linear-gradient(90deg, #002147 0%, #004595 50%, #002147 100%);"></div>
+            
+            <div class="grid grid-cols-4 h-16" style="background: #ffffff;">
+                <!-- Overview -->
+                <router-link to="/admin-dashboard" class="relative flex flex-col items-center justify-center overflow-hidden border-t-4 border-transparent active:scale-95 transition-all duration-300">
+                    <div class="absolute inset-0 bg-gray-50 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                    <svg class="w-6 h-6 mb-0.5 relative z-10 transform hover:scale-110 transition-transform duration-300" style="color: #6b7280;" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+                    </svg>
+                    <span class="text-xs font-semibold relative z-10 tracking-wide" style="color: #6b7280;">Overview</span>
+                </router-link>
+
+                <!-- Records -->
+                <div class="relative flex flex-col items-center justify-center overflow-hidden border-t-4 transition-all duration-300" style="border-color: #004595; background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);">
+                    <div class="absolute inset-0 bg-blue-50 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                    <svg class="w-6 h-6 mb-0.5 relative z-10 transform transition-transform duration-300" style="color: #004595;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                    </svg>
+                    <span class="text-xs font-bold relative z-10 tracking-wide" style="color: #003d82;">Records</span>
+                </div>
+
+                <!-- Officers -->
+                <router-link to="/officers" class="relative flex flex-col items-center justify-center overflow-hidden border-t-4 border-transparent active:scale-95 transition-all duration-300">
+                    <div class="absolute inset-0 bg-gray-50 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                    <svg class="w-6 h-6 mb-0.5 relative z-10 transform hover:scale-110 transition-transform duration-300" style="color: #6b7280;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <span class="text-xs font-semibold relative z-10 tracking-wide" style="color: #6b7280;">Officers</span>
+                </router-link>
+
+                <!-- Logout -->
+                <button @click="showLogoutConfirm = true" class="relative flex flex-col items-center justify-center overflow-hidden border-t-4 border-transparent active:scale-95 transition-all duration-300">
+                    <div class="absolute inset-0 bg-red-50 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                    <svg class="w-6 h-6 mb-0.5 relative z-10 transform hover:scale-110 transition-transform duration-300" style="color: #dc2626;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    <span class="text-xs font-semibold relative z-10 tracking-wide" style="color: #dc2626;">Logout</span>
+                </button>
+            </div>
+        </nav>
     </div>
 </template>
 
@@ -372,6 +508,7 @@ const filteredAttendanceUserIds = ref([])
 const showPreviewModal = ref(false)
 const previewContent = ref('')
 const previewRecord = ref(null)
+const showLogoutConfirm = ref(false)
 const isWithoutAttendancePreview = ref(false)
 
 // Officers without attendance
@@ -880,3 +1017,33 @@ onMounted(async () => {
     await fetchRecords()
 })
 </script>
+
+<style scoped>
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scale-in {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.2s ease-out;
+}
+
+.animate-scale-in {
+    animation: scale-in 0.3s ease-out;
+}
+</style>
