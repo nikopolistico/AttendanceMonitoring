@@ -145,42 +145,89 @@
 
         <!-- Logout Confirmation Modal -->
         <div v-if="showLogoutConfirm" 
-            class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm animate-fade-in"
+            class="fixed inset-0 z-50 flex items-center justify-center animate-fade-in"
+            style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"
         >
-            <!-- Backdrop overlay with slight transparency -->
+            <!-- Backdrop overlay -->
             <div 
                 @click="showLogoutConfirm = false"
-                class="absolute inset-0 bg-opacity-70" style="background: #002147;"
+                class="absolute inset-0 bg- bg-opacity-60"
             ></div>
             
             <!-- Modal dialog -->
             <div 
                 @click.stop
-                class="relative bg-white rounded-lg p-8 max-w-sm w-full mx-4 transform transition-all animate-scale-in shadow-2xl" style="border-top: 4px solid #002147;"
+                class="relative bg-white rounded-2xl max-w-md w-full mx-4 transform transition-all animate-scale-in shadow-2xl overflow-hidden"
             >
-                <div class="text-center">
-                    <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full mb-5\" style="background: #f3f1ee;">
-                        <svg class="h-8 w-8" style="color: #dc2626;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                        </svg>
+                <!-- Modal Header with gradient -->
+                <div class="relative px-8 pt-8 pb-6" style="background: linear-gradient(135deg, #002147 0%, #004595 100%);">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="rounded-lg p-2.5" style="background: rgba(255, 255, 255, 0.15);">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-white uppercase tracking-wide">Logout Confirmation</h3>
+                        </div>
                     </div>
-                    <h3 class="text-lg font-bold mb-2" style="color: #002147;\">Confirm Logout</h3>
-                    <p class="mb-6 text-sm font-semibold" style="color: #00397a;">Are you sure you want to logout from admin dashboard?</p>
                 </div>
-                
-                <div class="flex gap-3">
-                    <button 
-                        @click="showLogoutConfirm = false"
-                        class="flex-1 font-bold py-3 px-5 rounded-lg text-sm uppercase transition hover:opacity-80" style="background: #f3f1ee; color: #002147;"
-                    >
-                        Cancel
-                    </button>
-                    <button 
-                        @click="handleLogout"
-                        class="flex-1 text-white font-bold py-3 px-5 rounded-lg text-sm uppercase transition hover:opacity-90" style="background: #dc2626;"
-                    >
-                        Logout
-                    </button>
+
+                <!-- Modal Body -->
+                <div class="px-8 py-6">
+                    <div class="flex items-start gap-4 mb-6">
+                        <div class="flex-shrink-0">
+                            <div class="rounded-full p-3" style="background: #fef2f2;">
+                                <svg class="h-7 w-7" style="color: #dc2626;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-base font-bold mb-2" style="color: #002147;">Are you sure you want to logout?</h4>
+                            <p class="text-sm leading-relaxed" style="color: #6b7280;">
+                                You will be signed out from the admin dashboard and redirected to the login page.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Important Info Box -->
+                    <div class="rounded-lg p-4 mb-6 border-l-4" style="background: #f0f9ff; border-left-color: #002147;">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4" style="color: #002147;" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                            </svg>
+                            <p class="text-xs font-semibold" style="color: #002147;">You can login again anytime using your credentials</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex gap-3">
+                        <button 
+                            @click="showLogoutConfirm = false"
+                            class="flex-1 font-bold py-3.5 px-5 rounded-lg text-sm uppercase tracking-wider transition-all duration-200 hover:shadow-lg border-2" 
+                            style="background: #ffffff; color: #002147; border-color: #e5e7eb;"
+                        >
+                            <div class="flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                Cancel
+                            </div>
+                        </button>
+                        <button 
+                            @click="handleLogout"
+                            class="flex-1 text-white font-bold py-3.5 px-5 rounded-lg text-sm uppercase tracking-wider transition-all duration-200 hover:shadow-lg" 
+                            style="background: #dc2626;"
+                        >
+                            <div class="flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                                </svg>
+                                Logout
+                            </div>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
