@@ -5,11 +5,9 @@
             <div class="rounded-xl p-6 md:p-8 mb-4 md:mb-6 text-white shadow-md" style="background: #002147; border-bottom: 4px solid #fbbf24;">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                     <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6 w-full md:w-auto">
-                        <!-- Three logos -->
+                        <!-- Logo -->
                         <div class="flex items-center gap-3">
-                            <img src="../assets/BCPO1.png" alt="Police Station 1" class="w-12 h-12 md:w-14 md:h-14 object-contain" />
-                            <img src="../assets/pnplogo.png" alt="PNP Logo" class="w-12 h-12 md:w-14 md:h-14 object-contain" />
-                            <img src="../assets/butuanlogo.png" alt="Butuan City" class="w-12 h-12 md:w-14 md:h-14 object-contain" />
+                            <img src="../assets/BCPO1.png" alt="Police Station 1" class="w-16 h-16 md:w-20 md:h-20 object-contain" />
                         </div>
                         <div class="text-center md:text-left md:ml-2">
                             <h1 class="text-xl md:text-2xl font-bold uppercase">Attendance Check-In</h1>
