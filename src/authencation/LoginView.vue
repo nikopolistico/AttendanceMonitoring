@@ -13,7 +13,7 @@
                     <div class="flex items-center gap-6 mb-8">
                         <img src="../assets/BCPO1.png" alt="Police Station 1" class="w-20 h-20 object-contain" />
                         <img src="../assets/pnplogo.png" alt="PNP Logo" class="w-20 h-20 object-contain" />
-                        <img src="../assets/butuanlogo.png" alt="Butuan City" class="w-35 h-20 object-contain" />
+                        <img src="../assets/butuanlogo.png" alt="Butuan City" class="w-20 h-20 object-contain" />
                     </div>
                     
                     <!-- Welcome Text -->
