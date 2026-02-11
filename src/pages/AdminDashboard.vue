@@ -148,48 +148,48 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
                     <!-- Absent Officers Today -->
                     <div class="rounded-lg shadow-lg" style="background: #ffffff;">
-                        <div class="p-5 border-b" style="border-color: #e5e7eb;">
+                        <div class="p-4 sm:p-5 lg:p-6 border-b" style="border-color: #e5e7eb;">
                             <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="rounded-lg p-2" style="background: #fef2f2;">
-                                        <svg class="w-5 h-5" style="color: #ef4444;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="rounded-lg p-1.5 sm:p-2" style="background: #fef2f2;">
+                                        <svg class="w-4 h-4 sm:w-5 sm:h-5" style="color: #ef4444;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
                                     </div>
-                                    <h2 class="text-base font-bold uppercase tracking-wide" style="color: #002147;">Absent Officers</h2>
+                                    <h2 class="text-sm sm:text-base font-bold uppercase tracking-wide" style="color: #002147;">Absent Officers</h2>
                                 </div>
-                                <span class="text-xs font-bold px-3 py-1.5 rounded-full" style="background: #fef2f2; color: #ef4444;">
+                                <span class="text-xs sm:text-sm font-bold px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full" style="background: #fef2f2; color: #ef4444;">
                                     {{ officersWithoutAttendance.length }}
                                 </span>
                             </div>
                         </div>
-                        <div class="p-5 max-h-96 overflow-y-auto">
-                            <div v-if="officersWithoutAttendance.length === 0" class="text-center py-8">
-                                <div class="rounded-full p-4 mx-auto w-fit mb-3" style="background: #f0fdf4;">
-                                    <svg class="w-12 h-12" style="color: #10b981;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-4 sm:p-5 lg:p-6 max-h-80 sm:max-h-96 overflow-y-auto">
+                            <div v-if="officersWithoutAttendance.length === 0" class="text-center py-6 sm:py-8">
+                                <div class="rounded-full p-3 sm:p-4 mx-auto w-fit mb-2 sm:mb-3" style="background: #f0fdf4;">
+                                    <svg class="w-10 h-10 sm:w-12 sm:h-12" style="color: #10b981;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                 </div>
-                                <p class="text-sm font-bold" style="color: #10b981;">Perfect Attendance!</p>
-                                <p class="text-xs mt-1" style="color: #9ca3af;">All officers have checked in today</p>
+                                <p class="text-xs sm:text-sm font-bold" style="color: #10b981;">Perfect Attendance!</p>
+                                <p class="text-xs sm:text-sm mt-1" style="color: #9ca3af;">All officers have checked in today</p>
                             </div>
-                            <div v-else class="space-y-2">
+                            <div v-else class="space-y-2 sm:space-y-3">
                                 <div v-for="officer in officersWithoutAttendance" :key="officer.id" 
-                                    class="p-3 rounded-lg border transition-all duration-200 hover:shadow-md" 
+                                    class="p-3 sm:p-4 rounded-lg border transition-all duration-200 hover:shadow-md" 
                                     style="border-color: #fee2e2; background: #fefefe;">
                                     <div class="flex items-center justify-between">
-                                        <div class="flex items-center gap-3">
-                                            <div class="rounded-full p-2" style="background: #fef2f2;">
-                                                <svg class="w-4 h-4" style="color: #ef4444;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <div class="flex items-center gap-2 sm:gap-3">
+                                            <div class="rounded-full p-1.5 sm:p-2" style="background: #fef2f2;">
+                                                <svg class="w-3 h-3 sm:w-4 sm:h-4" style="color: #ef4444;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                                 </svg>
                                             </div>
                                             <div>
-                                                <p class="text-sm font-bold" style="color: #002147;">{{ officer.rank_full_name }}</p>
-                                                <p class="text-xs font-semibold" style="color: #9ca3af;">No check-in today</p>
+                                                <p class="text-xs sm:text-sm font-bold" style="color: #002147;">{{ officer.rank_full_name }}</p>
+                                                <p class="text-xs sm:text-sm font-semibold" style="color: #9ca3af;">No check-in today</p>
                                             </div>
                                         </div>
-                                        <span class="text-xs font-bold px-2.5 py-1 rounded-full" style="background: #fef2f2; color: #ef4444;">
+                                        <span class="text-xs sm:text-sm font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full" style="background: #fef2f2; color: #ef4444;">
                                             Absent
                                         </span>
                                     </div>
