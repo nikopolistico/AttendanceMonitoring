@@ -1,38 +1,63 @@
 <template>
-    <div class="min-h-screen flex items-center justify-center" style="background: #f3f1ee;">
-        <!-- PNP badge background decoration -->
-        <div class="absolute inset-0 opacity-5">
-            <div class="absolute top-10 left-10 text-6xl" style="color: #002147;">★</div>
-            <div class="absolute bottom-10 right-10 text-6xl" style="color: #002147;">★</div>
-            <div class="absolute top-1/3 right-1/4 text-5xl" style="color: #004595;">★</div>
-            <div class="absolute bottom-1/3 left-1/4 text-5xl" style="color: #004595;">★</div>
-        </div>
+    <div class="min-h-screen flex items-center justify-center relative overflow-hidden" style="background: linear-gradient(135deg, #002e5c 0%, #001a3d 50%, #003d7a 100%);">
+        <!-- Diagonal stripe pattern -->
+        <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 50px, rgba(255,255,255,0.2) 50px, rgba(255,255,255,0.2) 100px);"></div>
         
-        <div class="bg-white rounded p-8 w-full max-w-md relative z-10 shadow-xl" style="border-top: 4px solid #002147;">
-            <!-- Header with PNP logo -->
-            <div class="text-center mb-8">
-                <div class="flex justify-center mb-5">
-                    <div class="rounded-full p-4" style="background: #f3f1ee;">
+        <!-- Main container -->
+        <div class="container mx-auto px-6 py-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
+                
+                <!-- Left Section - Welcome -->
+                <div class="text-white space-y-8">
+                    <!-- Three logos -->
+                    <div class="flex items-center gap-6 mb-8">
+                        <img src="../assets/BCPO1.png" alt="Police Station 1" class="w-20 h-20 object-contain" />
                         <img src="../assets/pnplogo.png" alt="PNP Logo" class="w-20 h-20 object-contain" />
+                        <img src="../assets/butuanlogo.png" alt="Butuan City" class="w-35 h-20 object-contain" />
+                    </div>
+                    
+                    <!-- Welcome Text -->
+                    <div>
+                        <p class="text-sm font-semibold uppercase tracking-wider mb-3 opacity-80">Welcome to</p>
+                        <h1 class="text-5xl font-bold mb-6 leading-tight">
+                            Attendance<br/>
+                            Monitoring System
+                        </h1>
+                        <div class="w-16 h-1 bg-white mb-6"></div>
+                        <p class="text-lg opacity-90 leading-relaxed max-w-lg">
+                            Secure access to the <span class="font-bold">Police Station 1</span> attendance monitoring dashboard. Track, manage, and monitor personnel attendance efficiently.
+                        </p>
                     </div>
                 </div>
-                <h1 class="text-xl font-bold uppercase mb-2 tracking-wide" style="color: #002147;">Philippine National Police</h1>
-                <p class="text-sm uppercase font-semibold tracking-widest" style="color: #00397a;">Attendance System</p>
-            </div>
+                
+                <!-- Right Section - Login Card -->
+                <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md mx-auto">
+                    <!-- Login Header -->
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="rounded-lg p-2.5 shadow-md" style="background: #003d7a;">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold" style="color: #1f2937;">Officer Login</h2>
+                            <p class="text-sm" style="color: #6b7280;">Enter your credentials to access the dashboard</p>
+                        </div>
+                    </div>
             
             <!-- Dropdown for selecting login type -->
             <div class="mb-6">
-                <label class="block text-sm font-bold mb-3 uppercase tracking-wide" style="color: #002147;">Login As:</label>
+                <label class="block text-sm font-semibold mb-2" style="color: #6b7280;">Login As</label>
                 <div class="relative">
                     <select 
                         v-model="loginType" 
-                        class="w-full px-4 py-3 text-sm border-2 rounded-lg focus:outline-none focus:ring-2 transition font-semibold appearance-none cursor-pointer shadow-sm" style="border-color: #e5e7eb; color: #002147; background: #ffffff;"
+                        class="w-full px-4 py-3 text-sm border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 transition appearance-none cursor-pointer" style="border-color: #e5e7eb; color: #1f2937;"
                     >
-                        <option value="administrator">🔐 Administrator</option>
-                        <option value="user">👤 Officer / Personnel</option>
+                        <option value="administrator">Administrator</option>
+                        <option value="user">Officer / Personnel</option>
                     </select>
                     <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                        <svg class="w-5 h-5" style="color: #00397a;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5" style="color: #9ca3af;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </div>
@@ -42,39 +67,45 @@
             <!-- Administrator Login Form -->
             <div v-if="loginType === 'administrator'" class="space-y-5">
                 <!-- Error Message -->
-                <div v-if="errorMessage" class="border-l-4 p-4 rounded" style="background: #fee2e2; border-color: #dc2626;">
-                    <div class="flex items-center gap-2">
-                        <svg class="w-5 h-5" style="color: #dc2626;" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                        </svg>
-                        <p class="text-sm font-bold" style="color: #dc2626;">{{ errorMessage }}</p>
-                    </div>
+                <div v-if="errorMessage" class="border-l-4 p-3 rounded-lg" style="background: #fef2f2; border-color: #dc2626;">
+                    <p class="text-sm" style="color: #dc2626;">{{ errorMessage }}</p>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-bold mb-3 uppercase tracking-wide" style="color: #002147;">Email:</label>
+                    <label class="block text-sm font-semibold mb-2" style="color: #6b7280;">
+                        <svg class="w-4 h-4 inline mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                        </svg>
+                        Email Address
+                    </label>
                     <input 
                         v-model="email" 
                         type="email" 
-                        placeholder="Enter your email"
-                        class="w-full px-4 py-3 text-sm border-2 rounded focus:outline-none focus:ring-2 transition font-medium" style="border-color: #e5e7eb; color: #002147; background: #ffffff;"
+                        placeholder="bcpocommunitymonitoring@gmail.com"
+                        class="w-full px-4 py-3 text-sm border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 transition" style="border-color: #e5e7eb; color: #1f2937; background: #f9fafb;"
                         @keyup.enter="handleAdminLogin"
                     />
                 </div>
                 <div>
-                    <label class="block text-sm font-bold mb-3 uppercase tracking-wide" style="color: #002147;">Password:</label>
+                    <label class="block text-sm font-semibold mb-2" style="color: #6b7280;">
+                        <svg class="w-4 h-4 inline mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        Password
+                    </label>
                     <div class="relative">
                         <input 
                             v-model="password" 
                             :type="showPassword ? 'text' : 'password'"
-                            placeholder="Enter your password"
-                            class="w-full px-4 py-3 pr-12 text-sm border-2 rounded focus:outline-none focus:ring-2 transition font-medium" style="border-color: #e5e7eb; color: #002147; background: #ffffff;"
+                            placeholder="••••••••••••••••"
+                            class="w-full px-4 py-3 pr-12 text-sm border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 transition" style="border-color: #e5e7eb; color: #1f2937; background: #f9fafb;"
                             @keyup.enter="handleAdminLogin"
                         />
                         <button
                             type="button"
                             @click="showPassword = !showPassword"
-                            class="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none transition" style="color: #6b7280;"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none transition hover:opacity-70" style="color: #9ca3af;"
                         >
                             <svg v-if="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -86,48 +117,45 @@
                         </button>
                     </div>
                 </div>
+                
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="checkbox" class="w-4 h-4 rounded" style="accent-color: #003d7a;">
+                        <span class="ml-2 text-sm" style="color: #6b7280;">Remember me</span>
+                    </label>
+                    <a href="#" class="text-sm hover:underline" style="color: #0066cc;">Forgot password?</a>
+                </div>
+                
                 <button 
                     @click="handleAdminLogin"
                     :disabled="isLoading"
-                    class="w-full text-white font-bold py-4 text-sm rounded-lg transition duration-200 uppercase tracking-widest disabled:opacity-50 hover:opacity-90 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl" style="background: #002147;">
+                    class="w-full text-white font-semibold py-3.5 text-sm rounded-lg transition duration-200 disabled:opacity-50 hover:opacity-90 flex items-center justify-center gap-2 shadow-lg" style="background: #003d7a;">
                     <svg v-if="!isLoading" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                     </svg>
                     <svg v-else class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    <span v-if="isLoading">Logging in...</span>
-                    <span v-else>Login</span>
+                    <span v-if="isLoading">Accessing...</span>
+                    <span v-else>Access Dashboard →</span>
                 </button>
             </div>
 
             <!-- User Login (Proceed only) -->
             <div v-else class="space-y-5">
                 <!-- Error Message -->
-                <div v-if="errorMessage" class="border-l-4 p-4 rounded" style="background: #fee2e2; border-color: #dc2626;">
-                    <div class="flex items-center gap-2">
-                        <svg class="w-5 h-5" style="color: #dc2626;" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                        </svg>
-                        <p class="text-sm font-bold" style="color: #dc2626;">{{ errorMessage }}</p>
-                    </div>
+                <div v-if="errorMessage" class="border-l-4 p-3 rounded-lg" style="background: #fef2f2; border-color: #dc2626;">
+                    <p class="text-sm" style="color: #dc2626;">{{ errorMessage }}</p>
                 </div>
 
-                <div class="border-l-4 p-5 rounded-lg shadow-sm" style="background: #f3f1ee; border-color: #004595;">
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="rounded-lg p-2" style="background: #004595;">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                            </svg>
-                        </div>
-                        <p class="text-base font-bold" style="color: #002147;">Officer/Personnel Access</p>
-                    </div>
-                    <p class="text-sm font-semibold" style="color: #00397a;">Click proceed to record your attendance</p>
+                <div class="border-l-4 p-5 rounded-lg" style="background: #f0f9ff; border-color: #003d7a;">
+                    <p class="text-base font-semibold mb-2" style="color: #1f2937;">Officer/Personnel Access</p>
+                    <p class="text-sm" style="color: #6b7280;">Click proceed to record your attendance</p>
                 </div>
                 <button 
                     @click="handleUserProceed"
-                    class="w-full text-white font-bold py-4 text-sm rounded-lg transition duration-200 uppercase tracking-widest hover:opacity-90 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl" style="background: #004595;"
+                    class="w-full text-white font-semibold py-3.5 text-sm rounded-lg transition duration-200 hover:opacity-90 flex items-center justify-center gap-2 shadow-lg" style="background: #003d7a;"
                 >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -137,8 +165,16 @@
             </div>
             
             <!-- Footer -->
-            <div class="mt-6 pt-4 border-t" style="border-color: #e5e7eb;">
-                <p class="text-center text-xs font-semibold" style="color: #6b7280;">Authorized Personnel Only</p>
+            <div class="mt-6 pt-5 border-t text-center" style="border-color: #e5e7eb;">
+                <div class="flex items-center justify-center gap-2 mb-2">
+                    <svg class="w-4 h-4" style="color: #6b7280;" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <p class="text-xs font-semibold" style="color: #6b7280;">Secure Police Officer Access</p>
+                </div>
+                <p class="text-xs" style="color: #9ca3af;">BCPO Attendance Monitoring System © 2026</p>
+            </div>
+        </div>
             </div>
         </div>
     </div>
