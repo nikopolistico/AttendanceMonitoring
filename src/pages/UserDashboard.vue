@@ -1,8 +1,8 @@
 <template>
     <div class="min-h-screen" style="background: #f5f7fa;">
-        <div class="max-w-7xl mx-auto px-3 md:px-6 py-4 md:py-6">
+        <div class="max-w-[1600px] mx-auto px-4 md:px-8 py-4 md:py-6">
             <!-- Header -->
-            <div class="rounded-xl p-6 md:p-8 mb-4 md:mb-6 text-white shadow-md" style="background: #002147; border-bottom: 4px solid #fbbf24;">
+            <div class="rounded-lg p-5 md:p-6 mb-5 md:mb-6 text-white shadow-md" style="background: #002147; border-bottom: 4px solid #fbbf24;">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                     <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6 w-full md:w-auto">
                         <!-- Logo -->
@@ -27,7 +27,7 @@
             </div>
 
             <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5 md:mb-6">
                 <!-- Current Date -->
                 <div class="bg-white rounded-lg p-5 md:p-6 shadow-md border-l-4" style="border-color: #10b981;">
                     <div class="flex items-center justify-between">
@@ -60,11 +60,11 @@
             </div>
 
             <!-- Main Content Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6">
                 <!-- Left Column: Instructions -->
-                <div class="lg:col-span-1 order-1 space-y-4 md:space-y-6">
+                <div class="lg:col-span-3 order-1 space-y-4">
                     <!-- Instructions Card -->
-                    <div class="bg-white rounded-lg p-5 md:p-6 shadow-md">
+                    <div class="bg-white rounded-lg p-5 shadow-md">
                         <div class="flex items-center gap-3 mb-4">
                             <div class="rounded-lg p-2" style="background: #002147;">
                                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -94,7 +94,7 @@
                     </div>
 
                     <!-- Important Notice (hidden on mobile) -->
-                    <div class="hidden lg:block bg-amber-50 rounded-lg p-5 md:p-6 shadow-md border-l-4 border-amber-400">
+                    <div class="hidden lg:block bg-amber-50 rounded-lg p-4 shadow-md border-l-4 border-amber-400">
                         <div class="flex items-start gap-3">
                             <svg class="w-6 h-6 flex-shrink-0" style="color: #f59e0b;" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
@@ -107,7 +107,7 @@
                     </div>
 
                     <!-- System Information (hidden on mobile) -->
-                    <div class="hidden lg:block bg-white rounded-lg p-5 md:p-6 shadow-md">
+                    <div class="hidden lg:block bg-white rounded-lg p-4 shadow-md">
                         <h3 class="font-bold text-sm md:text-base mb-3" style="color: #002147;">System Information</h3>
                         <div class="space-y-2">
                             <div class="flex justify-between text-xs md:text-sm">
@@ -127,8 +127,8 @@
                 </div>
 
                 <!-- Right Column: Form -->
-                <div class="lg:col-span-2 order-2">
-                    <div class="bg-white rounded-lg p-5 md:p-6 space-y-5 md:space-y-6 shadow-md">
+                <div class="lg:col-span-9 order-2">
+                    <div class="bg-white rounded-lg p-6 space-y-5 shadow-md">
                         <div class="flex items-center gap-3 p-4 rounded-lg" style="background: #eff6ff; border-left: 4px solid #002147;">
                             <div class="rounded-lg p-2" style="background: #002147;">
                                 <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
