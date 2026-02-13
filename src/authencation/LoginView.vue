@@ -1,28 +1,30 @@
 <template>
     <div class="min-h-screen flex items-center justify-center relative overflow-hidden" style="background: linear-gradient(135deg, #002e5c 0%, #001a3d 50%, #003d7a 100%);">
         <!-- Diagonal stripe pattern -->
-        <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 50px, rgba(255,255,255,0.2) 50px, rgba(255,255,255,0.2) 100px);"></div>
+        <div class="absolute inset-0 bg-black opacity-10" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 50px, rgba(255,255,255,0.2) 50px, rgba(255,255,255,0.2) 100px);"></div>
         
         <!-- Main container -->
         <div class="container mx-auto px-4 py-4 lg:px-6 lg:py-8 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-center max-w-7xl mx-auto">
                 
                 <!-- Left Section - Welcome -->
-                <div class="text-white space-y-4 lg:space-y-8">
+                <div class="text-white space-y-6 lg:space-y-10">
                     <!-- Logo -->
-                    <div class="flex items-center justify-center mb-4 lg:mb-8">
-                        <img src="../assets/BCPO1.png" alt="Police Station 1" class="w-20 h-20 lg:w-24 lg:h-24 object-contain" />
+                    <div class="flex justify-center lg:justify-start">
+                        <img src="../assets/BCPO1.png" alt="Police Station 1" class="w-24 h-24 lg:w-32 lg:h-32 object-contain" />
                     </div>
                     
                     <!-- Welcome Text -->
-                    <div class="text-center lg:text-left">
-                        <p class="text-xs lg:text-sm font-semibold uppercase tracking-wider mb-2 lg:mb-3 opacity-80">Welcome to</p>
-                        <h1 class="text-3xl lg:text-5xl font-bold mb-4 lg:mb-6 leading-tight">
-                            Attendance<br/>
-                            Monitoring System
-                        </h1>
-                        <div class="w-16 h-1 bg-white mb-4 lg:mb-6 mx-auto lg:mx-0"></div>
-                        <p class="text-sm lg:text-lg opacity-90 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                    <div class="text-center lg:text-left space-y-6">
+                        <div>
+                            <p class="text-sm lg:text-base font-semibold uppercase tracking-wider mb-3 opacity-90">Welcome to</p>
+                            <h1 class="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
+                                Attendance<br/>
+                                Monitoring System
+                            </h1>
+                            <div class="w-20 h-1 bg-white mb-6 mx-auto lg:mx-0"></div>
+                        </div>
+                        <p class="text-base lg:text-xl opacity-90 leading-relaxed max-w-lg mx-auto lg:mx-0">
                             Secure access to the <span class="font-bold">Police Station 1</span> attendance monitoring dashboard. Track, manage, and monitor personnel attendance efficiently.
                         </p>
                     </div>
