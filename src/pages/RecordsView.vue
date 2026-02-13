@@ -164,7 +164,7 @@
                         <p class="text-xs sm:text-sm mt-1" style="color: #00397a;">Showing {{ filteredRecords.length }} records</p>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full min-w-[600px]">
+                        <table class="w-full min-w-150">
                             <thead class="text-white" style="background: #002147;">
                                 <tr>
                                     <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs sm:text-sm font-bold uppercase">Date & Time</th>
@@ -762,13 +762,14 @@ const downloadFromPreview = () => {
 // Download Word report for individual attendance record
 const downloadWordReport = async (record) => {
     try {
-        const images = record.images || []
+        // Parse screenshots URLs (comma-separated)
+        const screenshotUrls = record.screenshots ? record.screenshots.split(',').map(url => url.trim()).filter(url => url) : []
         const imageElements = []
 
         // Convert images to base64 and create ImageRun elements
-        for (let i = 0; i < images.length; i++) {
+        for (let i = 0; i < screenshotUrls.length; i++) {
             try {
-                const response = await fetch(images[i])
+                const response = await fetch(screenshotUrls[i])
                 const blob = await response.blob()
                 const buffer = await blob.arrayBuffer()
 
@@ -776,8 +777,8 @@ const downloadWordReport = async (record) => {
                     new ImageRun({
                         data: buffer,
                         transformation: {
-                            width: 150,
-                            height: 150,
+                            width: 200,
+                            height: 200,
                         },
                     })
                 )
@@ -786,14 +787,25 @@ const downloadWordReport = async (record) => {
             }
         }
 
-        // Create paragraphs with 3 images per row
+        // Create paragraphs with 3 images per row with spacing
         const imageParagraphs = []
         for (let i = 0; i < imageElements.length; i += 3) {
             const rowImages = imageElements.slice(i, i + 3)
+            const childrenWithSpacing = []
+            
+            // Add images with spacing between them
+            rowImages.forEach((img, index) => {
+                childrenWithSpacing.push(img)
+                // Add spacing between images (not after the last image in the row)
+                if (index < rowImages.length - 1) {
+                    childrenWithSpacing.push(new TextRun({ text: "    " })) // Multiple spaces for separation
+                }
+            })
+            
             imageParagraphs.push(
                 new Paragraph({
-                    children: rowImages,
-                    spacing: { before: 200, after: 200 },
+                    children: childrenWithSpacing,
+                    spacing: { before: 300, after: 300 },
                     alignment: AlignmentType.CENTER,
                 })
             )
