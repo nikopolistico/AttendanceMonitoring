@@ -4,34 +4,32 @@
         <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 50px, rgba(255,255,255,0.2) 50px, rgba(255,255,255,0.2) 100px);"></div>
         
         <!-- Main container -->
-        <div class="container mx-auto px-6 py-8 relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
+        <div class="container mx-auto px-4 py-4 lg:px-6 lg:py-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-center max-w-7xl mx-auto">
                 
                 <!-- Left Section - Welcome -->
-                <div class="text-white space-y-8">
-                    <!-- Three logos -->
-                    <div class="flex items-center gap-6 mb-8">
-                        <img src="../assets/BCPO1.png" alt="Police Station 1" class="w-20 h-20 object-contain" />
-                        <img src="../assets/pnplogo.png" alt="PNP Logo" class="w-20 h-20 object-contain" />
-                        <img src="../assets/butuanlogo.png" alt="Butuan City" class="w-38 h-20 object-contain" />
+                <div class="text-white space-y-4 lg:space-y-8">
+                    <!-- Logo -->
+                    <div class="flex items-center justify-center mb-4 lg:mb-8">
+                        <img src="../assets/BCPO1.png" alt="Police Station 1" class="w-20 h-20 lg:w-24 lg:h-24 object-contain" />
                     </div>
                     
                     <!-- Welcome Text -->
-                    <div>
-                        <p class="text-sm font-semibold uppercase tracking-wider mb-3 opacity-80">Welcome to</p>
-                        <h1 class="text-5xl font-bold mb-6 leading-tight">
+                    <div class="text-center lg:text-left">
+                        <p class="text-xs lg:text-sm font-semibold uppercase tracking-wider mb-2 lg:mb-3 opacity-80">Welcome to</p>
+                        <h1 class="text-3xl lg:text-5xl font-bold mb-4 lg:mb-6 leading-tight">
                             Attendance<br/>
                             Monitoring System
                         </h1>
-                        <div class="w-16 h-1 bg-white mb-6"></div>
-                        <p class="text-lg opacity-90 leading-relaxed max-w-lg">
+                        <div class="w-16 h-1 bg-white mb-4 lg:mb-6 mx-auto lg:mx-0"></div>
+                        <p class="text-sm lg:text-lg opacity-90 leading-relaxed max-w-lg mx-auto lg:mx-0">
                             Secure access to the <span class="font-bold">Police Station 1</span> attendance monitoring dashboard. Track, manage, and monitor personnel attendance efficiently.
                         </p>
                     </div>
                 </div>
                 
                 <!-- Right Section - Login Card -->
-                <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md mx-auto">
+                <div class="bg-white rounded-2xl shadow-2xl p-5 lg:p-8 w-full max-w-md mx-auto">
                     <!-- Login Header -->
                     <div class="flex items-center gap-3 mb-6">
                         <div class="rounded-lg p-2.5 shadow-md" style="background: #003d7a;">
