@@ -24,7 +24,7 @@
                             </h1>
                             <div class="w-20 h-1 bg-white mb-6 mx-auto lg:mx-0"></div>
                         </div>
-                        <p class="text-base lg:text-xl opacity-90 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                        <p class="text-base lg:text-xl opacity-90 leading-relaxed max-w-lg mx-auto lg:mx-0 text-justify">
                             Secure access to the <span class="font-bold">Police Station 1</span> attendance monitoring dashboard. Track, manage, and monitor personnel attendance efficiently.
                         </p>
                     </div>
