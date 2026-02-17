@@ -93,17 +93,17 @@
                         <div class="h-1 w-1 rounded-full" style="background: #004595;"></div>
                         <p class="text-sm font-bold uppercase tracking-wider" style="color: #002147;">Today's Statistics</p>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                         <!-- Today's Attendance -->
-                        <div class="rounded-lg p-4 sm:p-5 lg:p-6 border-l-4 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group" style="background: #ffffff; border-left-color: #10b981;">
+                        <div class="rounded-lg p-3 sm:p-4 border-l-4 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group" style="background: #ffffff; border-left-color: #10b981;">
                             <div class="flex items-center justify-between">
                                 <div class="flex-1">
-                                    <p class="text-xs font-bold uppercase mb-2 sm:mb-3 tracking-wider" style="color: #6b7280;">Attendance</p>
-                                    <p class="text-3xl sm:text-4xl font-bold mb-1 sm:mb-2" style="color: #10b981;">{{ todayCheckIns }}</p>
-                                    <p class="text-xs sm:text-sm font-semibold" style="color: #9ca3af;">{{ currentDate }}</p>
+                                    <p class="text-xs font-bold uppercase mb-2 tracking-wider" style="color: #6b7280;">Attendance</p>
+                                    <p class="text-2xl sm:text-3xl font-bold mb-1" style="color: #10b981;">{{ todayCheckIns }}</p>
+                                    <p class="text-xs font-semibold" style="color: #9ca3af;">{{ currentDate }}</p>
                                 </div>
-                                <div class="rounded-xl p-2 sm:p-3 group-hover:scale-110 transition-transform duration-300" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-                                    <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="rounded-xl p-2 group-hover:scale-110 transition-transform duration-300" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                 </div>
@@ -111,15 +111,15 @@
                         </div>
 
                         <!-- Total Officers -->
-                        <div class="rounded-lg p-4 sm:p-5 lg:p-6 border-l-4 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group" style="background: #ffffff; border-left-color: #004595;">
+                        <div class="rounded-lg p-3 sm:p-4 border-l-4 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group" style="background: #ffffff; border-left-color: #004595;">
                             <div class="flex items-center justify-between">
                                 <div class="flex-1">
-                                    <p class="text-xs font-bold uppercase mb-2 sm:mb-3 tracking-wider" style="color: #6b7280;">Officers</p>
-                                    <p class="text-3xl sm:text-4xl font-bold mb-1 sm:mb-2" style="color: #004595;">{{ totalOfficers }}</p>
-                                    <p class="text-xs sm:text-sm font-semibold" style="color: #9ca3af;">Registered</p>
+                                    <p class="text-xs font-bold uppercase mb-2 tracking-wider" style="color: #6b7280;">Officers</p>
+                                    <p class="text-2xl sm:text-3xl font-bold mb-1" style="color: #004595;">{{ totalOfficers }}</p>
+                                    <p class="text-xs font-semibold" style="color: #9ca3af;">Registered</p>
                                 </div>
-                                <div class="rounded-xl p-2 sm:p-3 group-hover:scale-110 transition-transform duration-300" style="background: linear-gradient(135deg, #004595 0%, #0369a1 100%);">
-                                    <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="rounded-xl p-2 group-hover:scale-110 transition-transform duration-300" style="background: linear-gradient(135deg, #004595 0%, #0369a1 100%);">
+                                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                                     </svg>
                                 </div>
@@ -127,15 +127,15 @@
                         </div>
 
                         <!-- Absent Officers -->
-                        <div class="rounded-lg p-4 sm:p-5 lg:p-6 border-l-4 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group" style="background: #ffffff; border-left-color: #ef4444;">
+                        <div class="rounded-lg p-3 sm:p-4 border-l-4 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group" style="background: #ffffff; border-left-color: #ef4444;">
                             <div class="flex items-center justify-between">
                                 <div class="flex-1">
-                                    <p class="text-xs font-bold uppercase mb-2 sm:mb-3 tracking-wider" style="color: #6b7280;">Absent</p>
-                                    <p class="text-3xl sm:text-4xl font-bold mb-1 sm:mb-2" style="color: #ef4444;">{{ officersWithoutAttendance.length }}</p>
-                                    <p class="text-xs sm:text-sm font-semibold" style="color: #9ca3af;">Officers</p>
+                                    <p class="text-xs font-bold uppercase mb-2 tracking-wider" style="color: #6b7280;">Absent</p>
+                                    <p class="text-2xl sm:text-3xl font-bold mb-1" style="color: #ef4444;">{{ officersWithoutAttendance.length }}</p>
+                                    <p class="text-xs font-semibold" style="color: #9ca3af;">Officers</p>
                                 </div>
-                                <div class="rounded-xl p-2 sm:p-3" style="background: #ef4444;">
-                                    <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="rounded-xl p-2" style="background: #ef4444;">
+                                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                 </div>
