@@ -111,6 +111,10 @@ ALTER TABLE activities ENABLE ROW LEVEL SECURITY;
 -- Users can read all users
 CREATE POLICY "Users are viewable by everyone" ON users FOR SELECT USING (true);
 
+-- Users can insert new officers
+CREATE POLICY "Users can insert new officers" ON users FOR INSERT
+  WITH CHECK (true);
+
 -- Create attendance records with user_id
 CREATE POLICY "Authenticated users can insert submittedprof" ON submittedprof FOR INSERT
   WITH CHECK (true);
