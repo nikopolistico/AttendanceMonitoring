@@ -144,6 +144,11 @@ ALTER TABLE activities ADD COLUMN IF NOT EXISTS max_submissions INTEGER DEFAULT 
 - ✅ View submissions per activity
 - ✅ Filter attendance records by activity
 - ✅ Delete activities (cascading delete of related submissions)
+- ✅ **Download activity as ZIP file** containing:
+  - A folder for each officer (named after their rank/name)
+  - Inside each officer's folder: all their submitted images
+  - CSV file with all submission data (Officer name, badge number, submission dates, image counts)
+  - Activity information file
 
 **User/Officer Features:**
 
@@ -193,7 +198,35 @@ ALTER TABLE activities ADD COLUMN IF NOT EXISTS max_submissions INTEGER DEFAULT 
 2. Select activity from "Activity" filter dropdown
 3. View only submissions for that activity
 4. Export to Excel/Word
-5. Delete activity (all related submissions auto-delete)
+5. **Or use the Activities page to download full ZIP:**
+   - Go to Activities page
+   - Find the activity you want to download
+   - Click "Download ZIP" button
+   - **ZIP file structure:**
+     - `Officer_Name_1/` - Folder with first officer's name
+       - `image_1.jpg` - First submitted image
+       - `image_2.jpg` - Second submitted image (if multiple)
+     - `Officer_Name_2/` - Folder with second officer's name
+       - `image_1.jpg` - First submitted image
+       - `image_2.jpg` - Second submitted image (if multiple)
+     - `submissions.csv` - All submission details (Officer, Badge, Date, Image Count)
+     - `ACTIVITY_INFO.txt` - Activity metadata
+6. Delete activity (all related submissions auto-delete)
+
+### Example ZIP Structure:
+
+```
+attendance_download.zip
+├── john_smith/
+│   ├── image_1.jpg
+│   ├── image_2.jpg
+│   └── image_3.jpg
+├── jane_doe/
+│   ├── image_1.jpg
+│   └── image_2.jpg
+├── submissions.csv
+└── ACTIVITY_INFO.txt
+```
 
 ### Example Scenarios:
 

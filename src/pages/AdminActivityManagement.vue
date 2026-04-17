@@ -466,6 +466,21 @@
                     View Submissions
                   </button>
                   <button
+                    @click="downloadActivityAsZip(activity.id, activity.name)"
+                    class="px-4 py-2 rounded text-white text-xs font-bold transition hover:opacity-90 flex items-center justify-center gap-2"
+                    style="background: #10b981"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                      ></path>
+                    </svg>
+                    Download ZIP
+                  </button>
+                  <button
                     @click="deleteActivity(activity.id)"
                     class="px-4 py-2 rounded text-white text-xs font-bold transition hover:opacity-90"
                     style="background: #dc2626"
@@ -579,6 +594,8 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { supabase } from '../supabaseClient'
+import JSZip from 'jszip'
+import { saveAs } from 'file-saver'
 
 const router = useRouter()
 const activities = ref([])
@@ -639,6 +656,122 @@ const copyToClipboard = async (text) => {
 // View submissions for activity
 const viewActivitySubmissions = (activityId) => {
   router.push(`/records?activity_id=${activityId}`)
+}
+
+// Download activity as ZIP with all submissions and images organized by officer
+const downloadActivityAsZip = async (activityId, activityName) => {
+  try {
+    // Show loading indicator
+    alert('Starting download... This may take a moment.')
+
+    const zip = new JSZip()
+
+    // Fetch all submissions for this activity
+    const { data: submissions, error: submissionsError } = await supabase
+      .from('submittedprof')
+      .select('id, user_id, screenshots, created_at')
+      .eq('activity_id', activityId)
+
+    if (submissionsError) throw submissionsError
+
+    if (!submissions || submissions.length === 0) {
+      alert('No submissions found for this activity')
+      return
+    }
+
+    // Fetch user data for reference
+    const { data: users, error: usersError } = await supabase
+      .from('users')
+      .select('id, rank_full_name, badge_number')
+
+    if (usersError) throw usersError
+
+    // Create users map for quick lookup
+    const usersMap = new Map(users.map((u) => [u.id, u]))
+
+    // Group submissions by officer
+    const submissionsByOfficer = new Map()
+
+    for (const submission of submissions) {
+      const user = usersMap.get(submission.user_id)
+      const officerName = user?.rank_full_name || 'Unknown Officer'
+
+      if (!submissionsByOfficer.has(officerName)) {
+        submissionsByOfficer.set(officerName, [])
+      }
+      submissionsByOfficer.get(officerName).push(submission)
+    }
+
+    // Create a CSV file with submission data
+    let csvContent = 'Officer Name,Badge Number,Submission ID,Date Submitted,Number of Images\n'
+
+    // Process each officer and their submissions
+    for (const [officerName, officerSubmissions] of submissionsByOfficer) {
+      const user =
+        submissionsByOfficer.size > 0 ? users.find((u) => u.rank_full_name === officerName) : null
+      const badgeNumber = user?.badge_number || 'N/A'
+
+      // Create officer folder
+      const officerFolderName = officerName.replace(/[^a-z0-9]/gi, '_').toLowerCase()
+
+      for (const submission of officerSubmissions) {
+        const submittedDate = new Date(submission.created_at).toLocaleString()
+        const screenshotUrls = submission.screenshots ? submission.screenshots.split(',') : []
+
+        // Add row to CSV
+        csvContent += `"${officerName}","${badgeNumber}",${submission.id},"${submittedDate}",${screenshotUrls.length}\n`
+
+        // Download and add images to officer's folder
+        for (let i = 0; i < screenshotUrls.length; i++) {
+          const imageUrl = screenshotUrls[i].trim()
+          if (!imageUrl) continue
+
+          try {
+            const response = await fetch(imageUrl)
+            const blob = await response.blob()
+            const fileExtension = imageUrl.includes('.png') ? 'png' : 'jpg'
+            const fileName = `image_${i + 1}.${fileExtension}`
+
+            // Add to officer's folder
+            zip.file(`${officerFolderName}/${fileName}`, blob)
+
+            console.log(`Downloaded: ${officerFolderName}/${fileName}`)
+          } catch (err) {
+            console.warn(`Failed to download image ${i + 1} for submission ${submission.id}:`, err)
+          }
+        }
+      }
+    }
+
+    // Add activity info file
+    const activityInfo = `Activity: ${activityName}
+Activity ID: ${activityId}
+Total Officers: ${submissionsByOfficer.size}
+Total Submissions: ${submissions.length}
+Download Date: ${new Date().toLocaleString()}
+
+Officer Count: ${submissionsByOfficer.size}
+Officers: ${Array.from(submissionsByOfficer.keys()).join(', ')}
+`
+    zip.file('ACTIVITY_INFO.txt', activityInfo)
+
+    // Add CSV file
+    zip.file('submissions.csv', csvContent)
+
+    // Generate ZIP file
+    const content = await zip.generateAsync({ type: 'blob' })
+
+    // Download the ZIP file
+    const filename = `${activityName.replace(/\s+/g, '_')}_attendance_${new Date().getTime()}.zip`
+    saveAs(content, filename)
+
+    alert(
+      `ZIP file downloaded successfully!\n\n${submissionsByOfficer.size} officers, ${submissions.length} submissions included`,
+    )
+  } catch (err) {
+    console.error('Error downloading activity as ZIP:', err)
+    alert('Failed to download activity: ' + err.message)
+  }
 }
 
 // Delete activity
