@@ -149,6 +149,10 @@ ALTER TABLE activities ADD COLUMN IF NOT EXISTS max_submissions INTEGER DEFAULT 
   - Inside each officer's folder: all their submitted images
   - CSV file with all submission data (Officer name, badge number, submission dates, image counts)
   - Activity information file
+- ✅ **Restore/Import attendance data** from previously downloaded ZIP files
+  - Re-create deleted activities with all submissions
+  - Re-upload all images to Supabase Storage
+  - Automatically recreate officer records if needed
 
 **User/Officer Features:**
 
@@ -261,6 +265,67 @@ CREATE TABLE submittedprof (
 ```
 
 ### Usage Tips:
+
+## Tips for Supabase Setup
+
+1. **Create a Service Role Key** for admin operations (keep this secret!)
+2. **Use the anon key** in your frontend code
+3. **Enable Storage** for the Screenshots bucket if you want to store files
+
+## Data Backup & Restore Workflow
+
+### Step 1: Download Activity Data
+
+- Go to Activities page
+- Click "Download ZIP" button on any activity
+- Save the ZIP file to a safe location
+
+### Step 2: Delete Activity (if needed)
+
+- You can safely delete an activity knowing you have a backup
+- All data is preserved in the ZIP file
+
+### Step 3: Restore from Backup
+
+- Go to Activities page
+- Click **"Import from ZIP"** button (green button)
+- Select the previously downloaded ZIP file
+- The system will:
+  - Create the activity (if it doesn't exist)
+  - Restore all submissions
+  - Re-upload all images to Supabase Storage
+  - Create officer records (if they don't exist)
+  - Display a summary of restored data
+
+### Data Recovery Examples:
+
+**Scenario 1: Accidental Deletion**
+
+```
+1. Admin accidentally deletes "February Formation" activity
+2. Admin goes to Activities page → "Import from ZIP"
+3. Selects: february_formation_attendance_1708123456.zip
+4. Activity is restored with all submissions and images
+5. System shows: ✅ Data restored! Activity: February Formation, Submissions restored: 47
+```
+
+**Scenario 2: System Migration**
+
+```
+1. New admin takes over
+2. Downloads all activity ZIPs from the old system
+3. Goes to new Activities page → "Import from ZIP"
+4. Imports each ZIP file one by one
+5. All data including images are migrated to the new system
+```
+
+### Important Notes:
+
+- Only ZIP files created by the "Download ZIP" feature can be imported
+- Imports automatically create missing officers
+- All images are re-uploaded to Supabase Storage
+- No data is lost during the restore process
+- Duplicate submissions are prevented (checks by officer name and date)
 
 ## Tips for Supabase Setup
 
