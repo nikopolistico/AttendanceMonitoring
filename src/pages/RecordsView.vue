@@ -1337,6 +1337,7 @@ import {
   TableCell,
   VerticalAlign,
   BorderStyle,
+  WidthType,
 } from 'docx'
 import { saveAs } from 'file-saver'
 import * as XLSX from 'xlsx'
@@ -1822,7 +1823,7 @@ const downloadWordReport = async (record) => {
           ],
         }),
       ],
-      width: { size: 100, type: UnitsType.PERCENTAGE },
+      width: { size: 100, type: WidthType.PERCENTAGE },
     })
 
     const doc = new Document({
@@ -1943,7 +1944,7 @@ const downloadWithoutAttendanceReport = async () => {
 
     const noAttendanceTable = new Table({
       rows: tableRows,
-      width: { size: 100, type: UnitsType.PERCENTAGE },
+      width: { size: 100, type: WidthType.PERCENTAGE },
     })
 
     const doc = new Document({
@@ -2334,7 +2335,7 @@ const downloadWithAttendanceReport = async () => {
 
     const attendanceTable = new Table({
       rows: tableRows,
-      width: { size: 100, type: UnitsType.PERCENTAGE },
+      width: { size: 100, type: WidthType.PERCENTAGE },
     })
 
     const doc = new Document({
