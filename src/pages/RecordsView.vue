@@ -45,9 +45,10 @@
           </div>
         </router-link>
 
-        <div
-          class="rounded-lg p-4 border-l-4 shadow-lg"
-          style="background: #004595; border-left-color: #ffffff"
+        <router-link
+          to="/records"
+          class="block p-4 hover:bg-white/10 rounded-lg transition-all duration-200 cursor-pointer group"
+          style="background: #004595; border-left: 4px solid #ffffff"
         >
           <div class="flex items-center gap-3">
             <div class="rounded-lg p-2" style="background: rgba(255, 255, 255, 0.1)">
@@ -62,7 +63,7 @@
             </div>
             <span class="font-bold text-sm uppercase tracking-wider">Records</span>
           </div>
-        </div>
+        </router-link>
 
         <router-link
           to="/activities"
@@ -171,10 +172,10 @@
               </svg>
             </div>
             <div>
-              <h1 class="text-lg sm:text-xl lg:text-2xl font-bold mb-1" style="color: #002147">
+              <h1 class="text-base sm:text-lg lg:text-xl font-bold mb-1" style="color: #002147">
                 Attendance Records
               </h1>
-              <p class="text-xs sm:text-sm font-semibold" style="color: #00397a">
+              <p class="text-xs sm:text-xs font-semibold" style="color: #00397a">
                 Filter and view attendance records by date
               </p>
             </div>
@@ -196,7 +197,7 @@
                     ? 'background: #004595; color: #ffffff;'
                     : 'background: #ffffff; color: #002147; border-color: #e5e7eb;'
                 "
-                class="px-3 sm:px-4 py-2.5 rounded-lg font-bold text-xs sm:text-sm uppercase flex items-center justify-center gap-2 transition hover:opacity-90"
+                class="px-3 sm:px-4 py-2.5 rounded-lg font-bold text-xs uppercase flex items-center justify-center gap-2 transition hover:opacity-90"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
@@ -227,9 +228,14 @@
                     ? 'background: #ef4444; color: #ffffff;'
                     : 'background: #ffffff; color: #002147; border-color: #e5e7eb;'
                 "
-                class="px-3 sm:px-4 py-2.5 rounded-lg font-bold text-xs sm:text-sm uppercase flex items-center justify-center gap-2 transition hover:opacity-90"
+                class="px-3 sm:px-4 py-2.5 rounded-lg font-bold text-xs uppercase flex items-center justify-center gap-2 transition hover:opacity-90"
               >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg
+                  class="w-3 h-3 sm:w-3.5 sm:h-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -251,91 +257,95 @@
             </div>
 
             <!-- Date Filter -->
-            <div
-              class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full lg:w-auto"
-            >
-              <label
-                class="text-xs sm:text-sm font-bold uppercase flex items-center gap-2"
-                style="color: #002147"
-              >
-                <div class="rounded-lg p-1.5" style="background: #f3f1ee">
-                  <svg
-                    class="w-3 h-3 sm:w-4 sm:h-4"
-                    style="color: #004595"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
+            <div class="flex flex-col sm:flex-col lg:flex-row gap-3 sm:gap-3 w-full lg:w-auto">
+              <!-- Date Column -->
+              <div class="flex flex-col gap-1 w-full sm:w-auto">
+                <!-- <label
+                  class="text-xs font-bold uppercase flex items-center gap-2"
+                  style="color: #002147"
+                >
+                  <div class="rounded-lg p-1.5" style="background: #f3f1ee">
+                    <svg
+                      class="w-3 h-3 sm:w-3.5 sm:h-3.5"
+                      style="color: #004595"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      ></path>
+                    </svg>
+                  </div>
+                  Select Date
+                </label> -->
+                <input
+                  v-model="selectedDate"
+                  type="date"
+                  class="px-3 sm:px-4 py-2.5 border-2 rounded-lg focus:outline-none text-xs font-medium w-full"
+                  style="border-color: #e5e7eb; color: #002147"
+                  @change="filterRecords"
+                />
+              </div>
+
+              <!-- Activity Column -->
+              <div v-if="allActivities.length > 0" class="flex flex-col gap-1 w-full sm:w-auto">
+                <!-- <label
+                  class="text-xs font-bold uppercase flex items-center gap-2"
+                  style="color: #002147"
+                >
+                  <div class="rounded-lg p-1.5" style="background: #f3f1ee">
+                    <svg
+                      class="w-3 h-3 sm:w-3.5 sm:h-3.5"
+                      style="color: #10b981"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                      ></path>
+                    </svg>
+                  </div>
+                  Activity
+                </label> -->
+                <select
+                  v-model="selectedActivityFilter"
+                  class="px-3 sm:px-4 py-2.5 border-2 rounded-lg focus:outline-none text-xs font-medium w-full"
+                  style="border-color: #e5e7eb; color: #002147"
+                  @change="filterRecords"
+                >
+                  <option :value="null">All Activities</option>
+                  <option v-for="activity in allActivities" :key="activity.id" :value="activity.id">
+                    {{ activity.name }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Clear Button -->
+              <div class="flex items-end w-full sm:w-auto h-full">
+                <button
+                  @click="resetFilters"
+                  class="text-white px-3 sm:px-4 py-2.5 rounded-lg font-bold text-xs uppercase hover:opacity-90 flex items-center justify-center gap-2 transition w-full sm:w-auto"
+                  style="background: #00397a"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      d="M6 18L18 6M6 6l12 12"
                     ></path>
                   </svg>
-                </div>
-                Select Date
-              </label>
-              <input
-                v-model="selectedDate"
-                type="date"
-                class="px-3 sm:px-4 py-2.5 border-2 rounded-lg focus:outline-none text-xs sm:text-sm font-medium w-full sm:w-auto"
-                style="border-color: #e5e7eb; color: #002147"
-                @change="filterRecords"
-              />
-
-              <!-- Activity Filter -->
-              <label
-                v-if="allActivities.length > 0"
-                class="text-xs sm:text-sm font-bold uppercase flex items-center gap-2"
-                style="color: #002147"
-              >
-                <div class="rounded-lg p-1.5" style="background: #f3f1ee">
-                  <svg
-                    class="w-3 h-3 sm:w-4 sm:h-4"
-                    style="color: #10b981"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                    ></path>
-                  </svg>
-                </div>
-                Activity
-              </label>
-              <select
-                v-if="allActivities.length > 0"
-                v-model="selectedActivityFilter"
-                class="px-3 sm:px-4 py-2.5 border-2 rounded-lg focus:outline-none text-xs sm:text-sm font-medium w-full sm:w-auto"
-                style="border-color: #e5e7eb; color: #002147"
-                @change="filterRecords"
-              >
-                <option :value="null">All Activities</option>
-                <option v-for="activity in allActivities" :key="activity.id" :value="activity.id">
-                  {{ activity.name }}
-                </option>
-              </select>
-
-              <button
-                @click="resetFilters"
-                class="text-white px-3 sm:px-4 py-2.5 rounded-lg font-bold text-xs sm:text-sm uppercase hover:opacity-90 flex items-center justify-center gap-2 transition"
-                style="background: #00397a"
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  ></path>
-                </svg>
-                Clear
-              </button>
+                  Clear
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -352,10 +362,10 @@
             >
               <div class="flex-1">
                 <h2
-                  class="text-sm sm:text-base font-bold flex items-center gap-2 sm:gap-3 text-white"
+                  class="text-xs sm:text-sm font-bold flex items-center gap-2 sm:gap-3 text-white"
                 >
                   <svg
-                    class="w-4 h-4 sm:w-5 sm:h-5"
+                    class="w-3 h-3 sm:w-4 sm:h-4"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -369,7 +379,7 @@
                   </svg>
                   All Attendance Records
                 </h2>
-                <p class="text-xs sm:text-sm mt-1" style="color: #e0e7ff">
+                <p class="text-xs mt-1" style="color: #e0e7ff">
                   Showing {{ filteredRecords.length }} records
                 </p>
               </div>
@@ -379,7 +389,7 @@
               >
                 <button
                   @click="previewWithAttendanceReport"
-                  class="bg-white px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 rounded font-bold text-xs sm:text-sm uppercase flex items-center justify-center gap-2 hover:opacity-90"
+                  class="bg-white px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 rounded font-bold text-xs uppercase flex items-center justify-center gap-2 hover:opacity-90"
                   style="color: #004595"
                 >
                   <svg
@@ -405,7 +415,7 @@
                 </button>
                 <button
                   @click="showDownloadFormatModal('with-attendance')"
-                  class="bg-white px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 rounded font-bold text-xs sm:text-sm uppercase flex items-center justify-center gap-2 hover:opacity-90"
+                  class="bg-white px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 rounded font-bold text-xs uppercase flex items-center justify-center gap-2 hover:opacity-90"
                   style="color: #004595"
                 >
                   <svg
@@ -430,63 +440,101 @@
             class="p-4 sm:p-5 lg:p-6 border-b"
             style="background: #f3f1ee; border-color: #e5e7eb"
           >
-            <p class="text-xs sm:text-sm" style="color: #6b7280"></p>
+            <p class="text-xs" style="color: #6b7280"></p>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full min-w-150">
               <thead class="text-white" style="background: #002147">
                 <tr>
                   <th
-                    class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs sm:text-sm font-bold uppercase"
+                    class="px-3 sm:px-4 py-2.5 sm:py-3 text-center text-xs font-bold uppercase w-12"
                   >
+                    #
+                  </th>
+                  <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs font-bold uppercase">
                     Date & Time
                   </th>
-                  <th
-                    class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs sm:text-sm font-bold uppercase"
-                  >
+                  <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs font-bold uppercase">
                     Name
                   </th>
-                  <th
-                    class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs sm:text-sm font-bold uppercase"
-                  >
+                  <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs font-bold uppercase">
                     Status
                   </th>
-                  <th
-                    class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs sm:text-sm font-bold uppercase"
-                  >
+                  <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs font-bold uppercase">
+                    Images
+                  </th>
+                  <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs font-bold uppercase">
                     Actions
                   </th>
                 </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-100">
-                <tr v-for="record in filteredRecords" :key="record.id" class="hover:bg-gray-50">
-                  <td class="px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-900">
+                <tr
+                  v-for="(record, index) in filteredRecords"
+                  :key="record.id"
+                  class="hover:bg-gray-50"
+                >
+                  <td
+                    class="px-3 sm:px-4 py-2.5 sm:py-3 text-xs text-gray-900 text-center font-bold w-12"
+                  >
+                    {{ index + 1 }}
+                  </td>
+                  <td class="px-3 sm:px-4 py-2.5 sm:py-3 text-xs text-gray-900">
                     {{ record.date }}
                   </td>
-                  <td class="px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-900">
+                  <td class="px-3 sm:px-4 py-2.5 sm:py-3 text-xs text-gray-900">
                     {{ record.name }}
                   </td>
                   <td class="px-3 sm:px-4 py-2.5 sm:py-3">
                     <span
                       v-if="record.status === true"
-                      class="px-2.5 sm:px-3 py-1 inline-flex text-xs sm:text-sm font-bold rounded"
+                      class="px-2.5 sm:px-3 py-1 inline-flex text-xs font-bold rounded"
                       style="background: #d1fae5; color: #065f46"
                     >
-                      Present
+                      ✓ Complied
                     </span>
                     <span
                       v-else
-                      class="px-2.5 sm:px-3 py-1 inline-flex text-xs sm:text-sm font-bold rounded"
+                      class="px-2.5 sm:px-3 py-1 inline-flex text-xs font-bold rounded"
                       style="background: #fee2e2; color: #991b1b"
                     >
-                      Absent
+                      ✗ Uncomplied
                     </span>
+                  </td>
+                  <td class="px-3 sm:px-4 py-2.5 sm:py-3">
+                    <div class="flex gap-1.5 flex-wrap">
+                      <div
+                        v-for="(imgUrl, idx) in record.screenshots
+                          ? record.screenshots.split(',').slice(0, 3)
+                          : []"
+                        :key="idx"
+                        class="relative group"
+                      >
+                        <img
+                          :src="imgUrl.trim()"
+                          :alt="`Image ${idx + 1}`"
+                          class="h-8 w-8 sm:h-10 sm:w-10 rounded cursor-pointer object-cover border border-gray-200 hover:border-blue-400 transition"
+                          @click="previewReport(record)"
+                        />
+                        <div
+                          class="absolute bottom-full left-0 mb-2 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap z-10"
+                        >
+                          Image {{ idx + 1 }}
+                        </div>
+                      </div>
+                      <span
+                        v-if="(record.screenshots ? record.screenshots.split(',').length : 0) > 3"
+                        class="h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center text-xs font-bold rounded bg-gray-200 text-gray-700 border border-gray-300"
+                      >
+                        +{{ (record.screenshots ? record.screenshots.split(',').length : 0) - 3 }}
+                      </span>
+                    </div>
                   </td>
                   <td class="px-3 sm:px-4 py-2.5 sm:py-3">
                     <div class="flex flex-col sm:flex-row gap-2">
                       <button
                         @click="previewReport(record)"
-                        class="text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded font-bold flex items-center justify-center gap-2 text-xs sm:text-sm"
+                        class="text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded font-bold flex items-center justify-center gap-2 text-xs"
                         style="background: #004595"
                       >
                         <svg
@@ -514,11 +562,11 @@
                   </td>
                 </tr>
                 <tr v-if="filteredRecords.length === 0">
-                  <td colspan="5" class="px-4 py-8 sm:py-12 text-center text-gray-500">
+                  <td colspan="7" class="px-4 py-8 sm:py-12 text-center text-gray-500">
                     <div class="flex flex-col items-center">
                       <div class="bg-gray-100 rounded-full p-3 sm:p-4 mb-3">
                         <svg
-                          class="h-6 w-6 sm:h-8 sm:w-8 text-gray-400"
+                          class="h-5 w-5 sm:h-6 sm:w-6 text-gray-400"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -531,10 +579,8 @@
                           ></path>
                         </svg>
                       </div>
-                      <p class="font-semibold text-xs sm:text-sm text-gray-700">No records found</p>
-                      <p class="text-xs sm:text-sm text-gray-500 mt-1">
-                        Try adjusting your date filter
-                      </p>
+                      <p class="font-semibold text-xs text-gray-700">No records found</p>
+                      <p class="text-xs text-gray-500 mt-1">Try adjusting your date filter</p>
                     </div>
                   </td>
                 </tr>
@@ -556,9 +602,9 @@
               class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4"
             >
               <div class="flex-1">
-                <h2 class="text-base sm:text-lg font-bold flex items-center gap-2 sm:gap-3">
+                <h2 class="text-sm sm:text-base font-bold flex items-center gap-2 sm:gap-3">
                   <svg
-                    class="w-5 h-5 sm:w-6 sm:h-6 text-white"
+                    class="w-4 h-4 sm:w-5 sm:h-5 text-white"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -572,7 +618,7 @@
                   </svg>
                   Officers Without Attendance
                 </h2>
-                <p class="text-xs sm:text-sm mt-1">
+                <p class="text-xs mt-1">
                   {{ officersWithoutAttendance.length }} officer(s) without attendance
                 </p>
               </div>
@@ -582,7 +628,7 @@
               >
                 <button
                   @click="previewWithoutAttendanceReport"
-                  class="bg-white px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 rounded font-bold text-xs sm:text-sm uppercase flex items-center justify-center gap-2 hover:opacity-90"
+                  class="bg-white px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 rounded font-bold text-xs uppercase flex items-center justify-center gap-2 hover:opacity-90"
                   style="color: #004595"
                 >
                   <svg
@@ -608,7 +654,7 @@
                 </button>
                 <button
                   @click="showDownloadFormatModal('without-attendance')"
-                  class="bg-white px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 rounded font-bold text-xs sm:text-sm uppercase flex items-center justify-center gap-2 hover:opacity-90"
+                  class="bg-white px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 rounded font-bold text-xs uppercase flex items-center justify-center gap-2 hover:opacity-90"
                   style="color: #004595"
                 >
                   <svg
@@ -657,7 +703,7 @@
                     </svg>
                   </div>
                   <div class="flex-1">
-                    <p class="font-bold text-gray-900 text-xs sm:text-sm">
+                    <p class="font-bold text-gray-900 text-xs">
                       {{ officer.rank_full_name }}
                     </p>
                   </div>
@@ -688,12 +734,10 @@
                 ></path>
               </svg>
             </div>
-            <p class="text-gray-800 text-sm sm:text-base font-bold">
+            <p class="text-gray-800 text-xs sm:text-sm font-bold">
               All officers have submitted attendance!
             </p>
-            <p class="text-gray-600 text-xs sm:text-sm mt-2">
-              100% attendance for the selected date
-            </p>
+            <p class="text-gray-600 text-xs mt-2">100% attendance for the selected date</p>
           </div>
         </div>
       </div>
@@ -824,7 +868,7 @@
       style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px)"
     >
       <!-- Backdrop overlay -->
-      <div @click="showDownloadModal = false" class="absolute inset-0 bg-opacity-40"></div>
+      <div @click="showDownloadModal = false" class="absolute inset-0 bg-black bg-opacity-40"></div>
 
       <!-- Modal dialog -->
       <div
@@ -914,7 +958,7 @@
       <!-- Backdrop overlay -->
       <div
         @click="showPreviewFormatModalDialog = false"
-        class="absolute inset-0 bg-opacity-40"
+        class="absolute inset-0 bg-black bg-opacity-40"
       ></div>
 
       <!-- Modal dialog -->
@@ -1280,7 +1324,21 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { supabase } from '../supabaseClient'
-import { Document, Paragraph, TextRun, HeadingLevel, AlignmentType, ImageRun, Packer } from 'docx'
+import {
+  Document,
+  Paragraph,
+  TextRun,
+  HeadingLevel,
+  AlignmentType,
+  ImageRun,
+  Packer,
+  Table,
+  TableRow,
+  TableCell,
+  VerticalAlign,
+  BorderStyle,
+  WidthType,
+} from 'docx'
 import { saveAs } from 'file-saver'
 import * as XLSX from 'xlsx'
 
@@ -1369,25 +1427,33 @@ const fetchRecords = async () => {
 
     if (error) throw error
 
-    allRecords.value = (attendance || []).map((record) => ({
-      id: record.id,
-      date: new Date(record.created_at).toLocaleString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-      }),
-      dateObj: new Date(record.created_at),
-      rank: record.users?.rank_full_name?.split(' ')[0] || 'N/A',
-      name: record.users?.rank_full_name || 'Unknown',
-      fullRankName: record.users?.rank_full_name || 'Unknown',
-      userId: record.user_id,
-      activityId: record.activity_id,
-      status: record.status === true,
-      screenshots: record.screenshots || '',
-    }))
+    allRecords.value = (attendance || [])
+      .map((record) => ({
+        id: record.id,
+        date: new Date(record.created_at).toLocaleString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true,
+        }),
+        dateObj: new Date(record.created_at),
+        rank: record.users?.rank_full_name?.split(' ')[0] || 'N/A',
+        name: record.users?.rank_full_name || 'Unknown',
+        fullRankName: record.users?.rank_full_name || 'Unknown',
+        userId: record.user_id,
+        activityId: record.activity_id,
+        status: record.status === true,
+        screenshots: record.screenshots || '',
+      }))
+      .sort((a, b) => {
+        // Sort by status (complied first) then by name
+        if (a.status === b.status) {
+          return (a.fullRankName || '').localeCompare(b.fullRankName || '')
+        }
+        return a.status === true ? -1 : 1
+      })
 
     filterRecords()
   } catch (error) {
@@ -1407,8 +1473,15 @@ const filterRecords = () => {
 
   // Filter by date if selected
   if (!selectedDate.value) {
-    filteredRecords.value = filtered
-    filteredAttendanceUserIds.value = filtered.map((r) => r.userId)
+    // Sort by status (complied first) then by name
+    const sorted = [...filtered].sort((a, b) => {
+      if (a.status === b.status) {
+        return (a.fullRankName || a.name || '').localeCompare(b.fullRankName || b.name || '')
+      }
+      return a.status === true ? -1 : 1
+    })
+    filteredRecords.value = sorted
+    filteredAttendanceUserIds.value = sorted.map((r) => r.userId)
     return
   }
 
@@ -1418,19 +1491,35 @@ const filterRecords = () => {
   const endOfDay = new Date(selected)
   endOfDay.setHours(23, 59, 59, 999)
 
-  filteredRecords.value = filtered.filter((record) => {
-    return record.dateObj >= selected && record.dateObj <= endOfDay
-  })
+  // Sort by status (complied first) then by name
+  const sorted = [...filtered]
+    .filter((record) => {
+      return record.dateObj >= selected && record.dateObj <= endOfDay
+    })
+    .sort((a, b) => {
+      if (a.status === b.status) {
+        return (a.fullRankName || a.name || '').localeCompare(b.fullRankName || b.name || '')
+      }
+      return a.status === true ? -1 : 1
+    })
 
-  filteredAttendanceUserIds.value = filteredRecords.value.map((r) => r.userId)
+  filteredRecords.value = sorted
+  filteredAttendanceUserIds.value = sorted.map((r) => r.userId)
 }
 
 // Reset filters
 const resetFilters = () => {
   selectedDate.value = ''
   selectedActivityFilter.value = null
-  filteredRecords.value = allRecords.value
-  filteredAttendanceUserIds.value = allRecords.value.map((r) => r.userId)
+  // Sort by status (complied first) then by name
+  const sorted = [...allRecords.value].sort((a, b) => {
+    if (a.status === b.status) {
+      return (a.fullRankName || a.name || '').localeCompare(b.fullRankName || b.name || '')
+    }
+    return a.status === true ? -1 : 1
+  })
+  filteredRecords.value = sorted
+  filteredAttendanceUserIds.value = sorted.map((r) => r.userId)
 }
 
 // Preview report functions
@@ -1498,7 +1587,7 @@ const previewReport = async (record) => {
                                     ? 'background: #d1fae5; color: #065f46; border: 2px solid #10b981;'
                                     : 'background: #fee2e2; color: #991b1b; border: 2px solid #ef4444;'
                                 }">
-                                    ${record.status === true ? '✓ Present' : '✗ Absent'}
+                                    ${record.status === true ? '✓ Complied' : '✗ Uncomplied'}
                                 </span>
                             </td>
                         </tr>
@@ -1535,7 +1624,7 @@ const previewWithoutAttendanceReport = () => {
                 <td style="padding: 8px; border: 1px solid #e5e7eb; color: #1f2937; font-weight: 500; font-size: 11px;">${officer.rank_full_name || 'N/A'}</td>
                 <td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center; color: #6b7280; font-size: 11px;">${officer.badge_number || 'N/A'}</td>
                 <td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;">
-                    <span style="display: inline-block; padding: 3px 8px; border-radius: 3px; font-weight: bold; font-size: 10px; background: #fee2e2; color: #991b1b; border: 1.5px solid #ef4444;">✗ Absent</span>
+                    <span style="display: inline-block; padding: 3px 8px; border-radius: 3px; font-weight: bold; font-size: 10px; background: #fee2e2; color: #991b1b; border: 1.5px solid #ef4444;">✗ Uncomplied</span>
                 </td>
             </tr>
         `,
@@ -1622,52 +1711,120 @@ const downloadWordReport = async (record) => {
           .map((url) => url.trim())
           .filter((url) => url)
       : []
-    const imageElements = []
 
-    // Convert images to base64 and create ImageRun elements
+    // Convert images to ImageRun elements with smaller size for table
+    const imageElements = []
     for (let i = 0; i < screenshotUrls.length; i++) {
       try {
         const response = await fetch(screenshotUrls[i])
         const blob = await response.blob()
         const buffer = await blob.arrayBuffer()
-
-        imageElements.push(
-          new ImageRun({
-            data: buffer,
-            transformation: {
-              width: 200,
-              height: 200,
-            },
-          }),
-        )
+        imageElements.push({
+          type: 'image',
+          data: buffer,
+          index: i + 1,
+        })
       } catch (error) {
         console.error(`Error loading image ${i}:`, error)
       }
     }
 
-    // Create paragraphs with 3 images per row with spacing
-    const imageParagraphs = []
-    for (let i = 0; i < imageElements.length; i += 3) {
-      const rowImages = imageElements.slice(i, i + 3)
-      const childrenWithSpacing = []
+    // Create image cells for the table
+    const imageCells =
+      imageElements.length > 0
+        ? [
+            new TableCell({
+              children: [
+                new Paragraph({
+                  text: `Images (${imageElements.length})`,
+                  bold: true,
+                  alignment: AlignmentType.CENTER,
+                }),
+                ...imageElements.map(
+                  (img) =>
+                    new Paragraph({
+                      children: [
+                        new ImageRun({
+                          data: img.data,
+                          transformation: {
+                            width: 120,
+                            height: 120,
+                          },
+                        }),
+                      ],
+                      spacing: { after: 100 },
+                      alignment: AlignmentType.CENTER,
+                    }),
+                ),
+              ],
+              verticalAlign: VerticalAlign.CENTER,
+            }),
+          ]
+        : [
+            new TableCell({
+              children: [
+                new Paragraph({
+                  text: 'No Images',
+                  alignment: AlignmentType.CENTER,
+                  italics: true,
+                }),
+              ],
+              verticalAlign: VerticalAlign.CENTER,
+            }),
+          ]
 
-      // Add images with spacing between them
-      rowImages.forEach((img, index) => {
-        childrenWithSpacing.push(img)
-        // Add spacing between images (not after the last image in the row)
-        if (index < rowImages.length - 1) {
-          childrenWithSpacing.push(new TextRun({ text: '    ' })) // Multiple spaces for separation
-        }
-      })
-
-      imageParagraphs.push(
-        new Paragraph({
-          children: childrenWithSpacing,
-          spacing: { before: 300, after: 300 },
-          alignment: AlignmentType.CENTER,
+    // Create table for record details and images
+    const detailsTable = new Table({
+      rows: [
+        new TableRow({
+          height: { value: 500, rule: 'atLeast' },
+          children: [
+            new TableCell({
+              children: [
+                new Paragraph({
+                  text: 'Officer Information',
+                  bold: true,
+                  heading: HeadingLevel.HEADING_3,
+                }),
+                new Paragraph({
+                  children: [
+                    new TextRun({
+                      text: 'Name: ',
+                      bold: true,
+                    }),
+                    new TextRun(record.fullRankName || record.name || 'N/A'),
+                  ],
+                  spacing: { after: 100 },
+                }),
+                new Paragraph({
+                  children: [
+                    new TextRun({
+                      text: 'Date: ',
+                      bold: true,
+                    }),
+                    new TextRun(record.date || 'N/A'),
+                  ],
+                  spacing: { after: 100 },
+                }),
+                new Paragraph({
+                  children: [
+                    new TextRun({
+                      text: 'Status: ',
+                      bold: true,
+                    }),
+                    new TextRun(record.status === true ? 'Complied' : 'Uncomplied'),
+                  ],
+                }),
+              ],
+              verticalAlign: VerticalAlign.TOP,
+              width: { size: 30, type: 'percentage' },
+            }),
+            ...imageCells,
+          ],
         }),
-      )
-    }
+      ],
+      width: { size: 100, type: WidthType.PERCENTAGE },
+    })
 
     const doc = new Document({
       sections: [
@@ -1695,42 +1852,17 @@ const downloadWordReport = async (record) => {
               alignment: AlignmentType.CENTER,
               spacing: { after: 400 },
             }),
+            detailsTable,
             new Paragraph({
-              children: [
-                new TextRun({
-                  text: 'Officer Name: ',
-                  bold: true,
-                }),
-                new TextRun(record.fullRankName || record.name || 'N/A'),
-              ],
+              text: '',
               spacing: { after: 200 },
             }),
             new Paragraph({
-              children: [
-                new TextRun({
-                  text: 'Attendance Date: ',
-                  bold: true,
-                }),
-                new TextRun(record.date || 'N/A'),
-              ],
-              spacing: { after: 200 },
+              text: `Generated on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`,
+              alignment: AlignmentType.CENTER,
+              italics: true,
+              size: 18,
             }),
-            new Paragraph({
-              children: [
-                new TextRun({
-                  text: 'Status: ',
-                  bold: true,
-                }),
-                new TextRun(record.status === true ? 'Present' : 'Absent'),
-              ],
-              spacing: { after: 400 },
-            }),
-            new Paragraph({
-              text: 'Attendance Images:',
-              heading: HeadingLevel.HEADING_3,
-              spacing: { before: 400, after: 200 },
-            }),
-            ...imageParagraphs,
           ],
         },
       ],
@@ -1750,19 +1882,69 @@ const downloadWordReport = async (record) => {
 // Download Word report for officers without attendance
 const downloadWithoutAttendanceReport = async () => {
   try {
-    const tableRows = officersWithoutAttendance.value.map((officer, index) => {
-      return new Paragraph({
+    // Create table rows with officers without attendance
+    const tableRows = [
+      new TableRow({
+        height: { value: 400, rule: 'atLeast' },
         children: [
-          new TextRun({
-            text: `${index + 1}. `,
-            bold: true,
+          new TableCell({
+            children: [new Paragraph({ text: '#', bold: true, alignment: AlignmentType.CENTER })],
+            verticalAlign: VerticalAlign.CENTER,
           }),
-          new TextRun(
-            `${officer.rank_full_name || 'N/A'} - Badge: ${officer.badge_number || 'N/A'}`,
-          ),
+          new TableCell({
+            children: [new Paragraph({ text: 'Rank & Full Name', bold: true })],
+            verticalAlign: VerticalAlign.CENTER,
+          }),
+          new TableCell({
+            children: [
+              new Paragraph({ text: 'Badge Number', bold: true, alignment: AlignmentType.CENTER }),
+            ],
+            verticalAlign: VerticalAlign.CENTER,
+          }),
+          new TableCell({
+            children: [
+              new Paragraph({ text: 'Status', bold: true, alignment: AlignmentType.CENTER }),
+            ],
+            verticalAlign: VerticalAlign.CENTER,
+          }),
         ],
-        spacing: { after: 100 },
-      })
+      }),
+      ...officersWithoutAttendance.value.map(
+        (officer, index) =>
+          new TableRow({
+            children: [
+              new TableCell({
+                children: [
+                  new Paragraph({ text: `${index + 1}`, alignment: AlignmentType.CENTER }),
+                ],
+              }),
+              new TableCell({
+                children: [new Paragraph({ text: officer.rank_full_name || 'N/A' })],
+              }),
+              new TableCell({
+                children: [
+                  new Paragraph({
+                    text: officer.badge_number || 'N/A',
+                    alignment: AlignmentType.CENTER,
+                  }),
+                ],
+              }),
+              new TableCell({
+                children: [
+                  new Paragraph({
+                    text: 'Uncomplied',
+                    alignment: AlignmentType.CENTER,
+                  }),
+                ],
+              }),
+            ],
+          }),
+      ),
+    ]
+
+    const noAttendanceTable = new Table({
+      rows: tableRows,
+      width: { size: 100, type: WidthType.PERCENTAGE },
     })
 
     const doc = new Document({
@@ -1805,7 +1987,7 @@ const downloadWithoutAttendanceReport = async () => {
                   }),
                 ),
               ],
-              spacing: { after: 200 },
+              spacing: { after: 100 },
             }),
             new Paragraph({
               children: [
@@ -1814,14 +1996,19 @@ const downloadWithoutAttendanceReport = async () => {
                   bold: true,
                 }),
               ],
-              spacing: { after: 400 },
+              spacing: { after: 300 },
+            }),
+            noAttendanceTable,
+            new Paragraph({
+              text: '',
+              spacing: { after: 200 },
             }),
             new Paragraph({
-              text: 'List of Officers:',
-              heading: HeadingLevel.HEADING_3,
-              spacing: { before: 400, after: 200 },
+              text: `Generated on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`,
+              alignment: AlignmentType.CENTER,
+              italics: true,
+              size: 18,
             }),
-            ...tableRows,
           ],
         },
       ],
@@ -1890,19 +2077,32 @@ const downloadPreviewInFormat = (format) => {
 const downloadPreviewExcel = () => {
   try {
     if (previewDownloadType.value === 'individual-record' && previewRecord.value) {
-      // Single record Excel export
-      const data = [
+      // Single record Excel export with images
+      const record = previewRecord.value
+      const screenshotUrls = record.screenshots
+        ? record.screenshots
+            .split(',')
+            .map((url) => url.trim())
+            .filter((url) => url)
+        : []
+
+      // Create multiple rows if there are images
+      const rows = [
         {
-          'Officer Name': previewRecord.value.fullRankName || previewRecord.value.name || 'N/A',
-          'Date & Time': previewRecord.value.date || 'N/A',
-          Status: previewRecord.value.status === true ? 'Present' : 'Absent',
+          'Officer Name': record.fullRankName || record.name || 'N/A',
+          'Date & Time': record.date || 'N/A',
+          Status: record.status === true ? 'Complied' : 'Uncomplied',
+          'Image Count': screenshotUrls.length,
+          'Image URLs': screenshotUrls.join(' | '),
         },
       ]
-      const ws = XLSX.utils.json_to_sheet(data)
+
+      const ws = XLSX.utils.json_to_sheet(rows)
       const wb = XLSX.utils.book_new()
       XLSX.utils.book_append_sheet(wb, ws, 'Attendance Record')
-      ws['!cols'] = [{ wch: 30 }, { wch: 25 }, { wch: 15 }]
-      const fileName = `Attendance_Report_${previewRecord.value.fullRankName || previewRecord.value.name || 'Officer'}_${previewRecord.value.date}.xlsx`
+      ws['!cols'] = [{ wch: 30 }, { wch: 25 }, { wch: 15 }, { wch: 12 }, { wch: 50 }]
+
+      const fileName = `Attendance_Report_${record.fullRankName || record.name || 'Officer'}_${record.date}.xlsx`
       XLSX.writeFile(wb, fileName)
     } else if (previewDownloadType.value === 'without-attendance') {
       downloadWithoutAttendanceExcel()
@@ -1918,12 +2118,23 @@ const downloadPreviewExcel = () => {
 // Excel download for with-attendance records
 const downloadWithAttendanceExcel = () => {
   try {
-    const data = filteredRecords.value.map((record, index) => ({
-      '#': index + 1,
-      'Rank & Full Name': record.fullRankName || record.name || 'N/A',
-      'Date & Time': record.date || 'N/A',
-      Status: 'Present',
-    }))
+    const data = filteredRecords.value.map((record, index) => {
+      const screenshotUrls = record.screenshots
+        ? record.screenshots
+            .split(',')
+            .map((url) => url.trim())
+            .filter((url) => url)
+        : []
+
+      return {
+        '#': index + 1,
+        'Rank & Full Name': record.fullRankName || record.name || 'N/A',
+        'Date & Time': record.date || 'N/A',
+        Status: 'Complied',
+        'Image Count': screenshotUrls.length,
+        'Image URLs': screenshotUrls.join(' | '),
+      }
+    })
 
     const ws = XLSX.utils.json_to_sheet(data)
     const wb = XLSX.utils.book_new()
@@ -1934,7 +2145,9 @@ const downloadWithAttendanceExcel = () => {
       { wch: 5 }, // # column
       { wch: 30 }, // Rank & Full Name
       { wch: 25 }, // Date & Time
-      { wch: 15 }, // Status
+      { wch: 12 }, // Status
+      { wch: 12 }, // Image Count
+      { wch: 50 }, // Image URLs
     ]
 
     const fileName = `Officers_With_Attendance_${new Date(selectedDate.value).toLocaleDateString('en-US')}.xlsx`
@@ -1952,7 +2165,7 @@ const downloadWithoutAttendanceExcel = () => {
       '#': index + 1,
       'Rank & Full Name': officer.rank_full_name || 'N/A',
       'Badge Number': officer.badge_number || 'N/A',
-      Status: 'Absent',
+      Status: 'Uncomplied',
     }))
 
     const ws = XLSX.utils.json_to_sheet(data)
@@ -1996,7 +2209,7 @@ const previewWithAttendanceReport = () => {
                 <td style="padding: 8px; border: 1px solid #e5e7eb; color: #1f2937; font-weight: 500; font-size: 11px;">${record.fullRankName || record.name || 'N/A'}</td>
                 <td style="padding: 8px; border: 1px solid #e5e7eb; color: #6b7280; font-size: 11px;">${record.date || 'N/A'}</td>
                 <td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;">
-                    <span style="display: inline-block; padding: 3px 8px; border-radius: 3px; font-weight: bold; font-size: 10px; background: #d1fae5; color: #065f46; border: 1.5px solid #10b981;">✓ Present</span>
+                    <span style="display: inline-block; padding: 3px 8px; border-radius: 3px; font-weight: bold; font-size: 10px; background: #d1fae5; color: #065f46; border: 1.5px solid #10b981;">✓ Complied</span>
                 </td>
             </tr>
         `,
@@ -2063,17 +2276,66 @@ const previewWithAttendanceReport = () => {
 // Download Word report for officers with attendance
 const downloadWithAttendanceReport = async () => {
   try {
-    const tableRows = filteredRecords.value.map((record, index) => {
-      return new Paragraph({
+    // Create table rows with attendance records
+    const tableRows = [
+      new TableRow({
+        height: { value: 400, rule: 'atLeast' },
         children: [
-          new TextRun({
-            text: `${index + 1}. `,
-            bold: true,
+          new TableCell({
+            children: [new Paragraph({ text: '#', bold: true, alignment: AlignmentType.CENTER })],
+            verticalAlign: VerticalAlign.CENTER,
           }),
-          new TextRun(`${record.fullRankName || record.name || 'N/A'} - ${record.date || 'N/A'}`),
+          new TableCell({
+            children: [new Paragraph({ text: 'Rank & Full Name', bold: true })],
+            verticalAlign: VerticalAlign.CENTER,
+          }),
+          new TableCell({
+            children: [
+              new Paragraph({ text: 'Date & Time', bold: true, alignment: AlignmentType.CENTER }),
+            ],
+            verticalAlign: VerticalAlign.CENTER,
+          }),
+          new TableCell({
+            children: [
+              new Paragraph({ text: 'Status', bold: true, alignment: AlignmentType.CENTER }),
+            ],
+            verticalAlign: VerticalAlign.CENTER,
+          }),
         ],
-        spacing: { after: 100 },
-      })
+      }),
+      ...filteredRecords.value.map(
+        (record, index) =>
+          new TableRow({
+            children: [
+              new TableCell({
+                children: [
+                  new Paragraph({ text: `${index + 1}`, alignment: AlignmentType.CENTER }),
+                ],
+              }),
+              new TableCell({
+                children: [new Paragraph({ text: record.fullRankName || record.name || 'N/A' })],
+              }),
+              new TableCell({
+                children: [
+                  new Paragraph({ text: record.date || 'N/A', alignment: AlignmentType.CENTER }),
+                ],
+              }),
+              new TableCell({
+                children: [
+                  new Paragraph({
+                    text: record.status === true ? 'Complied' : 'Uncomplied',
+                    alignment: AlignmentType.CENTER,
+                  }),
+                ],
+              }),
+            ],
+          }),
+      ),
+    ]
+
+    const attendanceTable = new Table({
+      rows: tableRows,
+      width: { size: 100, type: WidthType.PERCENTAGE },
     })
 
     const doc = new Document({
@@ -2116,23 +2378,28 @@ const downloadWithAttendanceReport = async () => {
                   }),
                 ),
               ],
-              spacing: { after: 200 },
+              spacing: { after: 100 },
             }),
             new Paragraph({
               children: [
                 new TextRun({
-                  text: `Total Officers With Attendance: ${filteredRecords.value.length}`,
+                  text: `Total Records: ${filteredRecords.value.length}`,
                   bold: true,
                 }),
               ],
-              spacing: { after: 400 },
+              spacing: { after: 300 },
+            }),
+            attendanceTable,
+            new Paragraph({
+              text: '',
+              spacing: { after: 200 },
             }),
             new Paragraph({
-              text: 'List of Officers:',
-              heading: HeadingLevel.HEADING_3,
-              spacing: { before: 400, after: 200 },
+              text: `Generated on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`,
+              alignment: AlignmentType.CENTER,
+              italics: true,
+              size: 18,
             }),
-            ...tableRows,
           ],
         },
       ],

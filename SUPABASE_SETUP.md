@@ -153,6 +153,11 @@ ALTER TABLE activities ADD COLUMN IF NOT EXISTS max_submissions INTEGER DEFAULT 
   - Re-create deleted activities with all submissions
   - Re-upload all images to Supabase Storage
   - Automatically recreate officer records if needed
+- ✅ **Records Table Display:**
+  - Status column showing **"✓ Complied"** or **"✗ Uncomplied"** (color-coded)
+  - Images column with thumbnail previews of submitted images
+  - Click images to preview full details
+  - "+N" indicator for additional images beyond first 3
 
 **User/Officer Features:**
 
