@@ -75,6 +75,25 @@
           </div>
         </router-link>
 
+        <div
+          class="rounded-lg p-4 border-l-4 shadow-lg"
+          style="background: #004595; border-left-color: #ffffff"
+        >
+          <div class="flex items-center gap-3">
+            <div class="rounded-lg p-2" style="background: rgba(255, 255, 255, 0.1)">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                ></path>
+              </svg>
+            </div>
+            <span class="font-bold text-sm uppercase tracking-wider">Activities</span>
+          </div>
+        </div>
+
         <router-link
           to="/officers"
           class="block p-4 hover:bg-white/10 rounded-lg transition-all duration-200 cursor-pointer group"
@@ -104,25 +123,6 @@
             >
           </div>
         </router-link>
-
-        <div
-          class="rounded-lg p-4 border-l-4 shadow-lg"
-          style="background: #004595; border-left-color: #ffffff"
-        >
-          <div class="flex items-center gap-3">
-            <div class="rounded-lg p-2" style="background: rgba(255, 255, 255, 0.1)">
-              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                ></path>
-              </svg>
-            </div>
-            <span class="font-bold text-sm uppercase tracking-wider">Activities</span>
-          </div>
-        </div>
       </div>
 
       <!-- Logout Button -->
@@ -357,6 +357,34 @@
               <span v-if="isCreating">Creating...</span>
               <span v-else>Create Activity</span>
             </button>
+
+            <!-- Import from ZIP Button -->
+            <button
+              @click="triggerFileInput"
+              :disabled="isImporting"
+              class="w-full py-3 text-white font-bold rounded-lg text-sm transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:opacity-90"
+              style="background: #10b981"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                ></path>
+              </svg>
+              <span v-if="isImporting">Importing...</span>
+              <span v-else>Import from ZIP</span>
+            </button>
+
+            <!-- Hidden File Input -->
+            <input
+              ref="zipFileInput"
+              type="file"
+              accept=".zip"
+              style="display: none"
+              @change="handleZipFileSelect"
+            />
           </div>
         </div>
 
@@ -603,6 +631,8 @@ const newActivity = ref({ name: '', description: '', maxSubmissions: 1 })
 const isCreating = ref(false)
 const isLoadingActivities = ref(false)
 const totalSubmissions = ref(0)
+const isImporting = ref(false)
+const zipFileInput = ref(null)
 
 // Create a new activity
 const createActivity = async () => {
@@ -801,6 +831,188 @@ const deleteActivity = async (activityId) => {
 const formatDate = (dateString) => {
   const date = new Date(dateString)
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
+
+// Trigger file input for ZIP import
+const triggerFileInput = () => {
+  zipFileInput.value?.click()
+}
+
+// Handle ZIP file selection and import
+const handleZipFileSelect = async (event) => {
+  const file = event.target.files?.[0]
+  if (!file) return
+
+  isImporting.value = true
+  try {
+    // Read the ZIP file
+    const zip = new JSZip()
+    const zipContent = await zip.loadAsync(file)
+
+    // Get activity info
+    let activityName = 'Imported Activity'
+    let activityId = null
+
+    const infoFile = zipContent.file('ACTIVITY_INFO.txt')
+    if (infoFile) {
+      const infoContent = await infoFile.async('text')
+      const lines = infoContent.split('\n')
+      const nameLine = lines.find((l) => l.startsWith('Activity:'))
+      if (nameLine) {
+        activityName = nameLine.replace('Activity:', '').trim()
+      }
+      const idLine = lines.find((l) => l.startsWith('Activity ID:'))
+      if (idLine) {
+        activityId = parseInt(idLine.replace('Activity ID:', '').trim())
+      }
+    }
+
+    // Parse CSV file
+    const csvFile = zipContent.file('submissions.csv')
+    if (!csvFile) {
+      alert('Invalid ZIP file: submissions.csv not found')
+      return
+    }
+
+    const csvContent = await csvFile.async('text')
+    const lines = csvContent.split('\n').filter((l) => l.trim())
+    const headers = lines[0].split(',').map((h) => h.trim().replace(/"/g, ''))
+
+    // Create activity if it doesn't exist
+    let newActivityId = null
+    const { data: existingActivity } = await supabase
+      .from('activities')
+      .select('id')
+      .eq('name', activityName)
+      .maybeSingle()
+
+    if (!existingActivity) {
+      const { data: createdActivity, error: createError } = await supabase
+        .from('activities')
+        .insert([
+          {
+            name: activityName,
+            description: `Restored from ZIP on ${new Date().toLocaleString()}`,
+            max_submissions: 1,
+            created_at: new Date().toISOString(),
+          },
+        ])
+        .select()
+
+      if (createError) throw createError
+      newActivityId = createdActivity[0].id
+    } else {
+      newActivityId = existingActivity.id
+    }
+
+    // Fetch or create officers and restore submissions
+    let submissionsRestored = 0
+    const usersMap = new Map()
+
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i]
+      const values = line.split(',').map((v) => v.trim().replace(/"/g, ''))
+
+      const officerName = values[0]
+      const badgeNumber = values[1]
+      const submissionId = values[2]
+
+      // Get or create officer
+      let userId = usersMap.get(officerName)
+      if (!userId) {
+        const { data: existingUser } = await supabase
+          .from('users')
+          .select('id')
+          .eq('rank_full_name', officerName)
+          .maybeSingle()
+
+        if (existingUser) {
+          userId = existingUser.id
+        } else {
+          const { data: newUser, error: userError } = await supabase
+            .from('users')
+            .insert([
+              {
+                rank_full_name: officerName,
+                badge_number: badgeNumber !== 'N/A' ? badgeNumber : null,
+              },
+            ])
+            .select()
+
+          if (userError) throw userError
+          userId = newUser[0].id
+        }
+        usersMap.set(officerName, userId)
+      }
+
+      // Get images for this submission from the officer folder
+      const officerFolderName = officerName.replace(/[^a-z0-9]/gi, '_').toLowerCase()
+      const imageFiles = []
+      let imageIndex = 1
+
+      while (true) {
+        const imgFile =
+          zipContent.file(`${officerFolderName}/image_${imageIndex}.jpg`) ||
+          zipContent.file(`${officerFolderName}/image_${imageIndex}.png`)
+
+        if (!imgFile) break
+
+        imageFiles.push({ file: imgFile, ext: imgFile.name.split('.').pop() })
+        imageIndex++
+      }
+
+      // Upload images and collect URLs
+      const uploadedUrls = []
+      for (const imgFile of imageFiles) {
+        try {
+          const blob = await imgFile.file.async('blob')
+          const fileName = `restored_${Date.now()}_${Math.random().toString(36).substring(7)}.${imgFile.ext}`
+          const { error: uploadError } = await supabase.storage
+            .from('Screenshots')
+            .upload(fileName, blob, { cacheControl: '3600', upsert: false })
+
+          if (uploadError) throw uploadError
+
+          const { data: publicUrl } = supabase.storage.from('Screenshots').getPublicUrl(fileName)
+
+          uploadedUrls.push(publicUrl.publicUrl)
+        } catch (err) {
+          console.warn(`Failed to upload image for ${officerName}:`, err)
+        }
+      }
+
+      // Create submission record
+      if (uploadedUrls.length > 0) {
+        const { error: submitError } = await supabase.from('submittedprof').insert([
+          {
+            user_id: userId,
+            activity_id: newActivityId,
+            screenshots: uploadedUrls.join(','),
+            status: true,
+            created_at: new Date().toISOString(),
+          },
+        ])
+
+        if (submitError) throw submitError
+        submissionsRestored++
+      }
+    }
+
+    // Reload activities
+    await loadActivities()
+
+    alert(
+      `\n✅ Data restored successfully!\n\nActivity: ${activityName}\nSubmissions restored: ${submissionsRestored}`,
+    )
+
+    // Reset file input
+    event.target.value = ''
+  } catch (err) {
+    console.error('Error importing ZIP:', err)
+    alert('Failed to import ZIP file: ' + err.message)
+  } finally {
+    isImporting.value = false
+  }
 }
 
 // Load activities
