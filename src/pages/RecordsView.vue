@@ -65,6 +65,36 @@
         </div>
 
         <router-link
+          to="/activities"
+          class="block p-4 hover:bg-white/10 rounded-lg transition-all duration-200 cursor-pointer group"
+        >
+          <div class="flex items-center gap-3">
+            <div
+              class="rounded-lg p-2 group-hover:bg-white/10 transition"
+              style="background: rgba(255, 255, 255, 0.05)"
+            >
+              <svg
+                class="w-5 h-5"
+                style="color: #f3f1ee"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                ></path>
+              </svg>
+            </div>
+            <span class="text-sm font-semibold uppercase tracking-wider" style="color: #f3f1ee"
+              >Activities</span
+            >
+          </div>
+        </router-link>
+
+        <router-link
           to="/officers"
           class="block p-4 hover:bg-white/10 rounded-lg transition-all duration-200 cursor-pointer group"
         >
@@ -253,6 +283,44 @@
                 style="border-color: #e5e7eb; color: #002147"
                 @change="filterRecords"
               />
+
+              <!-- Activity Filter -->
+              <label
+                v-if="allActivities.length > 0"
+                class="text-xs sm:text-sm font-bold uppercase flex items-center gap-2"
+                style="color: #002147"
+              >
+                <div class="rounded-lg p-1.5" style="background: #f3f1ee">
+                  <svg
+                    class="w-3 h-3 sm:w-4 sm:h-4"
+                    style="color: #10b981"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                    ></path>
+                  </svg>
+                </div>
+                Activity
+              </label>
+              <select
+                v-if="allActivities.length > 0"
+                v-model="selectedActivityFilter"
+                class="px-3 sm:px-4 py-2.5 border-2 rounded-lg focus:outline-none text-xs sm:text-sm font-medium w-full sm:w-auto"
+                style="border-color: #e5e7eb; color: #002147"
+                @change="filterRecords"
+              >
+                <option :value="null">All Activities</option>
+                <option v-for="activity in allActivities" :key="activity.id" :value="activity.id">
+                  {{ activity.name }}
+                </option>
+              </select>
+
               <button
                 @click="resetFilters"
                 class="text-white px-3 sm:px-4 py-2.5 rounded-lg font-bold text-xs sm:text-sm uppercase hover:opacity-90 flex items-center justify-center gap-2 transition"
@@ -844,7 +912,10 @@
       style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px)"
     >
       <!-- Backdrop overlay -->
-      <div @click="showPreviewFormatModalDialog = false" class="absolute inset-0 bg-opacity-40"></div>
+      <div
+        @click="showPreviewFormatModalDialog = false"
+        class="absolute inset-0 bg-opacity-40"
+      ></div>
 
       <!-- Modal dialog -->
       <div
@@ -1207,17 +1278,22 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { supabase } from '../supabaseClient'
 import { Document, Paragraph, TextRun, HeadingLevel, AlignmentType, ImageRun, Packer } from 'docx'
 import { saveAs } from 'file-saver'
 import * as XLSX from 'xlsx'
 
 const router = useRouter()
+const route = useRoute()
 
 // Filter date
 const selectedDate = ref('')
 const activeTab = ref('with-attendance')
+
+// Activity filter
+const allActivities = ref([])
+const selectedActivityFilter = ref(null)
 
 // All records
 const allRecords = ref([])
@@ -1263,6 +1339,20 @@ const fetchRecords = async () => {
     if (usersError) throw usersError
     allUsers.value = users || []
 
+    // Fetch all activities
+    const { data: activities, error: activitiesError } = await supabase
+      .from('activities')
+      .select('id, name')
+      .order('created_at', { ascending: false })
+
+    if (activitiesError) throw activitiesError
+    allActivities.value = activities || []
+
+    // Check if activity_id is in the URL query (convert to number)
+    if (route.query.activity_id) {
+      selectedActivityFilter.value = Number(route.query.activity_id)
+    }
+
     // Fetch all attendance
     const { data: attendance, error } = await supabase
       .from('submittedprof')
@@ -1294,6 +1384,7 @@ const fetchRecords = async () => {
       name: record.users?.rank_full_name || 'Unknown',
       fullRankName: record.users?.rank_full_name || 'Unknown',
       userId: record.user_id,
+      activityId: record.activity_id,
       status: record.status === true,
       screenshots: record.screenshots || '',
     }))
@@ -1304,11 +1395,20 @@ const fetchRecords = async () => {
   }
 }
 
-// Filter records by selected date
+// Filter records by selected date and activity
 const filterRecords = () => {
+  let filtered = allRecords.value
+
+  // Filter by activity if selected (convert to number for proper comparison)
+  if (selectedActivityFilter.value) {
+    const activityId = Number(selectedActivityFilter.value)
+    filtered = filtered.filter((record) => record.activityId === activityId)
+  }
+
+  // Filter by date if selected
   if (!selectedDate.value) {
-    filteredRecords.value = allRecords.value
-    filteredAttendanceUserIds.value = allRecords.value.map((r) => r.userId)
+    filteredRecords.value = filtered
+    filteredAttendanceUserIds.value = filtered.map((r) => r.userId)
     return
   }
 
@@ -1318,7 +1418,7 @@ const filterRecords = () => {
   const endOfDay = new Date(selected)
   endOfDay.setHours(23, 59, 59, 999)
 
-  filteredRecords.value = allRecords.value.filter((record) => {
+  filteredRecords.value = filtered.filter((record) => {
     return record.dateObj >= selected && record.dateObj <= endOfDay
   })
 
@@ -1328,6 +1428,7 @@ const filterRecords = () => {
 // Reset filters
 const resetFilters = () => {
   selectedDate.value = ''
+  selectedActivityFilter.value = null
   filteredRecords.value = allRecords.value
   filteredAttendanceUserIds.value = allRecords.value.map((r) => r.userId)
 }
@@ -1794,7 +1895,7 @@ const downloadPreviewExcel = () => {
         {
           'Officer Name': previewRecord.value.fullRankName || previewRecord.value.name || 'N/A',
           'Date & Time': previewRecord.value.date || 'N/A',
-          'Status': previewRecord.value.status === true ? 'Present' : 'Absent',
+          Status: previewRecord.value.status === true ? 'Present' : 'Absent',
         },
       ]
       const ws = XLSX.utils.json_to_sheet(data)
