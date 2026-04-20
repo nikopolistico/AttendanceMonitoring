@@ -151,6 +151,40 @@
             <p v-if="selectedActivityDescription" class="text-sm md:text-base text-gray-700 mb-3">
               {{ selectedActivityDescription }}
             </p>
+            <div
+              v-if="selectedActivityLink"
+              class="mb-4 p-3 md:p-4 rounded-lg border-2"
+              style="background: #fef9c3; border-color: #fbbf24"
+            >
+              <div class="flex items-center gap-2 mb-2">
+                <svg
+                  class="w-5 h-5 flex-shrink-0"
+                  style="color: #b45309"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                  ></path>
+                </svg>
+                <span class="text-xs md:text-sm font-bold" style="color: #b45309"
+                  >Activity Link:</span
+                >
+              </div>
+              <a
+                :href="selectedActivityLink"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-xs md:text-sm font-semibold break-all hover:underline"
+                style="color: #b45309"
+              >
+                {{ selectedActivityLink }}
+              </a>
+            </div>
             <div class="flex flex-wrap gap-2 items-center">
               <span
                 class="inline-block px-3 py-1 rounded-full text-xs font-bold"
@@ -212,7 +246,8 @@
                   2
                 </div>
                 <p class="text-xs md:text-sm text-gray-700">
-                  Upload required screenshots (Max 25MB each)
+                  <span v-if="imagesRequired">Upload required screenshots (Max 25MB each)</span>
+                  <span v-else>Upload screenshots if needed (Max 25MB each) - Optional</span>
                 </p>
               </div>
               <div class="flex gap-3">
@@ -616,7 +651,9 @@
                     d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                   ></path>
                 </svg>
-                2. Upload Screenshots <span class="text-red-600">*</span>
+                2. Upload Screenshots
+                <span v-if="imagesRequired" class="text-red-600">*</span>
+                <span v-else class="text-gray-500 text-xs font-normal">(Optional)</span>
               </label>
               <div
                 class="border-2 border-dashed rounded-lg p-6 hover:border-gray-400 transition"
@@ -930,6 +967,8 @@ const showDropdown = ref(false)
 const selectedActivityId = ref(null)
 const selectedActivityName = ref('')
 const selectedActivityDescription = ref('')
+const selectedActivityLink = ref('')
+const imagesRequired = ref(true)
 const isLoadingActivity = ref(false)
 const maxSubmissions = ref(1)
 const currentUserSubmissionCount = ref(0)
@@ -957,7 +996,7 @@ const isFormValid = computed(() => {
   return (
     selectedUserId.value !== null &&
     selectedUserId.value !== '' &&
-    formData.value.screenshots.length > 0
+    (imagesRequired.value ? formData.value.screenshots.length > 0 : true)
   )
 })
 
@@ -1224,7 +1263,7 @@ const loadActivityInfo = async () => {
 
     const { data, error } = await supabase
       .from('activities')
-      .select('id, name, description, max_submissions')
+      .select('id, name, description, link, max_submissions, images_required')
       .eq('id', activityId)
       .single()
 
@@ -1237,8 +1276,17 @@ const loadActivityInfo = async () => {
       selectedActivityId.value = data.id
       selectedActivityName.value = data.name
       selectedActivityDescription.value = data.description || ''
+      selectedActivityLink.value = data.link || ''
+      imagesRequired.value = data.images_required !== false
       maxSubmissions.value = data.max_submissions || 1
-      console.log('Activity loaded:', data.name, '| Max Submissions:', maxSubmissions.value)
+      console.log(
+        'Activity loaded:',
+        data.name,
+        '| Max Submissions:',
+        maxSubmissions.value,
+        '| Images Required:',
+        imagesRequired.value,
+      )
     }
   } catch (err) {
     console.error('Error loading activity:', err)

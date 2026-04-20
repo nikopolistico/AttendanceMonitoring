@@ -305,6 +305,23 @@
                 rows="3"
               ></textarea>
             </div>
+
+            <div>
+              <label class="text-sm font-bold mb-2 flex items-center gap-2" style="color: #002147">
+                Activity Link (Optional)
+              </label>
+              <input
+                v-model="newActivity.link"
+                type="url"
+                placeholder="e.g., https://example.com/activity or https://docs.google.com/forms/..."
+                class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 text-sm"
+                style="border-color: #e5e7eb; color: #002147"
+              />
+              <p class="text-xs text-gray-500 mt-1">
+                Add a reference link (e.g., Google Form, document, or resource)
+              </p>
+            </div>
+
             <div>
               <label class="text-sm font-bold mb-2 flex items-center gap-2" style="color: #002147">
                 Maximum Submissions Per Officer <span class="text-red-600">*</span>
@@ -322,22 +339,25 @@
                 Set how many times each officer can submit for this activity
               </p>
             </div>
-            <div>
-              <label class="text-sm font-bold mb-2 flex items-center gap-2" style="color: #002147">
-                Maximum Submissions Per Officer <span class="text-red-600">*</span>
-              </label>
+
+            <div
+              class="flex items-center gap-3 p-4 rounded-lg"
+              style="background: #f0fdf4; border: 2px solid #10b981"
+            >
               <input
-                v-model.number="newActivity.maxSubmissions"
-                type="number"
-                min="1"
-                max="100"
-                placeholder="e.g., 1, 3, 5..."
-                class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 text-sm"
-                style="border-color: #e5e7eb; color: #002147"
+                v-model="newActivity.imagesRequired"
+                type="checkbox"
+                id="imagesRequired"
+                class="w-5 h-5 cursor-pointer"
+                style="border-color: #10b981; accent-color: #10b981"
               />
-              <p class="text-xs text-gray-500 mt-1">
-                Set how many times each officer can submit for this activity
-              </p>
+              <label
+                for="imagesRequired"
+                class="flex-1 cursor-pointer text-sm font-bold"
+                style="color: #065f46"
+              >
+                Images are Required for this Activity
+              </label>
             </div>
 
             <button
@@ -447,6 +467,44 @@
                     <div class="px-3 py-1 rounded-full" style="background: #f0fdf4; color: #15803d">
                       Created: {{ formatDate(activity.created_at) }}
                     </div>
+                  </div>
+
+                  <!-- Activity Link Display -->
+                  <div
+                    v-if="activity.link"
+                    class="flex items-center gap-2 p-3 rounded-lg border-2 mb-3"
+                    style="background: #fef9c3; border-color: #fbbf24"
+                  >
+                    <svg
+                      class="w-5 h-5 flex-shrink-0"
+                      style="color: #b45309"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                      ></path>
+                    </svg>
+                    <a
+                      :href="activity.link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="flex-1 text-xs font-semibold truncate hover:underline"
+                      style="color: #b45309"
+                    >
+                      {{ activity.link }}
+                    </a>
+                    <button
+                      @click="copyToClipboard(activity.link)"
+                      class="px-3 py-2 rounded text-white text-xs font-bold transition hover:opacity-90"
+                      style="background: #fbbf24; color: #78350f"
+                    >
+                      Copy
+                    </button>
                   </div>
 
                   <!-- Attendance Link Display -->
@@ -629,7 +687,13 @@ import { useAlert } from '../composables/useAlert'
 const router = useRouter()
 const { showSuccess, showError, showWarning, showInfo, showConfirmation } = useAlert()
 const activities = ref([])
-const newActivity = ref({ name: '', description: '', maxSubmissions: 1 })
+const newActivity = ref({
+  name: '',
+  description: '',
+  link: '',
+  maxSubmissions: 1,
+  imagesRequired: true,
+})
 const isCreating = ref(false)
 const isLoadingActivities = ref(false)
 const totalSubmissions = ref(0)
@@ -651,7 +715,9 @@ const createActivity = async () => {
       .insert({
         name: newActivity.value.name,
         description: newActivity.value.description || null,
+        link: newActivity.value.link || null,
         max_submissions: newActivity.value.maxSubmissions || 1,
+        images_required: newActivity.value.imagesRequired,
         created_at: new Date().toISOString(),
       })
       .select()
@@ -659,7 +725,13 @@ const createActivity = async () => {
     if (error) throw error
 
     activities.value.push(data[0])
-    newActivity.value = { name: '', description: '', maxSubmissions: 1 }
+    newActivity.value = {
+      name: '',
+      description: '',
+      link: '',
+      maxSubmissions: 1,
+      imagesRequired: true,
+    }
     showSuccess({ title: 'Activity Created', message: 'Activity created successfully!' })
   } catch (err) {
     console.error('Error creating activity:', err)
