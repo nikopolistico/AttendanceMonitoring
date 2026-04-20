@@ -624,8 +624,10 @@ import { useRouter } from 'vue-router'
 import { supabase } from '../supabaseClient'
 import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
+import { useAlert } from '../composables/useAlert'
 
 const router = useRouter()
+const { showSuccess, showError, showWarning, showInfo, showConfirmation } = useAlert()
 const activities = ref([])
 const newActivity = ref({ name: '', description: '', maxSubmissions: 1 })
 const isCreating = ref(false)
@@ -637,7 +639,7 @@ const zipFileInput = ref(null)
 // Create a new activity
 const createActivity = async () => {
   if (!newActivity.value.name.trim()) {
-    alert('Please enter an activity name')
+    showWarning({ title: 'Input Required', message: 'Please enter an activity name' })
     return
   }
 
@@ -658,10 +660,10 @@ const createActivity = async () => {
 
     activities.value.push(data[0])
     newActivity.value = { name: '', description: '', maxSubmissions: 1 }
-    alert('Activity created successfully!')
+    showSuccess({ title: 'Activity Created', message: 'Activity created successfully!' })
   } catch (err) {
     console.error('Error creating activity:', err)
-    alert('Failed to create activity: ' + err.message)
+    showError({ title: 'Creation Failed', message: err.message })
   } finally {
     isCreating.value = false
   }
@@ -677,9 +679,10 @@ const generateAttendanceLink = (activityId) => {
 const copyToClipboard = async (text) => {
   try {
     await navigator.clipboard.writeText(text)
-    alert('Link copied to clipboard!')
+    showSuccess({ title: 'Copied', message: 'Link copied to clipboard!' })
   } catch (err) {
     console.error('Failed to copy:', err)
+    showError({ title: 'Copy Failed', message: 'Failed to copy link to clipboard' })
   }
 }
 
@@ -692,7 +695,7 @@ const viewActivitySubmissions = (activityId) => {
 const downloadActivityAsZip = async (activityId, activityName) => {
   try {
     // Show loading indicator
-    alert('Starting download... This may take a moment.')
+    showInfo({ title: 'Downloading', message: 'Starting download... This may take a moment.' })
 
     const zip = new JSZip()
 
@@ -705,7 +708,7 @@ const downloadActivityAsZip = async (activityId, activityName) => {
     if (submissionsError) throw submissionsError
 
     if (!submissions || submissions.length === 0) {
-      alert('No submissions found for this activity')
+      showInfo({ title: 'No Submissions', message: 'No submissions found for this activity' })
       return
     }
 
@@ -795,35 +798,41 @@ Officers: ${Array.from(submissionsByOfficer.keys()).join(', ')}
     const filename = `${activityName.replace(/\s+/g, '_')}_attendance_${new Date().getTime()}.zip`
     saveAs(content, filename)
 
-    alert(
-      `ZIP file downloaded successfully!\n\n${submissionsByOfficer.size} officers, ${submissions.length} submissions included`,
-    )
+    showSuccess({
+      title: 'Download Complete',
+      message: `ZIP file downloaded successfully!\n\n${submissionsByOfficer.size} officers, ${submissions.length} submissions included`,
+    })
   } catch (err) {
     console.error('Error downloading activity as ZIP:', err)
-    alert('Failed to download activity: ' + err.message)
+    showError({ title: 'Download Failed', message: err.message })
   }
 }
 
 // Delete activity
 const deleteActivity = async (activityId) => {
-  if (
-    !confirm(
+  showConfirmation({
+    title: 'Delete Activity',
+    message:
       'Are you sure you want to delete this activity? This will not delete existing submissions.',
-    )
-  ) {
-    return
-  }
+    confirmText: 'Delete',
+    cancelText: 'Cancel',
+    onConfirm: async () => {
+      await confirmDeleteActivity(activityId)
+    },
+  })
+}
 
+const confirmDeleteActivity = async (activityId) => {
   try {
     const { error } = await supabase.from('activities').delete().eq('id', activityId)
 
     if (error) throw error
 
     activities.value = activities.value.filter((a) => a.id !== activityId)
-    alert('Activity deleted successfully!')
+    showSuccess({ title: 'Activity Deleted', message: 'Activity deleted successfully!' })
   } catch (err) {
     console.error('Error deleting activity:', err)
-    alert('Failed to delete activity: ' + err.message)
+    showError({ title: 'Deletion Failed', message: err.message })
   }
 }
 
@@ -870,7 +879,7 @@ const handleZipFileSelect = async (event) => {
     // Parse CSV file
     const csvFile = zipContent.file('submissions.csv')
     if (!csvFile) {
-      alert('Invalid ZIP file: submissions.csv not found')
+      showError({ title: 'Invalid ZIP', message: 'Invalid ZIP file: submissions.csv not found' })
       return
     }
 
@@ -1001,15 +1010,16 @@ const handleZipFileSelect = async (event) => {
     // Reload activities
     await loadActivities()
 
-    alert(
-      `\n✅ Data restored successfully!\n\nActivity: ${activityName}\nSubmissions restored: ${submissionsRestored}`,
-    )
+    showSuccess({
+      title: 'Import Complete',
+      message: `Data restored successfully!\n\nActivity: ${activityName}\nSubmissions restored: ${submissionsRestored}`,
+    })
 
     // Reset file input
     event.target.value = ''
   } catch (err) {
     console.error('Error importing ZIP:', err)
-    alert('Failed to import ZIP file: ' + err.message)
+    showError({ title: 'Import Failed', message: err.message })
   } finally {
     isImporting.value = false
   }
@@ -1038,7 +1048,7 @@ const loadActivities = async () => {
     totalSubmissions.value = submissionData?.length || 0
   } catch (err) {
     console.error('Error loading activities:', err)
-    alert('Failed to load activities: ' + err.message)
+    showError({ title: 'Load Failed', message: err.message })
   } finally {
     isLoadingActivities.value = false
   }

@@ -859,80 +859,91 @@
       style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px)"
     >
       <!-- Backdrop overlay -->
-      <div @click="showDownloadModal = false" class="absolute inset-0 bg-black bg-opacity-40"></div>
+      <div @click="showDownloadModal = false" class="absolute inset-0"></div>
 
       <!-- Modal dialog -->
       <div
         @click.stop
         class="relative bg-white rounded-2xl max-w-md w-full mx-3 sm:mx-4 transform transition-all animate-scale-in shadow-2xl overflow-hidden"
       >
-        <!-- Modal Header with gradient -->
-        <div
-          class="relative px-6 sm:px-8 pt-6 sm:pt-8 pb-5 sm:pb-6"
-          style="background: linear-gradient(135deg, #004595 0%, #002147 100%)"
-        >
-          <h3 class="text-lg sm:text-xl font-bold text-white uppercase tracking-wide">
+        <!-- Modal Header with icon -->
+        <div class="px-6 sm:px-8 pt-8 sm:pt-10 pb-6 sm:pb-8 text-center">
+          <div
+            class="rounded-full p-3 sm:p-4 mx-auto w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6"
+            style="background: #f0f9ff; border: 2px solid #004595"
+          >
+            <svg
+              class="w-7 h-7 sm:w-8 sm:h-8"
+              style="color: #004595"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold uppercase tracking-wide" style="color: #002147">
             Select Download Format
           </h3>
+          <p class="text-xs sm:text-sm mt-2" style="color: #6b7280">Choose your preferred format</p>
         </div>
 
         <!-- Modal Body -->
-        <div class="px-6 sm:px-8 py-5 sm:py-6">
-          <p class="text-sm text-gray-600 mb-4">
-            Choose your preferred file format for the report:
-          </p>
-
-          <!-- Format Options -->
-          <div class="space-y-3">
-            <!-- Word Format -->
-            <button
-              @click="downloadInFormat('word')"
-              class="w-full p-4 rounded-lg border-2 transition hover:shadow-md"
-              style="background: #f0f9ff; border-color: #004595; color: #002147"
-            >
-              <div class="flex items-center gap-3">
-                <div class="rounded-lg p-2" style="background: #004595">
-                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                      d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm0 2h12v10H4V5z"
-                    ></path>
-                  </svg>
-                </div>
-                <div>
-                  <p class="font-bold text-left">Word (.docx)</p>
-                  <p class="text-xs text-gray-500 text-left">Microsoft Word format</p>
-                </div>
+        <div class="px-6 sm:px-8 py-4 sm:py-6 space-y-3">
+          <!-- Word Format -->
+          <button
+            @click="downloadInFormat('word')"
+            class="w-full p-4 rounded-lg border-2 transition hover:shadow-md hover:scale-105 transform duration-200"
+            style="background: #f0f9ff; border-color: #004595; color: #002147"
+          >
+            <div class="flex items-center gap-3">
+              <div class="rounded-lg p-2" style="background: #004595">
+                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm0 2h12v10H4V5z"
+                  ></path>
+                </svg>
               </div>
-            </button>
-
-            <!-- Excel Format -->
-            <button
-              @click="downloadInFormat('excel')"
-              class="w-full p-4 rounded-lg border-2 transition hover:shadow-md"
-              style="background: #f0fdf4; border-color: #10b981; color: #065f46"
-            >
-              <div class="flex items-center gap-3">
-                <div class="rounded-lg p-2" style="background: #10b981">
-                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                      d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h12a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6z"
-                    ></path>
-                  </svg>
-                </div>
-                <div>
-                  <p class="font-bold text-left">Excel (.xlsx)</p>
-                  <p class="text-xs text-gray-500 text-left">Microsoft Excel format</p>
-                </div>
+              <div>
+                <p class="font-bold text-left">Word (.docx)</p>
+                <p class="text-xs text-gray-500 text-left">Microsoft Word format</p>
               </div>
-            </button>
-          </div>
+            </div>
+          </button>
+
+          <!-- Excel Format -->
+          <button
+            @click="downloadInFormat('excel')"
+            class="w-full p-4 rounded-lg border-2 transition hover:shadow-md hover:scale-105 transform duration-200"
+            style="background: #f0fdf4; border-color: #10b981; color: #065f46"
+          >
+            <div class="flex items-center gap-3">
+              <div class="rounded-lg p-2" style="background: #10b981">
+                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h12a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6z"
+                  ></path>
+                </svg>
+              </div>
+              <div>
+                <p class="font-bold text-left">Excel (.xlsx)</p>
+                <p class="text-xs text-gray-500 text-left">Microsoft Excel format</p>
+              </div>
+            </div>
+          </button>
         </div>
 
         <!-- Modal Footer -->
-        <div class="px-6 sm:px-8 py-4 border-t bg-gray-50 flex justify-end gap-3">
+        <div class="px-6 sm:px-8 py-4 border-t bg-gray-50 flex justify-center gap-3">
           <button
             @click="showDownloadModal = false"
-            class="px-4 py-2 rounded-lg font-bold text-sm uppercase text-gray-700 hover:bg-gray-200 transition"
+            class="px-6 py-2.5 rounded-lg font-bold text-sm uppercase transition-all duration-200 hover:shadow-lg border-2"
+            style="background: #f3f1ee; color: #002147; border-color: #e5e7eb"
           >
             Cancel
           </button>
@@ -945,40 +956,48 @@
       v-if="showPreviewFormatModalDialog"
       class="fixed inset-0 z-50 flex items-center justify-center animate-fade-in"
       style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px)"
+      @click="showPreviewFormatModalDialog = false"
     >
-      <!-- Backdrop overlay -->
-      <div
-        @click="showPreviewFormatModalDialog = false"
-        class="absolute inset-0 bg-black bg-opacity-40"
-      ></div>
-
       <!-- Modal dialog -->
       <div
         @click.stop
         class="relative bg-white rounded-2xl max-w-md w-full mx-3 sm:mx-4 transform transition-all animate-scale-in shadow-2xl overflow-hidden"
       >
-        <!-- Modal Header with gradient -->
-        <div
-          class="relative px-6 sm:px-8 pt-6 sm:pt-8 pb-5 sm:pb-6"
-          style="background: linear-gradient(135deg, #004595 0%, #002147 100%)"
-        >
-          <h3 class="text-lg sm:text-xl font-bold text-white uppercase tracking-wide">
+        <!-- Modal Header with icon -->
+        <div class="px-6 sm:px-8 pt-8 sm:pt-10 pb-6 sm:pb-8 text-center">
+          <div
+            class="rounded-full p-3 sm:p-4 mx-auto w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6"
+            style="background: #f0f9ff; border: 2px solid #004595"
+          >
+            <svg
+              class="w-7 h-7 sm:w-8 sm:h-8"
+              style="color: #004595"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold uppercase tracking-wide" style="color: #002147">
             Select Download Format
           </h3>
+          <p class="text-xs sm:text-sm mt-2" style="color: #6b7280">Choose your preferred format</p>
         </div>
 
         <!-- Modal Body -->
-        <div class="px-6 sm:px-8 py-5 sm:py-6">
-          <p class="text-sm text-gray-600 mb-4">
-            Choose your preferred file format for the report:
-          </p>
-
+        <div class="px-6 sm:px-8 py-4 sm:py-6 space-y-3">
           <!-- Format Options -->
           <div class="space-y-3">
             <!-- Word Format -->
             <button
               @click="downloadPreviewInFormat('word')"
-              class="w-full p-4 rounded-lg border-2 transition hover:shadow-md"
+              class="w-full p-4 rounded-lg border-2 transition hover:shadow-md hover:scale-105 transform duration-200"
               style="background: #f0f9ff; border-color: #004595; color: #002147"
             >
               <div class="flex items-center gap-3">
@@ -999,7 +1018,7 @@
             <!-- Excel Format -->
             <button
               @click="downloadPreviewInFormat('excel')"
-              class="w-full p-4 rounded-lg border-2 transition hover:shadow-md"
+              class="w-full p-4 rounded-lg border-2 transition hover:shadow-md hover:scale-105 transform duration-200"
               style="background: #f0fdf4; border-color: #10b981; color: #065f46"
             >
               <div class="flex items-center gap-3">
@@ -1020,10 +1039,11 @@
         </div>
 
         <!-- Modal Footer -->
-        <div class="px-6 sm:px-8 py-4 border-t bg-gray-50 flex justify-end gap-3">
+        <div class="px-6 sm:px-8 py-4 border-t bg-gray-50 flex justify-center gap-3">
           <button
             @click="showPreviewFormatModalDialog = false"
-            class="px-4 py-2 rounded-lg font-bold text-sm uppercase text-gray-700 hover:bg-gray-200 transition"
+            class="px-6 py-2.5 rounded-lg font-bold text-sm uppercase transition-all duration-200 hover:shadow-lg border-2"
+            style="background: #f3f1ee; color: #002147; border-color: #e5e7eb"
           >
             Cancel
           </button>
@@ -1045,74 +1065,48 @@
         @click.stop
         class="relative bg-white rounded-2xl max-w-md w-full mx-3 sm:mx-4 transform transition-all animate-scale-in shadow-2xl overflow-hidden"
       >
-        <!-- Modal Header with gradient -->
-        <div
-          class="relative px-6 sm:px-8 pt-6 sm:pt-8 pb-5 sm:pb-6"
-          style="background: linear-gradient(135deg, #002147 0%, #004595 100%)"
-        >
-          <div class="flex items-center justify-between mb-3 sm:mb-4">
-            <div class="flex items-center gap-2 sm:gap-3">
-              <div class="rounded-lg p-2 sm:p-2.5" style="background: rgba(255, 255, 255, 0.15)">
-                <svg
-                  class="w-5 h-5 sm:w-6 sm:h-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                  ></path>
-                </svg>
-              </div>
-              <h3 class="text-lg sm:text-xl font-bold text-white uppercase tracking-wide">
-                Logout Confirmation
-              </h3>
-            </div>
+        <!-- Modal Header with centered icon -->
+        <div class="px-6 sm:px-8 pt-8 sm:pt-10 pb-6 sm:pb-8 text-center">
+          <div
+            class="rounded-full p-3 sm:p-4 mx-auto w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6"
+            style="background: #fee2e2; border: 2px solid #dc2626"
+          >
+            <svg
+              class="w-7 h-7 sm:w-8 sm:h-8"
+              style="color: #dc2626"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              ></path>
+            </svg>
           </div>
+          <h3 class="text-lg sm:text-xl font-bold uppercase tracking-wide" style="color: #002147">
+            Logout Confirmation
+          </h3>
+          <p class="text-xs sm:text-sm mt-2" style="color: #6b7280">
+            Are you sure you want to logout?
+          </p>
         </div>
 
         <!-- Modal Body -->
         <div class="px-6 sm:px-8 py-5 sm:py-6">
-          <div class="flex items-start gap-3 sm:gap-4 mb-5 sm:mb-6">
-            <div class="flex-shrink-0">
-              <div class="rounded-full p-2 sm:p-3" style="background: #fef2f2">
-                <svg
-                  class="h-6 w-6 sm:h-7 sm:w-7"
-                  style="color: #dc2626"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                  ></path>
-                </svg>
-              </div>
-            </div>
-            <div class="flex-1">
-              <h4 class="text-sm sm:text-base font-bold mb-2" style="color: #002147">
-                Are you sure you want to logout?
-              </h4>
-              <p class="text-xs sm:text-sm leading-relaxed" style="color: #6b7280">
-                You will be signed out from the admin dashboard and redirected to the login page.
-              </p>
-            </div>
-          </div>
+          <p class="text-xs sm:text-sm leading-relaxed text-center mb-4" style="color: #4b5563">
+            You will be signed out from the admin dashboard and redirected to the login page.
+          </p>
 
-          <!-- Important Info Box -->
           <div
-            class="rounded-lg p-3 sm:p-4 mb-5 sm:mb-6 border-l-4"
+            class="rounded-lg p-3 sm:p-4 mb-6 border-l-4"
             style="background: #f0f9ff; border-left-color: #002147"
           >
             <div class="flex items-center gap-2">
               <svg
-                class="w-3 h-3 sm:w-4 sm:h-4"
+                class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0"
                 style="color: #002147"
                 fill="currentColor"
                 viewBox="0 0 20 20"
@@ -1124,56 +1118,26 @@
                 ></path>
               </svg>
               <p class="text-xs font-semibold" style="color: #002147">
-                You can login again anytime using your credentials
+                You can login again anytime
               </p>
             </div>
           </div>
 
           <!-- Action Buttons -->
-          <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
-            <button
-              @click="showLogoutConfirm = false"
-              class="flex-1 font-bold py-3 sm:py-3.5 px-4 sm:px-5 rounded-lg text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 hover:shadow-lg border-2"
-              style="background: #ffffff; color: #002147; border-color: #e5e7eb"
-            >
-              <div class="flex items-center justify-center gap-2">
-                <svg
-                  class="w-3 h-3 sm:w-4 sm:h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  ></path>
-                </svg>
-                Cancel
-              </div>
-            </button>
+          <div class="flex flex-col gap-2 justify-center">
             <button
               @click="handleLogout"
-              class="flex-1 text-white font-bold py-3 sm:py-3.5 px-4 sm:px-5 rounded-lg text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 hover:shadow-lg"
+              class="px-6 py-2.5 rounded-lg font-bold text-sm uppercase transition-all duration-200 hover:shadow-lg hover:scale-105 transform text-white"
               style="background: #dc2626"
             >
-              <div class="flex items-center justify-center gap-2">
-                <svg
-                  class="w-3 h-3 sm:w-4 sm:h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                  ></path>
-                </svg>
-                Logout
-              </div>
+              Logout
+            </button>
+            <button
+              @click="showLogoutConfirm = false"
+              class="px-6 py-2.5 rounded-lg font-bold text-sm uppercase transition-all duration-200 hover:shadow-lg border-2"
+              style="background: #f3f1ee; color: #002147; border-color: #e5e7eb"
+            >
+              Cancel
             </button>
           </div>
         </div>
@@ -1308,6 +1272,67 @@
         </button>
       </div>
     </nav>
+
+    <!-- Error Alert Modal -->
+    <div
+      v-if="showErrorModal"
+      class="fixed inset-0 z-50 flex items-center justify-center animate-fade-in"
+      style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px)"
+    >
+      <!-- Backdrop overlay -->
+      <div @click="showErrorModal = false" class="absolute inset-0"></div>
+
+      <!-- Modal dialog -->
+      <div
+        @click.stop
+        class="relative bg-white rounded-2xl max-w-md w-full mx-3 sm:mx-4 transform transition-all animate-scale-in shadow-2xl overflow-hidden"
+      >
+        <!-- Modal Header with centered error icon -->
+        <div class="px-6 sm:px-8 pt-8 sm:pt-10 pb-6 sm:pb-8 text-center">
+          <div
+            class="rounded-full p-3 sm:p-4 mx-auto w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6"
+            style="background: #fee2e2; border: 2px solid #ef4444"
+          >
+            <svg
+              class="w-7 h-7 sm:w-8 sm:h-8"
+              style="color: #ef4444"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold uppercase tracking-wide" style="color: #002147">
+            Error
+          </h3>
+          <p class="text-xs sm:text-sm mt-2" style="color: #6b7280">Something went wrong</p>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="px-6 sm:px-8 py-5 sm:py-6">
+          <p class="text-xs sm:text-sm leading-relaxed text-center mb-6" style="color: #4b5563">
+            {{ errorMessage }}
+          </p>
+
+          <!-- Action Button -->
+          <div class="flex justify-center">
+            <button
+              @click="showErrorModal = false"
+              class="px-6 py-2.5 rounded-lg font-bold text-sm uppercase transition-all duration-200 hover:shadow-lg hover:scale-105 transform text-white"
+              style="background: #ef4444"
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1364,6 +1389,10 @@ const downloadType = ref(null) // 'with-attendance' or 'without-attendance'
 // Preview format modal state
 const showPreviewFormatModalDialog = ref(false)
 const previewDownloadType = ref(null) // 'individual-record', 'with-attendance', or 'without-attendance'
+
+// Error modal state
+const showErrorModal = ref(false)
+const errorMessage = ref('')
 
 // Officers without attendance
 const officersWithoutAttendance = computed(() => {
@@ -1598,7 +1627,7 @@ const previewReport = async (record) => {
     showPreviewModal.value = true
   } catch (error) {
     console.error('Error generating preview:', error)
-    alert('Error generating preview. Please try again.')
+    showErrorModalFunc('Error generating preview. Please try again.')
   }
 }
 
@@ -1674,7 +1703,7 @@ const previewWithoutAttendanceReport = () => {
     showPreviewModal.value = true
   } catch (error) {
     console.error('Error generating preview:', error)
-    alert('Error generating preview. Please try again.')
+    showErrorModalFunc('Error generating preview. Please try again.')
   }
 }
 
@@ -1866,7 +1895,7 @@ const downloadWordReport = async (record) => {
     )
   } catch (error) {
     console.error('Error generating Word document:', error)
-    alert('Error generating Word document. Please try again.')
+    showErrorModalFunc('Error generating Word document. Please try again.')
   }
 }
 
@@ -2012,7 +2041,7 @@ const downloadWithoutAttendanceReport = async () => {
     )
   } catch (error) {
     console.error('Error generating Word document:', error)
-    alert('Error generating Word document. Please try again.')
+    showErrorModalFunc('Error generating Word document. Please try again.')
   }
 }
 
@@ -2102,7 +2131,7 @@ const downloadPreviewExcel = () => {
     }
   } catch (error) {
     console.error('Error generating Excel document:', error)
-    alert('Error generating Excel document. Please try again.')
+    showErrorModalFunc('Error generating Excel document. Please try again.')
   }
 }
 
@@ -2145,7 +2174,7 @@ const downloadWithAttendanceExcel = () => {
     XLSX.writeFile(wb, fileName)
   } catch (error) {
     console.error('Error generating Excel document:', error)
-    alert('Error generating Excel document. Please try again.')
+    showErrorModalFunc('Error generating Excel document. Please try again.')
   }
 }
 
@@ -2175,7 +2204,7 @@ const downloadWithoutAttendanceExcel = () => {
     XLSX.writeFile(wb, fileName)
   } catch (error) {
     console.error('Error generating Excel document:', error)
-    alert('Error generating Excel document. Please try again.')
+    showErrorModalFunc('Error generating Excel document. Please try again.')
   }
 }
 
@@ -2184,6 +2213,11 @@ const closePreview = () => {
   previewContent.value = ''
   previewRecord.value = null
   isWithoutAttendancePreview.value = false
+}
+
+const showErrorModalFunc = (message) => {
+  errorMessage.value = message
+  showErrorModal.value = true
 }
 
 // Preview report for officers with attendance
@@ -2260,7 +2294,7 @@ const previewWithAttendanceReport = () => {
     isWithoutAttendancePreview.value = true // Mark as with-attendance preview for download handler
   } catch (error) {
     console.error('Error generating preview:', error)
-    alert('Error generating preview. Please try again.')
+    showErrorModalFunc('Error generating preview. Please try again.')
   }
 }
 
@@ -2403,7 +2437,7 @@ const downloadWithAttendanceReport = async () => {
     )
   } catch (error) {
     console.error('Error generating Word document:', error)
-    alert('Error generating Word document. Please try again.')
+    showErrorModalFunc('Error generating Word document. Please try again.')
   }
 }
 

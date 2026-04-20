@@ -915,9 +915,11 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { supabase } from '../supabaseClient'
+import { useAlert } from '../composables/useAlert'
 
 const router = useRouter()
 const route = useRoute()
+const { showError } = useAlert()
 const allUsers = ref([])
 const selectedUserId = ref(null)
 const selectedUserName = ref('')
@@ -1064,13 +1066,16 @@ const handleFileUpload = (event) => {
   files.forEach((file) => {
     // Check file size
     if (file.size > MAX_FILE_SIZE) {
-      alert(`File ${file.name} is too large. Maximum size is 25MB.`)
+      showError({
+        title: 'File Too Large',
+        message: `File ${file.name} is too large. Maximum size is 25MB.`,
+      })
       return
     }
 
     // Check if file is an image
     if (!file.type.startsWith('image/')) {
-      alert(`File ${file.name} is not an image.`)
+      showError({ title: 'Invalid File Type', message: `File ${file.name} is not an image.` })
       return
     }
 
