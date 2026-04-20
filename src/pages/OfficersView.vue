@@ -240,10 +240,10 @@
               </div>
             </button>
             <button
-              @click="statusFilter = 'present'"
+              @click="statusFilter = 'complied'"
               class="flex-1 py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg font-bold text-xs sm:text-sm uppercase tracking-wide transition-all duration-200"
               :style="
-                statusFilter === 'present'
+                statusFilter === 'complied'
                   ? 'background: #10b981; color: white;'
                   : 'background: #f3f1ee; color: #002147;'
               "
@@ -262,14 +262,14 @@
                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                   ></path>
                 </svg>
-                Present ({{ presentOfficers.length }})
+                complied ({{ compliedOfficers.length }})
               </div>
             </button>
             <button
-              @click="statusFilter = 'absent'"
+              @click="statusFilter = 'noncompliant'"
               class="flex-1 py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg font-bold text-xs sm:text-sm uppercase tracking-wide transition-all duration-200"
               :style="
-                statusFilter === 'absent'
+                statusFilter === 'noncompliant'
                   ? 'background: #ef4444; color: white;'
                   : 'background: #f3f1ee; color: #002147;'
               "
@@ -283,7 +283,7 @@
                     d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   ></path>
                 </svg>
-                Absent ({{ absentOfficers.length }})
+                noncompliant ({{ noncompliantOfficers.length }})
               </div>
             </button>
           </div>
@@ -319,9 +319,9 @@
                       {{
                         statusFilter === 'all'
                           ? 'All Officers'
-                          : statusFilter === 'present'
-                            ? 'Present Officers'
-                            : 'Absent Officers'
+                          : statusFilter === 'complied'
+                            ? 'complied Officers'
+                            : 'noncompliant Officers'
                       }}
                     </h2>
                     <p class="text-xs sm:text-sm font-semibold" style="color: #00397a">
@@ -334,7 +334,7 @@
                   :style="
                     statusFilter === 'all'
                       ? 'background: #f3f1ee; color: #002147;'
-                      : statusFilter === 'present'
+                      : statusFilter === 'complied'
                         ? 'background: #dcfce7; color: #166534;'
                         : 'background: #fee2e2; color: #991b1b;'
                   "
@@ -342,9 +342,9 @@
                   {{
                     statusFilter === 'all'
                       ? 'Viewing All'
-                      : statusFilter === 'present'
-                        ? 'Present'
-                        : 'Absent'
+                      : statusFilter === 'complied'
+                        ? 'complied'
+                        : 'noncompliant'
                   }}
                 </span>
               </div>
@@ -401,7 +401,7 @@
                               : 'background: #991b1b;'
                           "
                         ></span>
-                        {{ officer.hasAttendanceToday ? 'Present' : 'Absent' }}
+                        {{ officer.hasAttendanceToday ? 'complied' : 'noncompliant' }}
                       </span>
                     </div>
                   </div>
@@ -818,11 +818,11 @@ const recentCheckIns = ref([])
 const showLogoutConfirm = ref(false)
 
 // Computed
-const presentOfficers = computed(() => {
+const compliedOfficers = computed(() => {
   return officers.value.filter((o) => o.hasAttendanceToday)
 })
 
-const absentOfficers = computed(() => {
+const noncompliantOfficers = computed(() => {
   return officers.value.filter((o) => !o.hasAttendanceToday)
 })
 
@@ -830,10 +830,10 @@ const filteredOfficers = computed(() => {
   let filtered = officers.value
 
   // Apply status filter
-  if (statusFilter.value === 'present') {
-    filtered = presentOfficers.value
-  } else if (statusFilter.value === 'absent') {
-    filtered = absentOfficers.value
+  if (statusFilter.value === 'complied') {
+    filtered = compliedOfficers.value
+  } else if (statusFilter.value === 'noncompliant') {
+    filtered = noncompliantOfficers.value
   }
 
   // Apply search query

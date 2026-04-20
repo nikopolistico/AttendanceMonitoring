@@ -183,10 +183,13 @@
         </div>
 
         <!-- Filter and Tabs Section -->
-        <div class="bg-white rounded-lg p-4 sm:p-5 lg:p-6 mb-4 sm:mb-6 shadow-sm">
-          <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-            <!-- Tab Buttons -->
-            <div class="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
+        <div class="bg-white rounded-lg p-3 sm:p-4 md:p-5 lg:p-6 mb-4 shadow-sm">
+          <div
+            class="flex flex-col lg:flex-row gap-3 lg:gap-4 items-start lg:items-end justify-between"
+          >
+            <!-- Row 1: Tabs (Left) -->
+            <div class="flex flex-wrap gap-2 w-full lg:w-auto">
+              <!-- WITH ATTENDANCE -->
               <button
                 @click="activeTab = 'with-attendance'"
                 :class="
@@ -197,17 +200,9 @@
                     ? 'background: #004595; color: #ffffff;'
                     : 'background: #ffffff; color: #002147; border-color: #e5e7eb;'
                 "
-                class="px-3 sm:px-4 py-2.5 rounded-lg font-bold text-xs uppercase flex items-center justify-center gap-2 transition hover:opacity-90"
+                class="flex-1 sm:flex-none w-full sm:w-auto px-3 py-2.5 rounded-lg font-bold text-xs uppercase flex items-center justify-center gap-2 transition"
               >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-                With Attendance
+                <span>With Attendance</span>
                 <span
                   class="px-2 py-0.5 rounded-full text-xs font-bold"
                   :style="
@@ -215,9 +210,12 @@
                       ? 'background: #ffffff; color: #004595;'
                       : 'background: #e0f2fe; color: #0369a1;'
                   "
-                  >{{ filteredRecords.length }}</span
                 >
+                  {{ filteredRecords.length }}
+                </span>
               </button>
+
+              <!-- WITHOUT ATTENDANCE -->
               <button
                 @click="activeTab = 'without-attendance'"
                 :class="
@@ -228,22 +226,9 @@
                     ? 'background: #ef4444; color: #ffffff;'
                     : 'background: #ffffff; color: #002147; border-color: #e5e7eb;'
                 "
-                class="px-3 sm:px-4 py-2.5 rounded-lg font-bold text-xs uppercase flex items-center justify-center gap-2 transition hover:opacity-90"
+                class="flex-1 sm:flex-none w-full sm:w-auto px-3 py-2.5 rounded-lg font-bold text-xs uppercase flex items-center justify-center gap-2 transition"
               >
-                <svg
-                  class="w-3 h-3 sm:w-3.5 sm:h-3.5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-                Without Attendance
+                <span>Without Attendance</span>
                 <span
                   class="px-2 py-0.5 rounded-full text-xs font-bold"
                   :style="
@@ -251,22 +236,25 @@
                       ? 'background: #ffffff; color: #ef4444;'
                       : 'background: #fee2e2; color: #991b1b;'
                   "
-                  >{{ officersWithoutAttendance.length }}</span
                 >
+                  {{ officersWithoutAttendance.length }}
+                </span>
               </button>
             </div>
 
-            <!-- Date Filter -->
-            <div class="flex flex-col sm:flex-col lg:flex-row gap-3 sm:gap-3 w-full lg:w-auto">
-              <!-- Date Column -->
-              <div class="flex flex-col gap-1 w-full sm:w-auto">
-                <!-- <label
-                  class="text-xs font-bold uppercase flex items-center gap-2"
+            <!-- Row 2: Filters (Right) -->
+            <div
+              class="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full lg:w-auto items-start sm:items-end"
+            >
+              <!-- DATE -->
+              <div class="flex flex-col gap-1.5 w-full sm:w-auto">
+                <label
+                  class="text-xs font-bold uppercase flex items-center gap-1.5"
                   style="color: #002147"
                 >
-                  <div class="rounded-lg p-1.5" style="background: #f3f1ee">
+                  <div class="rounded p-1 flex-shrink-0" style="background: #f3f1ee">
                     <svg
-                      class="w-3 h-3 sm:w-3.5 sm:h-3.5"
+                      class="w-3 h-3"
                       style="color: #004595"
                       fill="none"
                       stroke="currentColor"
@@ -280,26 +268,26 @@
                       ></path>
                     </svg>
                   </div>
-                  Select Date
-                </label> -->
+                  Date
+                </label>
                 <input
                   v-model="selectedDate"
                   type="date"
-                  class="px-3 sm:px-4 py-2.5 border-2 rounded-lg focus:outline-none text-xs font-medium w-full"
+                  class="w-full sm:w-auto px-3 py-2.5 border-2 rounded-lg text-xs font-medium transition focus:outline-none focus:ring-2"
                   style="border-color: #e5e7eb; color: #002147"
                   @change="filterRecords"
                 />
               </div>
 
-              <!-- Activity Column -->
-              <div v-if="allActivities.length > 0" class="flex flex-col gap-1 w-full sm:w-auto">
-                <!-- <label
-                  class="text-xs font-bold uppercase flex items-center gap-2"
+              <!-- ACTIVITY -->
+              <div v-if="allActivities.length > 0" class="flex flex-col gap-1.5 w-full sm:w-auto">
+                <label
+                  class="text-xs font-bold uppercase flex items-center gap-1.5"
                   style="color: #002147"
                 >
-                  <div class="rounded-lg p-1.5" style="background: #f3f1ee">
+                  <div class="rounded p-1 flex-shrink-0" style="background: #f3f1ee">
                     <svg
-                      class="w-3 h-3 sm:w-3.5 sm:h-3.5"
+                      class="w-3 h-3"
                       style="color: #10b981"
                       fill="none"
                       stroke="currentColor"
@@ -314,10 +302,10 @@
                     </svg>
                   </div>
                   Activity
-                </label> -->
+                </label>
                 <select
                   v-model="selectedActivityFilter"
-                  class="px-3 sm:px-4 py-2.5 border-2 rounded-lg focus:outline-none text-xs font-medium w-full"
+                  class="w-full sm:w-auto px-3 py-2.5 border-2 rounded-lg text-xs font-medium transition focus:outline-none"
                   style="border-color: #e5e7eb; color: #002147"
                   @change="filterRecords"
                 >
@@ -328,24 +316,22 @@
                 </select>
               </div>
 
-              <!-- Clear Button -->
-              <div class="flex items-end w-full sm:w-auto h-full">
-                <button
-                  @click="resetFilters"
-                  class="text-white px-3 sm:px-4 py-2.5 rounded-lg font-bold text-xs uppercase hover:opacity-90 flex items-center justify-center gap-2 transition w-full sm:w-auto"
-                  style="background: #00397a"
-                >
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    ></path>
-                  </svg>
-                  Clear
-                </button>
-              </div>
+              <!-- CLEAR BUTTON -->
+              <button
+                @click="resetFilters"
+                class="w-full sm:w-auto px-4 py-2.5 rounded-lg text-white font-bold text-xs uppercase flex items-center justify-center gap-2 transition hover:opacity-90 hover:shadow-md"
+                style="background: #00397a"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
+                </svg>
+                Clear
+              </button>
             </div>
           </div>
         </div>
@@ -356,16 +342,16 @@
           v-if="activeTab === 'with-attendance'"
           class="bg-white rounded overflow-hidden shadow-sm"
         >
-          <div class="p-4 sm:p-5 lg:p-6 border-b" style="background: #004595">
+          <div class="p-3 sm:p-4 md:p-5 lg:p-6 border-b" style="background: #004595">
             <div
-              class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4"
+              class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3 md:gap-4"
             >
-              <div class="flex-1">
+              <div class="flex-1 min-w-0">
                 <h2
-                  class="text-xs sm:text-sm font-bold flex items-center gap-2 sm:gap-3 text-white"
+                  class="text-xs sm:text-sm md:text-base font-bold flex items-center gap-1.5 sm:gap-2 md:gap-3 text-white break-words"
                 >
                   <svg
-                    class="w-3 h-3 sm:w-4 sm:h-4"
+                    class="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -385,15 +371,15 @@
               </div>
               <div
                 v-if="filteredRecords.length > 0"
-                class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto"
+                class="flex flex-row gap-1.5 sm:gap-2 w-full sm:w-auto"
               >
                 <button
                   @click="previewWithAttendanceReport"
-                  class="bg-white px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 rounded font-bold text-xs uppercase flex items-center justify-center gap-2 hover:opacity-90"
+                  class="bg-white px-2 sm:px-3 md:px-4 lg:px-5 py-1.5 sm:py-2 md:py-2.5 rounded font-bold text-xs uppercase flex items-center justify-center gap-1.5 sm:gap-2 hover:opacity-90"
                   style="color: #004595"
                 >
                   <svg
-                    class="w-3 h-3 sm:w-4 sm:h-4"
+                    class="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -411,15 +397,15 @@
                       d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                     ></path>
                   </svg>
-                  Preview
+                  <span>Preview</span>
                 </button>
                 <button
                   @click="showDownloadFormatModal('with-attendance')"
-                  class="bg-white px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 rounded font-bold text-xs uppercase flex items-center justify-center gap-2 hover:opacity-90"
+                  class="bg-white px-2 sm:px-3 md:px-4 lg:px-5 py-1.5 sm:py-2 md:py-2.5 rounded font-bold text-xs uppercase flex items-center justify-center gap-1.5 sm:gap-2 hover:opacity-90 flex-1 xs:flex-none"
                   style="color: #004595"
                 >
                   <svg
-                    class="w-3 h-3 sm:w-4 sm:h-4"
+                    class="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -431,78 +417,76 @@
                       d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                     ></path>
                   </svg>
-                  Download
+                  <span>Download</span>
                 </button>
               </div>
             </div>
           </div>
           <div
-            class="p-4 sm:p-5 lg:p-6 border-b"
+            class="p-3 sm:p-4 md:p-5 lg:p-6 border-b"
             style="background: #f3f1ee; border-color: #e5e7eb"
           >
             <p class="text-xs" style="color: #6b7280"></p>
           </div>
           <div class="overflow-x-auto">
-            <table class="w-full min-w-150">
-              <thead class="text-white" style="background: #002147">
+            <table class="w-full">
+              <thead class="text-white text-xs" style="background: #002147">
                 <tr>
                   <th
-                    class="px-3 sm:px-4 py-2.5 sm:py-3 text-center text-xs font-bold uppercase w-12"
+                    class="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-center font-bold uppercase w-8 sm:w-10"
                   >
                     #
                   </th>
-                  <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs font-bold uppercase">
+                  <th class="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left font-bold uppercase">
                     Date & Time
                   </th>
-                  <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs font-bold uppercase">
+                  <th class="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left font-bold uppercase">
                     Name
                   </th>
-                  <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs font-bold uppercase">
+                  <th class="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left font-bold uppercase">
                     Status
                   </th>
-                  <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs font-bold uppercase">
+                  <th class="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left font-bold uppercase">
                     Images
                   </th>
-                  <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-left text-xs font-bold uppercase">
+                  <th class="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left font-bold uppercase">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody class="bg-white divide-y divide-gray-100">
+              <tbody class="bg-white divide-y divide-gray-100 text-xs">
                 <tr
                   v-for="(record, index) in filteredRecords"
                   :key="record.id"
                   class="hover:bg-gray-50"
                 >
-                  <td
-                    class="px-3 sm:px-4 py-2.5 sm:py-3 text-xs text-gray-900 text-center font-bold w-12"
-                  >
+                  <td class="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-gray-900 text-center font-bold">
                     {{ index + 1 }}
                   </td>
-                  <td class="px-3 sm:px-4 py-2.5 sm:py-3 text-xs text-gray-900">
+                  <td class="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-gray-900">
                     {{ record.date }}
                   </td>
-                  <td class="px-3 sm:px-4 py-2.5 sm:py-3 text-xs text-gray-900">
+                  <td class="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-gray-900">
                     {{ record.name }}
                   </td>
-                  <td class="px-3 sm:px-4 py-2.5 sm:py-3">
+                  <td class="px-2 sm:px-3 md:px-4 py-2 sm:py-3">
                     <span
                       v-if="record.status === true"
-                      class="px-2.5 sm:px-3 py-1 inline-flex text-xs font-bold rounded"
+                      class="px-2 sm:px-2.5 py-0.5 inline-flex text-xs font-bold rounded"
                       style="background: #d1fae5; color: #065f46"
                     >
                       ✓ Complied
                     </span>
                     <span
                       v-else
-                      class="px-2.5 sm:px-3 py-1 inline-flex text-xs font-bold rounded"
+                      class="px-2 sm:px-2.5 py-0.5 inline-flex text-xs font-bold rounded"
                       style="background: #fee2e2; color: #991b1b"
                     >
                       ✗ Uncomplied
                     </span>
                   </td>
-                  <td class="px-3 sm:px-4 py-2.5 sm:py-3">
-                    <div class="flex gap-1.5 flex-wrap">
+                  <td class="px-2 sm:px-3 md:px-4 py-2 sm:py-3">
+                    <div class="flex gap-1 flex-wrap">
                       <div
                         v-for="(imgUrl, idx) in record.screenshots
                           ? record.screenshots.split(',').slice(0, 3)
@@ -513,7 +497,7 @@
                         <img
                           :src="imgUrl.trim()"
                           :alt="`Image ${idx + 1}`"
-                          class="h-8 w-8 sm:h-10 sm:w-10 rounded cursor-pointer object-cover border border-gray-200 hover:border-blue-400 transition"
+                          class="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 rounded cursor-pointer object-cover border border-gray-200 hover:border-blue-400 transition"
                           @click="previewReport(record)"
                         />
                         <div
@@ -524,21 +508,21 @@
                       </div>
                       <span
                         v-if="(record.screenshots ? record.screenshots.split(',').length : 0) > 3"
-                        class="h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center text-xs font-bold rounded bg-gray-200 text-gray-700 border border-gray-300"
+                        class="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 flex items-center justify-center text-xs font-bold rounded bg-gray-200 text-gray-700 border border-gray-300"
                       >
                         +{{ (record.screenshots ? record.screenshots.split(',').length : 0) - 3 }}
                       </span>
                     </div>
                   </td>
-                  <td class="px-3 sm:px-4 py-2.5 sm:py-3">
-                    <div class="flex flex-col sm:flex-row gap-2">
+                  <td class="px-2 sm:px-3 md:px-4 py-2 sm:py-3">
+                    <div class="flex flex-col gap-1">
                       <button
                         @click="previewReport(record)"
-                        class="text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded font-bold flex items-center justify-center gap-2 text-xs"
+                        class="text-white px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 rounded font-bold flex items-center justify-center gap-1 sm:gap-2 text-xs"
                         style="background: #004595"
                       >
                         <svg
-                          class="w-3 h-3 sm:w-4 sm:h-4"
+                          class="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -556,17 +540,20 @@
                             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                           ></path>
                         </svg>
-                        Preview
+                        <span class="hidden xs:inline">Preview</span>
                       </button>
                     </div>
                   </td>
                 </tr>
                 <tr v-if="filteredRecords.length === 0">
-                  <td colspan="7" class="px-4 py-8 sm:py-12 text-center text-gray-500">
+                  <td
+                    colspan="7"
+                    class="px-3 sm:px-4 md:px-6 py-6 sm:py-8 md:py-12 text-center text-gray-500"
+                  >
                     <div class="flex flex-col items-center">
-                      <div class="bg-gray-100 rounded-full p-3 sm:p-4 mb-3">
+                      <div class="bg-gray-100 rounded-full p-2 sm:p-3 md:p-4 mb-2 sm:mb-3">
                         <svg
-                          class="h-5 w-5 sm:h-6 sm:w-6 text-gray-400"
+                          class="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-gray-400"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -579,7 +566,7 @@
                           ></path>
                         </svg>
                       </div>
-                      <p class="font-semibold text-xs text-gray-700">No records found</p>
+                      <p class="font-semibold text-xs sm:text-sm text-gray-700">No records found</p>
                       <p class="text-xs text-gray-500 mt-1">Try adjusting your date filter</p>
                     </div>
                   </td>
@@ -592,19 +579,21 @@
         <!-- Without Attendance Tab -->
         <div
           v-if="activeTab === 'without-attendance'"
-          class="bg-white rounded p-4 sm:p-5 lg:p-6 shadow-sm"
+          class="bg-white rounded p-3 sm:p-4 md:p-5 lg:p-6 shadow-sm"
         >
           <div
-            class="mb-4 sm:mb-5 lg:mb-6 rounded p-4 sm:p-5 lg:p-6 text-white"
+            class="mb-3 sm:mb-4 md:mb-5 lg:mb-6 rounded p-3 sm:p-4 md:p-5 lg:p-6 text-white"
             style="background: #ef4444"
           >
             <div
-              class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4"
+              class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3 md:gap-4"
             >
-              <div class="flex-1">
-                <h2 class="text-sm sm:text-base font-bold flex items-center gap-2 sm:gap-3">
+              <div class="flex-1 min-w-0">
+                <h2
+                  class="text-sm sm:text-base md:text-lg font-bold flex items-center gap-1.5 sm:gap-2 md:gap-3 break-words"
+                >
                   <svg
-                    class="w-4 h-4 sm:w-5 sm:h-5 text-white"
+                    class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -618,21 +607,21 @@
                   </svg>
                   Officers Without Attendance
                 </h2>
-                <p class="text-xs mt-1">
+                <p class="text-xs sm:text-sm mt-1">
                   {{ officersWithoutAttendance.length }} officer(s) without attendance
                 </p>
               </div>
               <div
                 v-if="officersWithoutAttendance.length > 0"
-                class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto"
+                class="flex flex-row gap-1.5 sm:gap-2 w-full sm:w-auto"
               >
                 <button
                   @click="previewWithoutAttendanceReport"
-                  class="bg-white px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 rounded font-bold text-xs uppercase flex items-center justify-center gap-2 hover:opacity-90"
+                  class="bg-white px-2 sm:px-3 md:px-4 lg:px-5 py-1.5 sm:py-2 md:py-2.5 rounded font-bold text-xs uppercase flex items-center justify-center gap-1.5 sm:gap-2 hover:opacity-90"
                   style="color: #004595"
                 >
                   <svg
-                    class="w-3 h-3 sm:w-4 sm:h-4"
+                    class="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -650,15 +639,15 @@
                       d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                     ></path>
                   </svg>
-                  Preview
+                  <span>Preview</span>
                 </button>
                 <button
                   @click="showDownloadFormatModal('without-attendance')"
-                  class="bg-white px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 rounded font-bold text-xs uppercase flex items-center justify-center gap-2 hover:opacity-90"
+                  class="bg-white px-2 sm:px-3 md:px-4 lg:px-5 py-1.5 sm:py-2 md:py-2.5 rounded font-bold text-xs uppercase flex items-center justify-center gap-1.5 sm:gap-2 hover:opacity-90 flex-1 xs:flex-none"
                   style="color: #004595"
                 >
                   <svg
-                    class="w-3 h-3 sm:w-4 sm:h-4"
+                    class="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -670,7 +659,7 @@
                       d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                     ></path>
                   </svg>
-                  Download
+                  <span>Download</span>
                 </button>
               </div>
             </div>
@@ -678,18 +667,18 @@
 
           <div v-if="officersWithoutAttendance.length > 0">
             <div
-              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4"
+              class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4"
             >
               <div
                 v-for="officer in officersWithoutAttendance"
                 :key="officer.id"
-                class="rounded p-3 sm:p-4"
+                class="rounded p-2 sm:p-3 md:p-4"
                 style="border: 1px solid #ef4444; background: #fef2f2"
               >
-                <div class="flex items-center gap-3">
-                  <div class="rounded p-2" style="background: #ef4444">
+                <div class="flex items-center gap-2 sm:gap-3">
+                  <div class="rounded p-1.5 sm:p-2 flex-shrink-0" style="background: #ef4444">
                     <svg
-                      class="w-5 h-5 sm:w-6 sm:h-6 text-white"
+                      class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -702,8 +691,8 @@
                       ></path>
                     </svg>
                   </div>
-                  <div class="flex-1">
-                    <p class="font-bold text-gray-900 text-xs">
+                  <div class="flex-1 min-w-0">
+                    <p class="font-bold text-gray-900 text-xs sm:text-sm break-words">
                       {{ officer.rank_full_name }}
                     </p>
                   </div>
@@ -713,15 +702,15 @@
           </div>
           <div
             v-else
-            class="text-center py-8 sm:py-12 rounded"
+            class="text-center py-6 sm:py-8 md:py-12 rounded"
             style="background: #f0fdf4; border: 1px solid #86efac"
           >
             <div
-              class="rounded-full p-3 sm:p-4 mx-auto w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center mb-3 sm:mb-4"
+              class="rounded-full p-2 sm:p-3 md:p-4 mx-auto w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center mb-2 sm:mb-3 md:mb-4"
               style="background: #10b981"
             >
               <svg
-                class="w-6 h-6 sm:w-7 sm:h-7 text-white"
+                class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -734,10 +723,12 @@
                 ></path>
               </svg>
             </div>
-            <p class="text-gray-800 text-xs sm:text-sm font-bold">
+            <p class="text-gray-800 text-xs sm:text-sm md:text-base font-bold">
               All officers have submitted attendance!
             </p>
-            <p class="text-gray-600 text-xs mt-2">100% attendance for the selected date</p>
+            <p class="text-gray-600 text-xs sm:text-sm mt-1 sm:mt-2">
+              100% attendance for the selected date
+            </p>
           </div>
         </div>
       </div>
