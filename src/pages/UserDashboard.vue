@@ -200,7 +200,8 @@
                   1
                 </div>
                 <p class="text-xs md:text-sm text-gray-700">
-                  Select your name from the dropdown list
+                  Select your name from the dropdown list, if not found type your name then select
+                  add.
                 </p>
               </div>
               <div class="flex gap-3">
@@ -385,7 +386,9 @@
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                   ></path>
                 </svg>
-                1. Select Your Name <span class="text-red-600">*</span>
+                1. Select or Type Your Name (ex: PCpl Juan dela Cruz)<span class="text-red-600"
+                  >*</span
+                >
               </label>
               <div class="relative">
                 <input

@@ -268,7 +268,7 @@
               </div>
             </div>
 
-            <!-- Absent Officers -->
+            <!-- noncompliant Officers -->
             <div
               class="rounded-lg p-3 sm:p-4 border-l-4 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
               style="background: #ffffff; border-left-color: #ef4444"
@@ -276,7 +276,7 @@
               <div class="flex items-center justify-between">
                 <div class="flex-1">
                   <p class="text-xs font-bold uppercase mb-2 tracking-wider" style="color: #6b7280">
-                    Absent
+                    noncompliant
                   </p>
                   <p class="text-2xl sm:text-3xl font-bold mb-1" style="color: #ef4444">
                     {{ officersWithoutAttendance.length }}
@@ -303,9 +303,9 @@
           </div>
         </div>
 
-        <!-- Recent Activity & Absent Officers Grid -->
+        <!-- Recent Activity & noncompliant Officers Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
-          <!-- Absent Officers Today -->
+          <!-- noncompliant Officers Today -->
           <div class="rounded-lg shadow-lg" style="background: #ffffff">
             <div class="p-4 sm:p-5 lg:p-6 border-b" style="border-color: #e5e7eb">
               <div class="flex items-center justify-between">
@@ -330,7 +330,7 @@
                     class="text-sm sm:text-base font-bold uppercase tracking-wide"
                     style="color: #002147"
                   >
-                    Absent Officers
+                    noncompliant Officers
                   </h2>
                 </div>
                 <span
@@ -407,7 +407,7 @@
                       class="text-xs sm:text-sm font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full"
                       style="background: #fef2f2; color: #ef4444"
                     >
-                      Absent
+                      noncompliant
                     </span>
                   </div>
                 </div>
@@ -457,7 +457,7 @@
                   ></div>
                 </div>
                 <p class="text-xs font-semibold mt-2" style="color: #166534">
-                  {{ todayCheckIns }} out of {{ totalOfficers }} officers present
+                  {{ todayCheckIns }} out of {{ totalOfficers }} officers complied
                 </p>
               </div>
 
