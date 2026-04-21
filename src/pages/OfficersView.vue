@@ -329,24 +329,41 @@
                     </p>
                   </div>
                 </div>
-                <span
-                  class="text-xs sm:text-sm font-bold px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full"
-                  :style="
-                    statusFilter === 'all'
-                      ? 'background: #f3f1ee; color: #002147;'
-                      : statusFilter === 'complied'
-                        ? 'background: #dcfce7; color: #166534;'
-                        : 'background: #fee2e2; color: #991b1b;'
-                  "
-                >
-                  {{
-                    statusFilter === 'all'
-                      ? 'Viewing All'
-                      : statusFilter === 'complied'
-                        ? 'complied'
-                        : 'noncompliant'
-                  }}
-                </span>
+                <div class="flex items-center gap-2">
+                  <span
+                    class="text-xs sm:text-sm font-bold px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full"
+                    :style="
+                      statusFilter === 'all'
+                        ? 'background: #f3f1ee; color: #002147;'
+                        : statusFilter === 'complied'
+                          ? 'background: #dcfce7; color: #166534;'
+                          : 'background: #fee2e2; color: #991b1b;'
+                    "
+                  >
+                    {{
+                      statusFilter === 'all'
+                        ? 'Viewing All'
+                        : statusFilter === 'complied'
+                          ? 'complied'
+                          : 'noncompliant'
+                    }}
+                  </span>
+                  <button
+                    @click="showAddModal = true"
+                    class="py-1.5 sm:py-2 px-3 sm:px-4 rounded-lg font-bold text-xs sm:text-sm uppercase tracking-wide transition-all duration-200 flex items-center gap-1.5 hover:shadow-lg"
+                    style="background: #004595; color: white"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 4v16m8-8H4"
+                      ></path>
+                    </svg>
+                    <span class="hidden sm:inline">Add Officer</span>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -403,6 +420,38 @@
                         ></span>
                         {{ officer.hasAttendanceToday ? 'complied' : 'noncompliant' }}
                       </span>
+                    </div>
+                    <div class="flex gap-1.5">
+                      <button
+                        @click="openEditModal(officer)"
+                        class="p-2 rounded-lg hover:scale-110 transition-all duration-200"
+                        style="background: #f0f9ff; color: #004595"
+                        title="Edit officer"
+                      >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          ></path>
+                        </svg>
+                      </button>
+                      <button
+                        @click="openDeleteConfirm(officer)"
+                        class="p-2 rounded-lg hover:scale-110 transition-all duration-200"
+                        style="background: #fee2e2; color: #dc2626"
+                        title="Delete officer"
+                      >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          ></path>
+                        </svg>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -540,6 +589,237 @@
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Officer Modal -->
+    <div
+      v-if="showAddModal"
+      class="fixed inset-0 z-50 flex items-center justify-center animate-fade-in"
+      style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px)"
+    >
+      <div @click="showAddModal = false" class="absolute inset-0 bg-opacity-40"></div>
+      <div
+        @click.stop
+        class="relative bg-white rounded-2xl max-w-md w-full mx-4 transform transition-all animate-scale-in shadow-2xl overflow-hidden"
+      >
+        <div
+          class="relative px-8 pt-8 pb-6"
+          style="background: linear-gradient(135deg, #002147 0%, #004595 100%)"
+        >
+          <h3 class="text-xl font-bold text-white uppercase tracking-wide flex items-center gap-3">
+            <div class="rounded-lg p-2.5" style="background: rgba(255, 255, 255, 0.15)">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                ></path>
+              </svg>
+            </div>
+            Add Officer
+          </h3>
+        </div>
+
+        <div class="px-8 py-6">
+          <div class="mb-5">
+            <label class="block text-sm font-bold mb-2" style="color: #002147">Officer Name</label>
+            <input
+              v-model="newOfficer.name"
+              type="text"
+              placeholder="Enter full officer name and rank"
+              class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 text-sm font-medium"
+              style="border-color: #e5e7eb; color: #002147"
+              @keyup.enter="addOfficer"
+            />
+          </div>
+
+          <div class="mb-5">
+            <label class="block text-sm font-bold mb-2" style="color: #002147">Badge Number</label>
+            <input
+              v-model="newOfficer.badge_number"
+              type="text"
+              placeholder="Enter badge number"
+              class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 text-sm font-medium"
+              style="border-color: #e5e7eb; color: #002147"
+              @keyup.enter="addOfficer"
+            />
+          </div>
+
+          <div class="flex gap-3">
+            <button
+              @click="showAddModal = false"
+              class="flex-1 font-bold py-3.5 px-5 rounded-lg text-sm uppercase tracking-wider transition-all duration-200 hover:shadow-lg border-2"
+              style="background: #ffffff; color: #002147; border-color: #e5e7eb"
+            >
+              Cancel
+            </button>
+            <button
+              @click="addOfficer"
+              class="flex-1 text-white font-bold py-3.5 px-5 rounded-lg text-sm uppercase tracking-wider transition-all duration-200 hover:shadow-lg"
+              style="background: #004595"
+            >
+              Add Officer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Officer Modal -->
+    <div
+      v-if="showEditModal"
+      class="fixed inset-0 z-50 flex items-center justify-center animate-fade-in"
+      style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px)"
+    >
+      <div @click="showEditModal = false" class="absolute inset-0 bg-opacity-40"></div>
+      <div
+        @click.stop
+        class="relative bg-white rounded-2xl max-w-md w-full mx-4 transform transition-all animate-scale-in shadow-2xl overflow-hidden"
+      >
+        <div
+          class="relative px-8 pt-8 pb-6"
+          style="background: linear-gradient(135deg, #002147 0%, #004595 100%)"
+        >
+          <h3 class="text-xl font-bold text-white uppercase tracking-wide flex items-center gap-3">
+            <div class="rounded-lg p-2.5" style="background: rgba(255, 255, 255, 0.15)">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                ></path>
+              </svg>
+            </div>
+            Edit Officer
+          </h3>
+        </div>
+
+        <div class="px-8 py-6">
+          <div class="mb-5">
+            <label class="block text-sm font-bold mb-2" style="color: #002147">Officer Name</label>
+            <input
+              v-model="editingOfficer.name"
+              type="text"
+              placeholder="Enter officer name and rank"
+              class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 text-sm font-medium"
+              style="border-color: #e5e7eb; color: #002147"
+              @keyup.enter="updateOfficer"
+            />
+          </div>
+
+          <div class="mb-5">
+            <label class="block text-sm font-bold mb-2" style="color: #002147">Badge Number</label>
+            <input
+              v-model="editingOfficer.badge_number"
+              type="text"
+              placeholder="Enter badge number"
+              class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 text-sm font-medium"
+              style="border-color: #e5e7eb; color: #002147"
+              @keyup.enter="updateOfficer"
+            />
+          </div>
+
+          <div class="flex gap-3">
+            <button
+              @click="showEditModal = false"
+              class="flex-1 font-bold py-3.5 px-5 rounded-lg text-sm uppercase tracking-wider transition-all duration-200 hover:shadow-lg border-2"
+              style="background: #ffffff; color: #002147; border-color: #e5e7eb"
+            >
+              Cancel
+            </button>
+            <button
+              @click="updateOfficer"
+              class="flex-1 text-white font-bold py-3.5 px-5 rounded-lg text-sm uppercase tracking-wider transition-all duration-200 hover:shadow-lg"
+              style="background: #004595"
+            >
+              Update
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div
+      v-if="showDeleteConfirm"
+      class="fixed inset-0 z-50 flex items-center justify-center animate-fade-in"
+      style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px)"
+    >
+      <div @click="showDeleteConfirm = false" class="absolute inset-0 bg-opacity-40"></div>
+      <div
+        @click.stop
+        class="relative bg-white rounded-2xl max-w-md w-full mx-4 transform transition-all animate-scale-in shadow-2xl overflow-hidden"
+      >
+        <div
+          class="relative px-8 pt-8 pb-6"
+          style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%)"
+        >
+          <h3 class="text-xl font-bold text-white uppercase tracking-wide flex items-center gap-3">
+            <div class="rounded-lg p-2.5" style="background: rgba(255, 255, 255, 0.15)">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                ></path>
+              </svg>
+            </div>
+            Delete Officer
+          </h3>
+        </div>
+
+        <div class="px-8 py-6">
+          <div class="flex items-start gap-4 mb-6">
+            <div class="flex-shrink-0">
+              <div class="rounded-full p-3" style="background: #fef2f2">
+                <svg
+                  class="h-7 w-7"
+                  style="color: #dc2626"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div class="flex-1">
+              <h4 class="text-base font-bold mb-2" style="color: #002147">
+                Delete "{{ deletingOfficer?.rank_full_name }}"?
+              </h4>
+              <p class="text-sm leading-relaxed" style="color: #6b7280">
+                This action cannot be undone. The officer record will be permanently removed from
+                the system.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-3">
+            <button
+              @click="showDeleteConfirm = false"
+              class="flex-1 font-bold py-3.5 px-5 rounded-lg text-sm uppercase tracking-wider transition-all duration-200 hover:shadow-lg border-2"
+              style="background: #ffffff; color: #002147; border-color: #e5e7eb"
+            >
+              Cancel
+            </button>
+            <button
+              @click="deleteOfficer"
+              class="flex-1 text-white font-bold py-3.5 px-5 rounded-lg text-sm uppercase tracking-wider transition-all duration-200 hover:shadow-lg"
+              style="background: #dc2626"
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
@@ -799,6 +1079,9 @@
         </button>
       </div>
     </nav>
+
+    <!-- Alert Modal -->
+    <AlertModal />
   </div>
 </template>
 
@@ -806,8 +1089,11 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { supabase } from '../supabaseClient'
+import { useAlert } from '../composables/useAlert'
+import AlertModal from '../components/ui/AlertModal.vue'
 
 const router = useRouter()
+const { showSuccess, showError } = useAlert()
 
 // Data
 const officers = ref([])
@@ -816,6 +1102,12 @@ const todayAttendanceUserIds = ref([])
 const statusFilter = ref('all')
 const recentCheckIns = ref([])
 const showLogoutConfirm = ref(false)
+const showAddModal = ref(false)
+const showEditModal = ref(false)
+const showDeleteConfirm = ref(false)
+const newOfficer = ref({ name: '', badge_number: '' })
+const editingOfficer = ref({ id: null, name: '', badge_number: '' })
+const deletingOfficer = ref(null)
 
 // Computed
 const compliedOfficers = computed(() => {
@@ -909,6 +1201,124 @@ const fetchOfficers = async () => {
     }))
   } catch (error) {
     console.error('Error fetching officers:', error)
+  }
+}
+
+// Open edit modal
+const openEditModal = (officer) => {
+  editingOfficer.value = {
+    id: officer.id,
+    name: officer.rank_full_name,
+    badge_number: officer.badge_number || '',
+  }
+  showEditModal.value = true
+}
+
+// Open delete confirmation
+const openDeleteConfirm = (officer) => {
+  deletingOfficer.value = officer
+  showDeleteConfirm.value = true
+}
+
+// Add new officer
+const addOfficer = async () => {
+  if (!newOfficer.value.name.trim()) {
+    showError({ title: 'Validation Error', message: 'Please enter an officer name' })
+    return
+  }
+
+  try {
+    const officerData = {
+      rank_full_name: newOfficer.value.name.trim(),
+    }
+
+    // Only include badge_number if provided
+    if (newOfficer.value.badge_number.trim()) {
+      officerData.badge_number = newOfficer.value.badge_number.trim()
+    }
+
+    const { data, error } = await supabase.from('users').insert([officerData]).select()
+
+    if (error) throw error
+
+    // Add to local officers list
+    officers.value.push({
+      ...data[0],
+      hasAttendanceToday: false,
+    })
+
+    // Reset form and close modal
+    newOfficer.value = { name: '', badge_number: '' }
+    showAddModal.value = false
+    showSuccess({ title: 'Success', message: 'Officer added successfully!' })
+  } catch (error) {
+    console.error('Error adding officer:', error)
+    showError({ title: 'Error', message: 'Failed to add officer: ' + error.message })
+  }
+}
+
+// Update officer
+const updateOfficer = async () => {
+  if (!editingOfficer.value.name.trim()) {
+    showError({ title: 'Validation Error', message: 'Please enter an officer name' })
+    return
+  }
+
+  try {
+    const updateData = {
+      rank_full_name: editingOfficer.value.name.trim(),
+    }
+
+    // Only include badge_number if provided
+    if (editingOfficer.value.badge_number.trim()) {
+      updateData.badge_number = editingOfficer.value.badge_number.trim()
+    }
+
+    const { error } = await supabase
+      .from('users')
+      .update(updateData)
+      .eq('id', editingOfficer.value.id)
+
+    if (error) throw error
+
+    // Update local list
+    const index = officers.value.findIndex((o) => o.id === editingOfficer.value.id)
+    if (index !== -1) {
+      officers.value[index].rank_full_name = editingOfficer.value.name.trim()
+      if (editingOfficer.value.badge_number.trim()) {
+        officers.value[index].badge_number = editingOfficer.value.badge_number.trim()
+      }
+    }
+
+    // Reset and close modal
+    editingOfficer.value = { id: null, name: '', badge_number: '' }
+    showEditModal.value = false
+    showSuccess({ title: 'Success', message: 'Officer updated successfully!' })
+  } catch (error) {
+    console.error('Error updating officer:', error)
+    showError({ title: 'Error', message: 'Failed to update officer: ' + error.message })
+  }
+}
+
+// Delete officer
+const deleteOfficer = async () => {
+  if (!deletingOfficer.value) return
+
+  try {
+    const { error } = await supabase.from('users').delete().eq('id', deletingOfficer.value.id)
+
+    if (error) throw error
+
+    // Remove from local list
+    officers.value = officers.value.filter((o) => o.id !== deletingOfficer.value.id)
+
+    // Reset and close modal
+    deletingOfficer.value = null
+    showDeleteConfirm.value = false
+    showSuccess({ title: 'Success', message: 'Officer deleted successfully!' })
+  } catch (error) {
+    console.error('Error deleting officer:', error)
+    showError({ title: 'Error', message: 'Failed to delete officer: ' + error.message })
   }
 }
 
