@@ -176,7 +176,7 @@
                 Attendance Records
               </h1>
               <p class="text-xs sm:text-xs font-semibold" style="color: #00397a">
-                Filter and view attendance records by date
+                View all attendance records from all activities
               </p>
             </div>
           </div>
@@ -246,39 +246,6 @@
             <div
               class="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full lg:w-auto items-start sm:items-end"
             >
-              <!-- DATE -->
-              <div class="flex flex-col gap-1.5 w-full sm:w-auto">
-                <label
-                  class="text-xs font-bold uppercase flex items-center gap-1.5"
-                  style="color: #002147"
-                >
-                  <div class="rounded p-1 flex-shrink-0" style="background: #f3f1ee">
-                    <svg
-                      class="w-3 h-3"
-                      style="color: #004595"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      ></path>
-                    </svg>
-                  </div>
-                  Date
-                </label>
-                <input
-                  v-model="selectedDate"
-                  type="date"
-                  class="w-full sm:w-auto px-3 py-2.5 border-2 rounded-lg text-xs font-medium transition focus:outline-none focus:ring-2"
-                  style="border-color: #e5e7eb; color: #002147"
-                  @change="filterRecords"
-                />
-              </div>
-
               <!-- ACTIVITY -->
               <div v-if="allActivities.length > 0" class="flex flex-col gap-1.5 w-full sm:w-auto">
                 <label
@@ -1361,8 +1328,7 @@ import * as XLSX from 'xlsx'
 const router = useRouter()
 const route = useRoute()
 
-// Filter date
-const selectedDate = ref('')
+// Activity filter
 const activeTab = ref('with-attendance')
 
 // Activity filter
@@ -1399,11 +1365,7 @@ const officersWithoutAttendance = computed(() => {
   return allUsers.value.filter((user) => !filteredAttendanceUserIds.value.includes(user.id))
 })
 
-// Set default date (today)
-const setDefaultDate = () => {
-  const today = new Date()
-  selectedDate.value = today.toISOString().split('T')[0]
-}
+// Note: Date filter removed - all records are now displayed
 
 // Fetch all attendance records
 const fetchRecords = async () => {
@@ -1468,11 +1430,8 @@ const fetchRecords = async () => {
         screenshots: record.screenshots || '',
       }))
       .sort((a, b) => {
-        // Sort by status (complied first) then by name
-        if (a.status === b.status) {
-          return (a.fullRankName || '').localeCompare(b.fullRankName || '')
-        }
-        return a.status === true ? -1 : 1
+        // Sort by date and time (earliest first)
+        return a.dateObj - b.dateObj
       })
 
     filterRecords()
@@ -1481,7 +1440,7 @@ const fetchRecords = async () => {
   }
 }
 
-// Filter records by selected date and activity
+// Filter records by selected activity (date filter removed - show all records)
 const filterRecords = () => {
   let filtered = allRecords.value
 
@@ -1491,37 +1450,10 @@ const filterRecords = () => {
     filtered = filtered.filter((record) => record.activityId === activityId)
   }
 
-  // Filter by date if selected
-  if (!selectedDate.value) {
-    // Sort by status (complied first) then by name
-    const sorted = [...filtered].sort((a, b) => {
-      if (a.status === b.status) {
-        return (a.fullRankName || a.name || '').localeCompare(b.fullRankName || b.name || '')
-      }
-      return a.status === true ? -1 : 1
-    })
-    filteredRecords.value = sorted
-    filteredAttendanceUserIds.value = sorted.map((r) => r.userId)
-    return
-  }
-
-  const selected = new Date(selectedDate.value)
-  selected.setHours(0, 0, 0, 0)
-
-  const endOfDay = new Date(selected)
-  endOfDay.setHours(23, 59, 59, 999)
-
-  // Sort by status (complied first) then by name
-  const sorted = [...filtered]
-    .filter((record) => {
-      return record.dateObj >= selected && record.dateObj <= endOfDay
-    })
-    .sort((a, b) => {
-      if (a.status === b.status) {
-        return (a.fullRankName || a.name || '').localeCompare(b.fullRankName || b.name || '')
-      }
-      return a.status === true ? -1 : 1
-    })
+  // Sort by date and time (earliest first)
+  const sorted = [...filtered].sort((a, b) => {
+    return a.dateObj - b.dateObj
+  })
 
   filteredRecords.value = sorted
   filteredAttendanceUserIds.value = sorted.map((r) => r.userId)
@@ -1529,14 +1461,10 @@ const filterRecords = () => {
 
 // Reset filters
 const resetFilters = () => {
-  selectedDate.value = ''
   selectedActivityFilter.value = null
-  // Sort by status (complied first) then by name
+  // Sort by date and time (earliest first)
   const sorted = [...allRecords.value].sort((a, b) => {
-    if (a.status === b.status) {
-      return (a.fullRankName || a.name || '').localeCompare(b.fullRankName || b.name || '')
-    }
-    return a.status === true ? -1 : 1
+    return a.dateObj - b.dateObj
   })
   filteredRecords.value = sorted
   filteredAttendanceUserIds.value = sorted.map((r) => r.userId)
@@ -1656,7 +1584,7 @@ const previewWithoutAttendanceReport = () => {
                 <div style="text-align: center; margin-bottom: 15px; background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%); padding: 12px; border-radius: 6px;">
                     <h1 style="color: #ffffff; font-size: 16px; margin-bottom: 4px; font-weight: bold;">PHILIPPINE NATIONAL POLICE</h1>
                     <h2 style="color: #fee2e2; font-size: 13px; margin-bottom: 2px; font-weight: bold;">Officers Without Attendance Report</h2>
-                    <p style="color: #fecaca; font-size: 10px;">Date: ${new Date(selectedDate.value).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                    <p style="color: #fecaca; font-size: 10px;">Report Generated: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                     <p style="color: #fecaca; font-size: 10px;">Generated on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                 </div>
                 
@@ -1996,11 +1924,11 @@ const downloadWithoutAttendanceReport = async () => {
             new Paragraph({
               children: [
                 new TextRun({
-                  text: 'Date: ',
+                  text: 'Report Generated: ',
                   bold: true,
                 }),
                 new TextRun(
-                  new Date(selectedDate.value).toLocaleDateString('en-US', {
+                  new Date().toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric',
@@ -2035,10 +1963,7 @@ const downloadWithoutAttendanceReport = async () => {
     })
 
     const blob = await Packer.toBlob(doc)
-    saveAs(
-      blob,
-      `Officers_Without_Attendance_${new Date(selectedDate.value).toLocaleDateString('en-US')}.docx`,
-    )
+    saveAs(blob, `Officers_Without_Attendance_${new Date().toLocaleDateString('en-US')}.docx`)
   } catch (error) {
     console.error('Error generating Word document:', error)
     showErrorModalFunc('Error generating Word document. Please try again.')
@@ -2170,7 +2095,7 @@ const downloadWithAttendanceExcel = () => {
       { wch: 50 }, // Image URLs
     ]
 
-    const fileName = `Officers_With_Attendance_${new Date(selectedDate.value).toLocaleDateString('en-US')}.xlsx`
+    const fileName = `Officers_With_Attendance_${new Date().toLocaleDateString('en-US')}.xlsx`
     XLSX.writeFile(wb, fileName)
   } catch (error) {
     console.error('Error generating Excel document:', error)
@@ -2200,7 +2125,7 @@ const downloadWithoutAttendanceExcel = () => {
       { wch: 15 }, // Status
     ]
 
-    const fileName = `Officers_Without_Attendance_${new Date(selectedDate.value).toLocaleDateString('en-US')}.xlsx`
+    const fileName = `Officers_Without_Attendance_${new Date().toLocaleDateString('en-US')}.xlsx`
     XLSX.writeFile(wb, fileName)
   } catch (error) {
     console.error('Error generating Excel document:', error)
@@ -2246,7 +2171,7 @@ const previewWithAttendanceReport = () => {
                 <div style="text-align: center; margin-bottom: 15px; background: linear-gradient(135deg, #004595 0%, #002147 100%); padding: 12px; border-radius: 6px;">
                     <h1 style="color: #ffffff; font-size: 16px; margin-bottom: 4px; font-weight: bold;">PHILIPPINE NATIONAL POLICE</h1>
                     <h2 style="color: #e0e7ff; font-size: 13px; margin-bottom: 2px; font-weight: bold;">Officers With Attendance Report</h2>
-                    <p style="color: #c7d2fe; font-size: 10px;">Date: ${new Date(selectedDate.value).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                    <p style="color: #c7d2fe; font-size: 10px;">Report Generated: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                     <p style="color: #c7d2fe; font-size: 10px;">Generated on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                 </div>
                 
@@ -2392,11 +2317,11 @@ const downloadWithAttendanceReport = async () => {
             new Paragraph({
               children: [
                 new TextRun({
-                  text: 'Date: ',
+                  text: 'Report Generated: ',
                   bold: true,
                 }),
                 new TextRun(
-                  new Date(selectedDate.value).toLocaleDateString('en-US', {
+                  new Date().toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric',
@@ -2431,10 +2356,7 @@ const downloadWithAttendanceReport = async () => {
     })
 
     const blob = await Packer.toBlob(doc)
-    saveAs(
-      blob,
-      `Officers_With_Attendance_${new Date(selectedDate.value).toLocaleDateString('en-US')}.docx`,
-    )
+    saveAs(blob, `Officers_With_Attendance_${new Date().toLocaleDateString('en-US')}.docx`)
   } catch (error) {
     console.error('Error generating Word document:', error)
     showErrorModalFunc('Error generating Word document. Please try again.')
@@ -2464,7 +2386,6 @@ onMounted(async () => {
     return
   }
 
-  setDefaultDate()
   await fetchRecords()
 })
 </script>
