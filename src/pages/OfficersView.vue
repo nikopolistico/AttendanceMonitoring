@@ -1305,9 +1305,15 @@ const deleteOfficer = async () => {
   if (!deletingOfficer.value) return
 
   try {
+    // Delete from Supabase
     const { error } = await supabase.from('users').delete().eq('id', deletingOfficer.value.id)
 
-    if (error) throw error
+    if (error) {
+      console.error('Supabase delete error:', error)
+      throw error
+    }
+
+    console.log('Officer deleted from Supabase:', deletingOfficer.value.id)
 
     // Remove from local list
     officers.value = officers.value.filter((o) => o.id !== deletingOfficer.value.id)

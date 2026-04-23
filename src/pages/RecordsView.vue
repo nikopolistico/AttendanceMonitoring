@@ -1652,6 +1652,8 @@ const downloadFromPreview = () => {
 // Download Word report for individual attendance record
 const downloadWordReport = async (record) => {
   try {
+    const activityName = getActivityNameById(record.activityId)
+
     // Parse screenshots URLs (comma-separated)
     const screenshotUrls = record.screenshots
       ? record.screenshots
@@ -1747,6 +1749,16 @@ const downloadWordReport = async (record) => {
                 new Paragraph({
                   children: [
                     new TextRun({
+                      text: 'Activity: ',
+                      bold: true,
+                    }),
+                    new TextRun(activityName),
+                  ],
+                  spacing: { after: 100 },
+                }),
+                new Paragraph({
+                  children: [
+                    new TextRun({
                       text: 'Date: ',
                       bold: true,
                     }),
@@ -1817,10 +1829,8 @@ const downloadWordReport = async (record) => {
     })
 
     const blob = await Packer.toBlob(doc)
-    saveAs(
-      blob,
-      `Attendance_Report_${record.fullRankName || record.name || 'Officer'}_${record.date}.docx`,
-    )
+    const fileName = `${activityName}_${record.fullRankName || record.name || 'Officer'}_${record.date}.docx`
+    saveAs(blob, fileName)
   } catch (error) {
     console.error('Error generating Word document:', error)
     showErrorModalFunc('Error generating Word document. Please try again.')
@@ -1830,6 +1840,8 @@ const downloadWordReport = async (record) => {
 // Download Word report for officers without attendance
 const downloadWithoutAttendanceReport = async () => {
   try {
+    const activityName = getActivityNameById(selectedActivityFilter.value)
+
     // Create table rows with officers without attendance
     const tableRows = [
       new TableRow({
@@ -1922,6 +1934,12 @@ const downloadWithoutAttendanceReport = async () => {
               spacing: { after: 200 },
             }),
             new Paragraph({
+              text: `Activity: ${activityName}`,
+              heading: HeadingLevel.HEADING_3,
+              alignment: AlignmentType.CENTER,
+              spacing: { after: 200 },
+            }),
+            new Paragraph({
               children: [
                 new TextRun({
                   text: 'Report Generated: ',
@@ -1963,7 +1981,8 @@ const downloadWithoutAttendanceReport = async () => {
     })
 
     const blob = await Packer.toBlob(doc)
-    saveAs(blob, `Officers_Without_Attendance_${new Date().toLocaleDateString('en-US')}.docx`)
+    const fileName = `${activityName}_Without_Attendance_${new Date().toLocaleDateString('en-US')}.docx`
+    saveAs(blob, fileName)
   } catch (error) {
     console.error('Error generating Word document:', error)
     showErrorModalFunc('Error generating Word document. Please try again.')
@@ -2021,6 +2040,8 @@ const downloadPreviewInFormat = (format) => {
 // Download individual record as Excel from preview
 const downloadPreviewExcel = () => {
   try {
+    const activityName = getActivityNameById(selectedActivityFilter.value)
+
     if (previewDownloadType.value === 'individual-record' && previewRecord.value) {
       // Single record Excel export with images
       const record = previewRecord.value
@@ -2035,6 +2056,7 @@ const downloadPreviewExcel = () => {
       const rows = [
         {
           'Officer Name': record.fullRankName || record.name || 'N/A',
+          Activity: activityName,
           'Date & Time': record.date || 'N/A',
           Status: record.status === true ? 'Complied' : 'Uncomplied',
           'Image Count': screenshotUrls.length,
@@ -2045,9 +2067,9 @@ const downloadPreviewExcel = () => {
       const ws = XLSX.utils.json_to_sheet(rows)
       const wb = XLSX.utils.book_new()
       XLSX.utils.book_append_sheet(wb, ws, 'Attendance Record')
-      ws['!cols'] = [{ wch: 30 }, { wch: 25 }, { wch: 15 }, { wch: 12 }, { wch: 50 }]
+      ws['!cols'] = [{ wch: 30 }, { wch: 25 }, { wch: 25 }, { wch: 15 }, { wch: 12 }, { wch: 50 }]
 
-      const fileName = `Attendance_Report_${record.fullRankName || record.name || 'Officer'}_${record.date}.xlsx`
+      const fileName = `${activityName}_${record.fullRankName || record.name || 'Officer'}_${record.date}.xlsx`
       XLSX.writeFile(wb, fileName)
     } else if (previewDownloadType.value === 'without-attendance') {
       downloadWithoutAttendanceExcel()
@@ -2063,6 +2085,8 @@ const downloadPreviewExcel = () => {
 // Excel download for with-attendance records
 const downloadWithAttendanceExcel = () => {
   try {
+    const activityName = getActivityNameById(selectedActivityFilter.value)
+
     const data = filteredRecords.value.map((record, index) => {
       const screenshotUrls = record.screenshots
         ? record.screenshots
@@ -2095,7 +2119,7 @@ const downloadWithAttendanceExcel = () => {
       { wch: 50 }, // Image URLs
     ]
 
-    const fileName = `Officers_With_Attendance_${new Date().toLocaleDateString('en-US')}.xlsx`
+    const fileName = `${activityName}_With_Attendance_${new Date().toLocaleDateString('en-US')}.xlsx`
     XLSX.writeFile(wb, fileName)
   } catch (error) {
     console.error('Error generating Excel document:', error)
@@ -2106,6 +2130,8 @@ const downloadWithAttendanceExcel = () => {
 // Excel download for without-attendance records
 const downloadWithoutAttendanceExcel = () => {
   try {
+    const activityName = getActivityNameById(selectedActivityFilter.value)
+
     const data = officersWithoutAttendance.value.map((officer, index) => ({
       '#': index + 1,
       'Rank & Full Name': officer.rank_full_name || 'N/A',
@@ -2125,7 +2151,7 @@ const downloadWithoutAttendanceExcel = () => {
       { wch: 15 }, // Status
     ]
 
-    const fileName = `Officers_Without_Attendance_${new Date().toLocaleDateString('en-US')}.xlsx`
+    const fileName = `${activityName}_Without_Attendance_${new Date().toLocaleDateString('en-US')}.xlsx`
     XLSX.writeFile(wb, fileName)
   } catch (error) {
     console.error('Error generating Excel document:', error)
@@ -2223,9 +2249,17 @@ const previewWithAttendanceReport = () => {
   }
 }
 
+// Helper function to get activity name by ID
+const getActivityNameById = (activityId) => {
+  const activity = allActivities.value.find((a) => a.id === activityId)
+  return activity ? activity.name : 'All Activities'
+}
+
 // Download Word report for officers with attendance
 const downloadWithAttendanceReport = async () => {
   try {
+    const activityName = getActivityNameById(selectedActivityFilter.value)
+
     // Create table rows with attendance records
     const tableRows = [
       new TableRow({
@@ -2288,75 +2322,254 @@ const downloadWithAttendanceReport = async () => {
       width: { size: 100, type: WidthType.PERCENTAGE },
     })
 
-    const doc = new Document({
-      sections: [
-        {
-          properties: {
-            page: {
-              margin: {
-                top: 720,
-                right: 720,
-                bottom: 720,
-                left: 720,
+    // Collect all images from all records
+    const allImages = []
+    for (const record of filteredRecords.value) {
+      const screenshotUrls = record.screenshots
+        ? record.screenshots
+            .split(',')
+            .map((url) => url.trim())
+            .filter((url) => url)
+        : []
+
+      for (let i = 0; i < screenshotUrls.length; i++) {
+        try {
+          const response = await fetch(screenshotUrls[i])
+          const blob = await response.blob()
+          const buffer = await blob.arrayBuffer()
+          allImages.push({
+            data: buffer,
+            officerName: record.fullRankName || record.name || 'Unknown',
+            date: record.date,
+            imageIndex: i + 1,
+          })
+        } catch (error) {
+          console.warn(`Failed to fetch image for ${record.fullRankName}:`, error)
+        }
+      }
+    }
+
+    // Create image collage section
+    const imageGalleryChildren = [
+      new Paragraph({
+        text: 'PHILIPPINE NATIONAL POLICE',
+        heading: HeadingLevel.HEADING_1,
+        alignment: AlignmentType.CENTER,
+        spacing: { after: 200 },
+      }),
+      new Paragraph({
+        text: 'Attendance Evidence - Image Gallery',
+        heading: HeadingLevel.HEADING_2,
+        alignment: AlignmentType.CENTER,
+        spacing: { after: 200 },
+      }),
+      new Paragraph({
+        text: `Activity: ${activityName}`,
+        heading: HeadingLevel.HEADING_3,
+        alignment: AlignmentType.CENTER,
+        spacing: { after: 100 },
+      }),
+      new Paragraph({
+        children: [
+          new TextRun({
+            text: `Total Images: ${allImages.length}`,
+            bold: true,
+          }),
+        ],
+        alignment: AlignmentType.CENTER,
+        spacing: { after: 300 },
+      }),
+    ]
+
+    // Group images dynamically based on available space
+    // Standard page: 11" height - 1" top/bottom margins - ~1.2" for headers = ~8.8" available
+    // Image cell height: 120px image + 50px text = ~1.2" per row
+    // This allows 5-6 rows to fit per page. Using 5 rows for good balance (20 images/page)
+    // If more space available on later pages, can adjust to 6 rows (24 images/page)
+    let imagesPerPage = 20 // 5 rows x 4 columns default
+
+    for (let i = 0; i < allImages.length; i += imagesPerPage) {
+      const pageImages = allImages.slice(i, Math.min(i + imagesPerPage, allImages.length))
+
+      // For the last page, if there are remaining images and enough space, increase rows to fit more
+      const isLastPage = i + imagesPerPage >= allImages.length
+      const remainingImages = allImages.length - i
+      const canFitSixRows = remainingImages <= 24 && remainingImages > 20
+
+      // Adjust images for last page if it can fit 6 rows and have remaining images
+      if (isLastPage && canFitSixRows) {
+        imagesPerPage = remainingImages // Fit all remaining images
+      }
+
+      const pageImagesToUse = allImages.slice(i, Math.min(i + imagesPerPage, allImages.length))
+
+      // Create 4-column table for images
+      const imageRows = []
+      for (let j = 0; j < pageImagesToUse.length; j += 4) {
+        const img1 = pageImagesToUse[j]
+        const img2 = pageImagesToUse[j + 1]
+        const img3 = pageImagesToUse[j + 2]
+        const img4 = pageImagesToUse[j + 3]
+
+        const createImageCell = (img) => {
+          if (!img) {
+            return new TableCell({
+              children: [new Paragraph({ text: '' })],
+              borders: {
+                top: { style: BorderStyle.NONE },
+                bottom: { style: BorderStyle.NONE },
+                left: { style: BorderStyle.NONE },
+                right: { style: BorderStyle.NONE },
               },
+            })
+          }
+
+          return new TableCell({
+            children: [
+              new Paragraph({
+                children: [
+                  new ImageRun({
+                    data: img.data,
+                    transformation: {
+                      width: 120,
+                      height: 120,
+                    },
+                  }),
+                ],
+                alignment: AlignmentType.CENTER,
+              }),
+              new Paragraph({
+                text: `${img.officerName}`,
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 15 },
+                size: 18,
+                bold: true,
+              }),
+              new Paragraph({
+                text: `${img.date}`,
+                alignment: AlignmentType.CENTER,
+                size: 16,
+              }),
+            ],
+            borders: {
+              top: { style: BorderStyle.SINGLE, size: 6, color: '004595' },
+              bottom: { style: BorderStyle.SINGLE, size: 6, color: '004595' },
+              left: { style: BorderStyle.SINGLE, size: 6, color: '004595' },
+              right: { style: BorderStyle.SINGLE, size: 6, color: '004595' },
+            },
+          })
+        }
+
+        imageRows.push(
+          new TableRow({
+            children: [
+              createImageCell(img1),
+              createImageCell(img2),
+              createImageCell(img3),
+              createImageCell(img4),
+            ],
+          }),
+        )
+      }
+
+      // Add table to gallery
+      imageGalleryChildren.push(
+        new Table({
+          rows: imageRows,
+          width: { size: 100, type: WidthType.PERCENTAGE },
+        }),
+      )
+
+      // Add page break if there are more images to come
+      if (i + imagesPerPage < allImages.length) {
+        imageGalleryChildren.push(
+          new Paragraph({
+            text: '',
+            pageBreakBefore: true,
+          }),
+        )
+      }
+    }
+
+    const sections = [
+      {
+        properties: {
+          page: {
+            margin: {
+              top: 720,
+              right: 720,
+              bottom: 720,
+              left: 720,
             },
           },
-          children: [
-            new Paragraph({
-              text: 'PHILIPPINE NATIONAL POLICE',
-              heading: HeadingLevel.HEADING_1,
-              alignment: AlignmentType.CENTER,
-              spacing: { after: 200 },
-            }),
-            new Paragraph({
-              text: 'Officers With Attendance Report',
-              heading: HeadingLevel.HEADING_2,
-              alignment: AlignmentType.CENTER,
-              spacing: { after: 200 },
-            }),
-            new Paragraph({
-              children: [
-                new TextRun({
-                  text: 'Report Generated: ',
-                  bold: true,
-                }),
-                new TextRun(
-                  new Date().toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  }),
-                ),
-              ],
-              spacing: { after: 100 },
-            }),
-            new Paragraph({
-              children: [
-                new TextRun({
-                  text: `Total Records: ${filteredRecords.value.length}`,
-                  bold: true,
-                }),
-              ],
-              spacing: { after: 300 },
-            }),
-            attendanceTable,
-            new Paragraph({
-              text: '',
-              spacing: { after: 200 },
-            }),
-            new Paragraph({
-              text: `Generated on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`,
-              alignment: AlignmentType.CENTER,
-              italics: true,
-              size: 18,
-            }),
-          ],
         },
-      ],
+        children: [
+          new Paragraph({
+            text: 'PHILIPPINE NATIONAL POLICE',
+            heading: HeadingLevel.HEADING_1,
+            alignment: AlignmentType.CENTER,
+            spacing: { after: 200 },
+          }),
+          new Paragraph({
+            text: 'Officers With Attendance Report',
+            heading: HeadingLevel.HEADING_2,
+            alignment: AlignmentType.CENTER,
+            spacing: { after: 200 },
+          }),
+          new Paragraph({
+            text: `Activity: ${activityName}`,
+            heading: HeadingLevel.HEADING_3,
+            alignment: AlignmentType.CENTER,
+            spacing: { after: 200 },
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: 'Report Generated: ',
+                bold: true,
+              }),
+              new TextRun(
+                new Date().toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                }),
+              ),
+            ],
+            spacing: { after: 100 },
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `Total Records: ${filteredRecords.value.length}`,
+                bold: true,
+              }),
+            ],
+            spacing: { after: 300 },
+          }),
+          attendanceTable,
+          new Paragraph({
+            text: '',
+            pageBreakBefore: true,
+          }),
+          ...imageGalleryChildren,
+          new Paragraph({
+            text: `Generated on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`,
+            alignment: AlignmentType.CENTER,
+            italics: true,
+            size: 18,
+          }),
+        ],
+      },
+    ]
+
+    const doc = new Document({
+      sections: sections,
     })
 
     const blob = await Packer.toBlob(doc)
-    saveAs(blob, `Officers_With_Attendance_${new Date().toLocaleDateString('en-US')}.docx`)
+    const fileName = `${activityName}_With_Attendance_${new Date().toLocaleDateString('en-US')}.docx`
+    saveAs(blob, fileName)
   } catch (error) {
     console.error('Error generating Word document:', error)
     showErrorModalFunc('Error generating Word document. Please try again.')
