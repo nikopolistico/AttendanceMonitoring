@@ -121,16 +121,16 @@
       <!-- Activity Information Card (if activity is selected) -->
       <div
         v-if="selectedActivityId"
-        class="mb-5 md:mb-6 bg-white rounded-lg p-5 md:p-6 shadow-md border-l-4"
+        class="mb-3 sm:mb-4 md:mb-5 lg:mb-6 bg-white rounded-lg p-3 sm:p-4 md:p-5 lg:p-6 shadow-md border-l-4"
         style="
           border-color: #10b981;
           background: linear-gradient(to right, #f0fdf4 0%, #ffffff 100%);
         "
       >
-        <div class="flex items-start gap-4">
-          <div class="rounded-lg p-3" style="background: #dcfce7">
+        <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-3 md:gap-4">
+          <div class="rounded-lg p-2 sm:p-2.5 md:p-3 flex-shrink-0" style="background: #dcfce7">
             <svg
-              class="w-6 h-6 md:w-8 md:h-8"
+              class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8"
               style="color: #10b981"
               fill="none"
               stroke="currentColor"
@@ -144,101 +144,82 @@
               ></path>
             </svg>
           </div>
-          <div class="flex-1">
-            <h2 class="text-lg md:text-xl font-bold mb-2" style="color: #065f46">
+          <div class="flex-1 w-full">
+            <h2
+              class="text-base sm:text-lg md:text-xl lg:text-2xl font-bold mb-1 sm:mb-2"
+              style="color: #065f46"
+            >
               {{ selectedActivityName }}
             </h2>
-            <p v-if="selectedActivityDescription" class="text-sm md:text-base text-gray-700 mb-3">
+            <p
+              v-if="selectedActivityDescription"
+              class="text-xs sm:text-sm md:text-base lg:text-lg text-gray-700 mb-2 sm:mb-3"
+            >
               {{ selectedActivityDescription }}
             </p>
             <!-- Link Instructions Display -->
             <div
               v-if="selectedActivityLinkInstructions"
-              class="mb-4 p-3 md:p-4 rounded-lg border-2"
+              class="mb-2 sm:mb-3 p-2 sm:p-3 md:p-4 lg:p-5 rounded-lg border-2 text-left"
               style="background: #e0f2fe; border-color: #0284c7"
             >
-              <div class="flex items-start gap-3">
-                <svg
-                  class="w-5 h-5 flex-shrink-0 mt-0.5"
-                  style="color: #0284c7"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+              <p
+                class="text-xs sm:text-sm md:text-base lg:text-lg font-bold mb-1 sm:mb-1.5 md:mb-2"
+                style="color: #0c4a6e"
+              >
+                📋 Link Instructions:
+              </p>
+              <div class="space-y-1 sm:space-y-1.5 md:space-y-2 w-full">
+                <div
+                  v-for="(step, index) in parseInstructions(selectedActivityLinkInstructions)"
+                  :key="index"
+                  class="flex items-start gap-1.5 sm:gap-2 md:gap-3"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                  ></path>
-                </svg>
-                <div class="flex-1">
-                  <p class="text-xs md:text-sm font-bold mb-2" style="color: #0c4a6e">
-                    📋 Link Instructions - Follow These Steps:
-                  </p>
-                  <div class="space-y-2">
-                    <div
-                      v-for="(step, index) in parseInstructions(selectedActivityLinkInstructions)"
-                      :key="index"
-                      class="flex items-start gap-3"
-                    >
-                      <div
-                        class="flex items-center justify-center w-6 h-6 rounded-full flex-shrink-0 text-xs font-bold text-white"
-                        style="background: #0284c7"
-                      >
-                        {{ index + 1 }}
-                      </div>
-                      <p class="text-xs md:text-sm pt-0.5" style="color: #0c4a6e">
-                        {{ step }}
-                      </p>
-                    </div>
+                  <div
+                    class="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full flex-shrink-0 text-xs font-bold text-white mt-0.5"
+                    style="background: #0284c7"
+                  >
+                    {{ index + 1 }}
                   </div>
+                  <p
+                    class="text-xs sm:text-sm md:text-base break-words text-left"
+                    style="color: #0c4a6e"
+                  >
+                    {{ step }}
+                  </p>
                 </div>
               </div>
             </div>
             <!-- Activity Link Display -->
             <div
               v-if="selectedActivityLink"
-              class="mb-4 p-3 md:p-4 rounded-lg border-2"
+              class="mb-2 sm:mb-3 p-2 sm:p-3 md:p-4 lg:p-5 rounded-lg border-2 text-left"
               style="background: #fef9c3; border-color: #fbbf24"
             >
-              <div class="flex items-center gap-2 mb-2">
-                <svg
-                  class="w-5 h-5 flex-shrink-0"
-                  style="color: #b45309"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                  ></path>
-                </svg>
-                <span class="text-xs md:text-sm font-bold" style="color: #b45309"
-                  >Activity Link:</span
-                >
-              </div>
+              <p
+                class="text-xs sm:text-sm md:text-base lg:text-lg font-bold mb-1 sm:mb-1.5"
+                style="color: #b45309"
+              >
+                🔗 Activity Link:
+              </p>
               <a
                 :href="selectedActivityLink"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-xs md:text-sm font-semibold break-all hover:underline"
-                style="color: #b45309"
+                class="text-xs sm:text-sm md:text-base lg:text-lg font-semibold break-all hover:underline block w-full text-left"
+                style="color: #b45309; word-break: break-word; overflow-wrap: break-word"
               >
                 {{ selectedActivityLink }}
               </a>
             </div>
-            <div class="flex flex-wrap gap-2 items-center">
+            <div class="flex flex-wrap gap-1.5 sm:gap-2 items-center">
               <span
-                class="inline-block px-3 py-1 rounded-full text-xs font-bold"
+                class="inline-block px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs font-bold"
                 style="background: #d1fae5; color: #065f46"
                 >Activity ID: {{ selectedActivityId }}</span
               >
               <span
-                class="inline-block px-3 py-1 rounded-full text-xs font-bold"
+                class="inline-block px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs font-bold"
                 style="background: #dbeafe; color: #0c4a6e"
                 >Max Submissions: {{ maxSubmissions }}</span
               >
