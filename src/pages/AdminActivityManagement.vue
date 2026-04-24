@@ -563,12 +563,12 @@
                   <!-- Link Instructions Display -->
                   <div
                     v-if="activity.link_instructions"
-                    class="p-4 rounded-lg border-2 mb-3"
+                    class="p-3 sm:p-4 md:p-5 rounded-lg border-2 mb-3"
                     style="background: #e0f2fe; border-color: #0284c7"
                   >
-                    <div class="flex items-start gap-3">
+                    <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-3">
                       <svg
-                        class="w-5 h-5 flex-shrink-0 mt-0.5"
+                        class="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 flex-shrink-0 mt-0.5"
                         style="color: #0284c7"
                         fill="none"
                         stroke="currentColor"
@@ -581,23 +581,26 @@
                           d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
                         ></path>
                       </svg>
-                      <div class="flex-1">
-                        <p class="text-xs font-bold mb-3" style="color: #0c4a6e">
+                      <div class="flex-1 w-full">
+                        <p
+                          class="text-xs sm:text-sm md:text-base font-bold mb-2 sm:mb-3"
+                          style="color: #0c4a6e"
+                        >
                           📋 Link Instructions - Follow These Steps:
                         </p>
                         <div class="space-y-2">
                           <div
                             v-for="(step, index) in parseInstructions(activity.link_instructions)"
                             :key="index"
-                            class="flex items-start gap-3"
+                            class="flex items-start gap-2 sm:gap-3"
                           >
                             <div
-                              class="flex items-center justify-center w-6 h-6 rounded-full flex-shrink-0 text-xs font-bold text-white"
+                              class="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-full flex-shrink-0 text-xs font-bold text-white"
                               style="background: #0284c7"
                             >
                               {{ index + 1 }}
                             </div>
-                            <p class="text-xs pt-0.5" style="color: #0c4a6e">
+                            <p class="text-xs sm:text-sm pt-0.5 break-words" style="color: #0c4a6e">
                               {{ step }}
                             </p>
                           </div>
@@ -609,11 +612,11 @@
                   <!-- Activity Link Display -->
                   <div
                     v-if="activity.link"
-                    class="flex items-center gap-2 p-3 rounded-lg border-2 mb-3"
+                    class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 p-3 sm:p-4 md:p-5 rounded-lg border-2 mb-3"
                     style="background: #fef9c3; border-color: #fbbf24"
                   >
                     <svg
-                      class="w-5 h-5 flex-shrink-0"
+                      class="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 flex-shrink-0"
                       style="color: #b45309"
                       fill="none"
                       stroke="currentColor"
@@ -626,31 +629,35 @@
                         d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                       ></path>
                     </svg>
-                    <a
-                      :href="activity.link"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="flex-1 text-xs font-semibold truncate hover:underline"
-                      style="color: #b45309"
+                    <div
+                      class="flex-1 min-w-0 flex flex-col sm:flex-row gap-2 items-start sm:items-center"
                     >
-                      {{ activity.link }}
-                    </a>
-                    <button
-                      @click="copyToClipboard(activity.link)"
-                      class="px-3 py-2 rounded text-white text-xs font-bold transition hover:opacity-90"
-                      style="background: #fbbf24; color: #78350f"
-                    >
-                      Copy
-                    </button>
+                      <a
+                        :href="activity.link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-xs sm:text-sm md:text-base font-semibold break-all hover:underline flex-1 min-w-0"
+                        style="color: #b45309"
+                      >
+                        {{ activity.link }}
+                      </a>
+                      <button
+                        @click="copyToClipboard(activity.link)"
+                        class="px-2 sm:px-3 py-1.5 sm:py-2 rounded text-white text-xs font-bold transition hover:opacity-90 whitespace-nowrap"
+                        style="background: #fbbf24; color: #78350f"
+                      >
+                        Copy
+                      </button>
+                    </div>
                   </div>
 
                   <!-- Attendance Link Display -->
                   <div
-                    class="flex items-center gap-2 p-3 rounded-lg border-2 mt-3"
+                    class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 p-3 sm:p-4 md:p-5 rounded-lg border-2 mt-3"
                     style="background: #f9fafb; border-color: #e5e7eb"
                   >
                     <svg
-                      class="w-5 h-5 flex-shrink-0"
+                      class="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 flex-shrink-0"
                       style="color: #004595"
                       fill="none"
                       stroke="currentColor"
@@ -663,61 +670,65 @@
                         d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                       ></path>
                     </svg>
-                    <input
-                      type="text"
-                      :value="generateAttendanceLink(activity.id)"
-                      readonly
-                      class="flex-1 px-3 py-2 text-xs border-none rounded bg-transparent"
-                      style="color: #004595; font-family: monospace"
-                    />
+                    <div
+                      class="flex-1 min-w-0 flex flex-col sm:flex-row gap-2 items-start sm:items-center"
+                    >
+                      <input
+                        type="text"
+                        :value="generateAttendanceLink(activity.id)"
+                        readonly
+                        class="flex-1 px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm break-all border-none rounded bg-transparent min-w-0"
+                        style="color: #004595; font-family: monospace"
+                      />
+                      <button
+                        @click="copyToClipboard(generateAttendanceLink(activity.id))"
+                        class="px-2 sm:px-3 py-1.5 sm:py-2 rounded text-white text-xs font-bold transition hover:opacity-90 whitespace-nowrap"
+                        style="background: #10b981"
+                      >
+                        Copy
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="flex flex-col gap-2 flex-shrink-0 w-full sm:w-auto">
                     <button
-                      @click="copyToClipboard(generateAttendanceLink(activity.id))"
-                      class="px-3 py-2 rounded text-white text-xs font-bold transition hover:opacity-90"
+                      v-if="editingId !== activity.id"
+                      @click="startEdit(activity)"
+                      class="px-3 sm:px-4 py-2 sm:py-2.5 rounded text-white text-xs sm:text-sm font-bold transition hover:opacity-90 w-full sm:w-auto"
+                      style="background: #f59e0b"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      @click="viewActivitySubmissions(activity.id)"
+                      class="px-3 sm:px-4 py-2 sm:py-2.5 rounded text-white text-xs sm:text-sm font-bold transition hover:opacity-90 w-full sm:w-auto"
+                      style="background: #004595"
+                    >
+                      View Submissions
+                    </button>
+                    <button
+                      @click="downloadActivityAsZip(activity.id, activity.name)"
+                      class="px-3 sm:px-4 py-2 sm:py-2.5 rounded text-white text-xs sm:text-sm font-bold transition hover:opacity-90 flex items-center justify-center gap-2 w-full sm:w-auto"
                       style="background: #10b981"
                     >
-                      Copy
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                        ></path>
+                      </svg>
+                      Download ZIP
+                    </button>
+                    <button
+                      @click="deleteActivity(activity.id)"
+                      class="px-3 sm:px-4 py-2 sm:py-2.5 rounded text-white text-xs sm:text-sm font-bold transition hover:opacity-90 w-full sm:w-auto"
+                      style="background: #dc2626"
+                    >
+                      Delete
                     </button>
                   </div>
-                </div>
-
-                <div class="flex flex-col gap-2 flex-shrink-0">
-                  <button
-                    v-if="editingId !== activity.id"
-                    @click="startEdit(activity)"
-                    class="px-4 py-2 rounded text-white text-xs font-bold transition hover:opacity-90"
-                    style="background: #f59e0b"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    @click="viewActivitySubmissions(activity.id)"
-                    class="px-4 py-2 rounded text-white text-xs font-bold transition hover:opacity-90"
-                    style="background: #004595"
-                  >
-                    View Submissions
-                  </button>
-                  <button
-                    @click="downloadActivityAsZip(activity.id, activity.name)"
-                    class="px-4 py-2 rounded text-white text-xs font-bold transition hover:opacity-90 flex items-center justify-center gap-2"
-                    style="background: #10b981"
-                  >
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                      ></path>
-                    </svg>
-                    Download ZIP
-                  </button>
-                  <button
-                    @click="deleteActivity(activity.id)"
-                    class="px-4 py-2 rounded text-white text-xs font-bold transition hover:opacity-90"
-                    style="background: #dc2626"
-                  >
-                    Delete
-                  </button>
                 </div>
               </div>
             </div>
