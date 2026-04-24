@@ -456,10 +456,60 @@
             >
               <div class="flex items-start justify-between gap-4">
                 <div class="flex-1 min-w-0">
-                  <h3 class="text-lg font-bold mb-2" style="color: #002147">{{ activity.name }}</h3>
-                  <p v-if="activity.description" class="text-sm text-gray-600 mb-3">
-                    {{ activity.description }}
-                  </p>
+                  <!-- Edit Mode -->
+                  <div v-if="editingId === activity.id" class="space-y-3 mb-4">
+                    <div>
+                      <label class="text-xs font-bold mb-1 block" style="color: #002147"
+                        >Activity Title</label
+                      >
+                      <input
+                        v-model="editForm.name"
+                        type="text"
+                        class="w-full px-3 py-2 border-2 rounded-lg focus:outline-none text-sm"
+                        style="border-color: #004595; color: #002147"
+                      />
+                    </div>
+                    <div>
+                      <label class="text-xs font-bold mb-1 block" style="color: #002147"
+                        >Description</label
+                      >
+                      <textarea
+                        v-model="editForm.description"
+                        class="w-full px-3 py-2 border-2 rounded-lg focus:outline-none text-sm"
+                        style="border-color: #004595; color: #002147"
+                        rows="2"
+                      ></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                      <button
+                        @click="saveActivity(activity.id)"
+                        :disabled="isSaving"
+                        class="px-3 py-2 rounded text-white text-xs font-bold transition hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                        style="background: #10b981"
+                      >
+                        <span v-if="isSaving">Saving...</span>
+                        <span v-else>Save</span>
+                      </button>
+                      <button
+                        @click="cancelEdit"
+                        :disabled="isSaving"
+                        class="px-3 py-2 rounded text-white text-xs font-bold transition hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                        style="background: #6b7280"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Display Mode -->
+                  <template v-else>
+                    <h3 class="text-lg font-bold mb-2" style="color: #002147">
+                      {{ activity.name }}
+                    </h3>
+                    <p v-if="activity.description" class="text-sm text-gray-600 mb-3">
+                      {{ activity.description }}
+                    </p>
+                  </template>
                   <div class="flex flex-wrap gap-3 text-xs mb-3">
                     <div class="px-3 py-1 rounded-full" style="background: #eff6ff; color: #0369a1">
                       ID: {{ activity.id }}
@@ -544,6 +594,14 @@
                 </div>
 
                 <div class="flex flex-col gap-2 flex-shrink-0">
+                  <button
+                    v-if="editingId !== activity.id"
+                    @click="startEdit(activity)"
+                    class="px-4 py-2 rounded text-white text-xs font-bold transition hover:opacity-90"
+                    style="background: #f59e0b"
+                  >
+                    Edit
+                  </button>
                   <button
                     @click="viewActivitySubmissions(activity.id)"
                     class="px-4 py-2 rounded text-white text-xs font-bold transition hover:opacity-90"
@@ -699,6 +757,12 @@ const isLoadingActivities = ref(false)
 const totalSubmissions = ref(0)
 const isImporting = ref(false)
 const zipFileInput = ref(null)
+const editingId = ref(null)
+const editForm = ref({
+  name: '',
+  description: '',
+})
+const isSaving = ref(false)
 
 // Create a new activity
 const createActivity = async () => {
@@ -738,6 +802,61 @@ const createActivity = async () => {
     showError({ title: 'Creation Failed', message: err.message })
   } finally {
     isCreating.value = false
+  }
+}
+
+// Start editing an activity
+const startEdit = (activity) => {
+  editingId.value = activity.id
+  editForm.value = {
+    name: activity.name,
+    description: activity.description || '',
+  }
+}
+
+// Save activity changes
+const saveActivity = async (activityId) => {
+  if (!editForm.value.name.trim()) {
+    showWarning({ title: 'Input Required', message: 'Please enter an activity name' })
+    return
+  }
+
+  isSaving.value = true
+
+  try {
+    const { error } = await supabase
+      .from('activities')
+      .update({
+        name: editForm.value.name,
+        description: editForm.value.description || null,
+      })
+      .eq('id', activityId)
+
+    if (error) throw error
+
+    // Update the activity in the local list
+    const activity = activities.value.find((a) => a.id === activityId)
+    if (activity) {
+      activity.name = editForm.value.name
+      activity.description = editForm.value.description || null
+    }
+
+    editingId.value = null
+    showSuccess({ title: 'Activity Updated', message: 'Activity updated successfully!' })
+  } catch (err) {
+    console.error('Error updating activity:', err)
+    showError({ title: 'Update Failed', message: err.message })
+  } finally {
+    isSaving.value = false
+  }
+}
+
+// Cancel editing
+const cancelEdit = () => {
+  editingId.value = null
+  editForm.value = {
+    name: '',
+    description: '',
   }
 }
 
