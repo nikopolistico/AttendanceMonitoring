@@ -324,6 +324,23 @@
 
             <div>
               <label class="text-sm font-bold mb-2 flex items-center gap-2" style="color: #002147">
+                Link Instructions (Optional)
+              </label>
+              <textarea
+                v-model="newActivity.linkInstructions"
+                placeholder="Describe what the link is for and how officers should use it. E.g., 'This Google Form is for submitting your daily attendance. Fill in your name, badge number, and check-in time...'"
+                class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 text-sm"
+                style="border-color: #e5e7eb; color: #002147"
+                rows="3"
+              ></textarea>
+              <p class="text-xs text-gray-500 mt-1">
+                Provide clear instructions for officers about what the attached link is for and how
+                to use it
+              </p>
+            </div>
+
+            <div>
+              <label class="text-sm font-bold mb-2 flex items-center gap-2" style="color: #002147">
                 Maximum Submissions Per Officer <span class="text-red-600">*</span>
               </label>
               <input
@@ -480,6 +497,30 @@
                         rows="2"
                       ></textarea>
                     </div>
+                    <div>
+                      <label class="text-xs font-bold mb-1 block" style="color: #002147"
+                        >Activity Link</label
+                      >
+                      <input
+                        v-model="editForm.link"
+                        type="url"
+                        placeholder="e.g., https://docs.google.com/forms/..."
+                        class="w-full px-3 py-2 border-2 rounded-lg focus:outline-none text-sm"
+                        style="border-color: #004595; color: #002147"
+                      />
+                    </div>
+                    <div>
+                      <label class="text-xs font-bold mb-1 block" style="color: #002147"
+                        >Link Instructions</label
+                      >
+                      <textarea
+                        v-model="editForm.linkInstructions"
+                        placeholder="Add step-by-step instructions for the link..."
+                        class="w-full px-3 py-2 border-2 rounded-lg focus:outline-none text-sm"
+                        style="border-color: #004595; color: #002147"
+                        rows="3"
+                      ></textarea>
+                    </div>
                     <div class="flex gap-2">
                       <button
                         @click="saveActivity(activity.id)"
@@ -516,6 +557,52 @@
                     </div>
                     <div class="px-3 py-1 rounded-full" style="background: #f0fdf4; color: #15803d">
                       Created: {{ formatDate(activity.created_at) }}
+                    </div>
+                  </div>
+
+                  <!-- Link Instructions Display -->
+                  <div
+                    v-if="activity.link_instructions"
+                    class="p-4 rounded-lg border-2 mb-3"
+                    style="background: #e0f2fe; border-color: #0284c7"
+                  >
+                    <div class="flex items-start gap-3">
+                      <svg
+                        class="w-5 h-5 flex-shrink-0 mt-0.5"
+                        style="color: #0284c7"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                        ></path>
+                      </svg>
+                      <div class="flex-1">
+                        <p class="text-xs font-bold mb-3" style="color: #0c4a6e">
+                          📋 Link Instructions - Follow These Steps:
+                        </p>
+                        <div class="space-y-2">
+                          <div
+                            v-for="(step, index) in parseInstructions(activity.link_instructions)"
+                            :key="index"
+                            class="flex items-start gap-3"
+                          >
+                            <div
+                              class="flex items-center justify-center w-6 h-6 rounded-full flex-shrink-0 text-xs font-bold text-white"
+                              style="background: #0284c7"
+                            >
+                              {{ index + 1 }}
+                            </div>
+                            <p class="text-xs pt-0.5" style="color: #0c4a6e">
+                              {{ step }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -749,6 +836,7 @@ const newActivity = ref({
   name: '',
   description: '',
   link: '',
+  linkInstructions: '',
   maxSubmissions: 1,
   imagesRequired: true,
 })
@@ -761,6 +849,8 @@ const editingId = ref(null)
 const editForm = ref({
   name: '',
   description: '',
+  link: '',
+  linkInstructions: '',
 })
 const isSaving = ref(false)
 
@@ -780,6 +870,7 @@ const createActivity = async () => {
         name: newActivity.value.name,
         description: newActivity.value.description || null,
         link: newActivity.value.link || null,
+        link_instructions: newActivity.value.linkInstructions || null,
         max_submissions: newActivity.value.maxSubmissions || 1,
         images_required: newActivity.value.imagesRequired,
         created_at: new Date().toISOString(),
@@ -793,6 +884,7 @@ const createActivity = async () => {
       name: '',
       description: '',
       link: '',
+      linkInstructions: '',
       maxSubmissions: 1,
       imagesRequired: true,
     }
@@ -811,6 +903,8 @@ const startEdit = (activity) => {
   editForm.value = {
     name: activity.name,
     description: activity.description || '',
+    link: activity.link || '',
+    linkInstructions: activity.link_instructions || '',
   }
 }
 
@@ -824,21 +918,29 @@ const saveActivity = async (activityId) => {
   isSaving.value = true
 
   try {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('activities')
       .update({
         name: editForm.value.name,
         description: editForm.value.description || null,
+        link: editForm.value.link || null,
+        link_instructions: editForm.value.linkInstructions || null,
       })
       .eq('id', activityId)
+      .select()
 
     if (error) throw error
 
-    // Update the activity in the local list
-    const activity = activities.value.find((a) => a.id === activityId)
-    if (activity) {
-      activity.name = editForm.value.name
-      activity.description = editForm.value.description || null
+    // Verify the update was successful
+    if (data && data.length > 0) {
+      // Update the activity in the local list
+      const activity = activities.value.find((a) => a.id === activityId)
+      if (activity) {
+        activity.name = data[0].name
+        activity.description = data[0].description
+        activity.link = data[0].link
+        activity.link_instructions = data[0].link_instructions
+      }
     }
 
     editingId.value = null
@@ -857,6 +959,8 @@ const cancelEdit = () => {
   editForm.value = {
     name: '',
     description: '',
+    link: '',
+    linkInstructions: '',
   }
 }
 
@@ -864,6 +968,21 @@ const cancelEdit = () => {
 const generateAttendanceLink = (activityId) => {
   const baseUrl = window.location.origin
   return `${baseUrl}/#/user-dashboard?activity_id=${activityId}`
+}
+
+// Parse instructions into steps
+const parseInstructions = (instructionsText) => {
+  if (!instructionsText) return []
+
+  // Split by line breaks and filter out empty lines
+  return instructionsText
+    .split('\n')
+    .map((step) => step.trim())
+    .filter((step) => step.length > 0)
+    .map((step) => {
+      // Remove common numbering patterns like "1.", "Step 1:", etc.
+      return step.replace(/^(\d+[\.\)]\s*|Step\s*\d+[\:\.]?\s*)/i, '').trim()
+    })
 }
 
 // Copy link to clipboard

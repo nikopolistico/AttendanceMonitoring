@@ -151,6 +151,52 @@
             <p v-if="selectedActivityDescription" class="text-sm md:text-base text-gray-700 mb-3">
               {{ selectedActivityDescription }}
             </p>
+            <!-- Link Instructions Display -->
+            <div
+              v-if="selectedActivityLinkInstructions"
+              class="mb-4 p-3 md:p-4 rounded-lg border-2"
+              style="background: #e0f2fe; border-color: #0284c7"
+            >
+              <div class="flex items-start gap-3">
+                <svg
+                  class="w-5 h-5 flex-shrink-0 mt-0.5"
+                  style="color: #0284c7"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                  ></path>
+                </svg>
+                <div class="flex-1">
+                  <p class="text-xs md:text-sm font-bold mb-2" style="color: #0c4a6e">
+                    📋 Link Instructions - Follow These Steps:
+                  </p>
+                  <div class="space-y-2">
+                    <div
+                      v-for="(step, index) in parseInstructions(selectedActivityLinkInstructions)"
+                      :key="index"
+                      class="flex items-start gap-3"
+                    >
+                      <div
+                        class="flex items-center justify-center w-6 h-6 rounded-full flex-shrink-0 text-xs font-bold text-white"
+                        style="background: #0284c7"
+                      >
+                        {{ index + 1 }}
+                      </div>
+                      <p class="text-xs md:text-sm pt-0.5" style="color: #0c4a6e">
+                        {{ step }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Activity Link Display -->
             <div
               v-if="selectedActivityLink"
               class="mb-4 p-3 md:p-4 rounded-lg border-2"
@@ -968,6 +1014,7 @@ const selectedActivityId = ref(null)
 const selectedActivityName = ref('')
 const selectedActivityDescription = ref('')
 const selectedActivityLink = ref('')
+const selectedActivityLinkInstructions = ref('')
 const imagesRequired = ref(true)
 const isLoadingActivity = ref(false)
 const maxSubmissions = ref(1)
@@ -1263,7 +1310,7 @@ const loadActivityInfo = async () => {
 
     const { data, error } = await supabase
       .from('activities')
-      .select('id, name, description, link, max_submissions, images_required')
+      .select('id, name, description, link, link_instructions, max_submissions, images_required')
       .eq('id', activityId)
       .single()
 
@@ -1277,6 +1324,7 @@ const loadActivityInfo = async () => {
       selectedActivityName.value = data.name
       selectedActivityDescription.value = data.description || ''
       selectedActivityLink.value = data.link || ''
+      selectedActivityLinkInstructions.value = data.link_instructions || ''
       imagesRequired.value = data.images_required !== false
       maxSubmissions.value = data.max_submissions || 1
       console.log(
@@ -1293,6 +1341,21 @@ const loadActivityInfo = async () => {
   } finally {
     isLoadingActivity.value = false
   }
+}
+
+// Parse instructions into steps
+const parseInstructions = (instructionsText) => {
+  if (!instructionsText) return []
+
+  // Split by line breaks and filter out empty lines
+  return instructionsText
+    .split('\n')
+    .map((step) => step.trim())
+    .filter((step) => step.length > 0)
+    .map((step) => {
+      // Remove common numbering patterns like "1.", "Step 1:", etc.
+      return step.replace(/^(\d+[\.\)]\\s*|Step\\s*\d+[\\:\\.]?\\s*)/i, '').trim()
+    })
 }
 
 // Check how many times current user has submitted for this activity
