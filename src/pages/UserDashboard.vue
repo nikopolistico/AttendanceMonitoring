@@ -233,7 +233,7 @@
         <!-- Left Column: Instructions -->
         <div class="lg:col-span-3 order-1 space-y-4">
           <!-- Instructions Card -->
-          <div class="bg-white rounded-lg p-5 shadow-md">
+          <!-- <div class="bg-white rounded-lg p-5 shadow-md">
             <div class="flex items-center gap-3 mb-4">
               <div class="rounded-lg p-2" style="background: #002147">
                 <svg
@@ -296,7 +296,7 @@
                 <p class="text-xs md:text-sm text-gray-700">Click Submit Attendance button</p>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- Important Notice (hidden on mobile) -->
           <div
