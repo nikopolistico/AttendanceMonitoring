@@ -1122,7 +1122,7 @@
         style="background: linear-gradient(90deg, #002147 0%, #004595 50%, #002147 100%)"
       ></div>
 
-      <div class="grid grid-cols-4 h-16 sm:h-18" style="background: #ffffff">
+      <div class="grid grid-cols-5 h-16 sm:h-18" style="background: #ffffff">
         <!-- Overview -->
         <router-link
           to="/admin-dashboard"
@@ -1179,6 +1179,35 @@
             >Records</span
           >
         </div>
+
+        <!-- Activities -->
+        <router-link
+          to="/activities"
+          class="relative flex flex-col items-center justify-center overflow-hidden border-t-4 border-transparent active:scale-95 transition-all duration-300"
+        >
+          <div
+            class="absolute inset-0 bg-gray-50 opacity-0 hover:opacity-100 transition-opacity duration-300"
+          ></div>
+          <svg
+            class="w-5 h-5 sm:w-6 sm:h-6 mb-0.5 relative z-10 transform hover:scale-110 transition-transform duration-300"
+            style="color: #6b7280"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+            ></path>
+          </svg>
+          <span
+            class="text-[10px] sm:text-xs font-semibold relative z-10 tracking-wide"
+            style="color: #6b7280"
+            >Activities</span
+          >
+        </router-link>
 
         <!-- Officers -->
         <router-link

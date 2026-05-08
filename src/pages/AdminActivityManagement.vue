@@ -747,7 +747,7 @@
         style="background: linear-gradient(90deg, #002147 0%, #004595 50%, #002147 100%)"
       ></div>
 
-      <div class="grid grid-cols-4 h-16" style="background: #ffffff">
+      <div class="grid grid-cols-5 h-16" style="background: #ffffff">
         <router-link
           to="/admin-dashboard"
           class="relative flex flex-col items-center justify-center overflow-hidden border-t-4 border-transparent active:scale-95 transition-all duration-300"
@@ -784,6 +784,27 @@
             ></path>
           </svg>
           <span class="text-xs font-semibold" style="color: #6b7280">Records</span>
+        </router-link>
+
+        <router-link
+          to="/activities"
+          class="relative flex flex-col items-center justify-center overflow-hidden border-t-4 border-transparent active:scale-95 transition-all duration-300"
+        >
+          <svg
+            class="w-6 h-6 mb-0.5"
+            style="color: #004595"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+            ></path>
+          </svg>
+          <span class="text-xs font-semibold" style="color: #004595">Activities</span>
         </router-link>
 
         <router-link
