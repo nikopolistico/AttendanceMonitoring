@@ -145,6 +145,84 @@
       </div>
     </div>
 
+    <!-- Mobile Navigation Bar -->
+    <div
+      class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-30"
+      style="border-color: #e5e7eb"
+    >
+      <div class="flex justify-around items-center">
+        <router-link
+          to="/admin-dashboard"
+          class="flex-1 py-3 px-2 flex flex-col items-center gap-1 hover:bg-gray-50 transition"
+        >
+          <svg class="w-5 h-5" style="color: #002147" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"
+            ></path>
+          </svg>
+          <span class="text-xs font-bold" style="color: #002147">Overview</span>
+        </router-link>
+
+        <router-link
+          to="/records"
+          class="flex-1 py-3 px-2 flex flex-col items-center gap-1 hover:bg-gray-50 transition"
+        >
+          <svg
+            class="w-5 h-5"
+            style="color: #002147"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+            ></path>
+          </svg>
+          <span class="text-xs font-bold" style="color: #002147">Records</span>
+        </router-link>
+
+        <router-link
+          to="/admin-activity"
+          class="flex-1 py-3 px-2 flex flex-col items-center gap-1 border-b-2 hover:bg-gray-50 transition"
+          style="border-color: #004595"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+            ></path>
+          </svg>
+          <span class="text-xs font-bold" style="color: #004595">Act</span>
+        </router-link>
+
+        <router-link
+          to="/officers"
+          class="flex-1 py-3 px-2 flex flex-col items-center gap-1 hover:bg-gray-50 transition"
+        >
+          <svg
+            class="w-5 h-5"
+            style="color: #002147"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+            ></path>
+          </svg>
+          <span class="text-xs font-bold" style="color: #002147">Officers</span>
+        </router-link>
+      </div>
+    </div>
+
     <!-- Main Content -->
     <div class="lg:ml-64 min-h-screen overflow-auto pb-20 lg:pb-0">
       <div class="p-4 sm:p-6 lg:p-8">

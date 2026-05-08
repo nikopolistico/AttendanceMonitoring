@@ -164,7 +164,7 @@
       </div>
 
       <!-- Main Content Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6 pb-20 lg:pb-0">
         <!-- Left Column: Instructions -->
         <div class="lg:col-span-3 order-1 space-y-4">
           <!-- Instructions Card -->
