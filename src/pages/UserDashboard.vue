@@ -53,71 +53,6 @@
         </div>
       </div>
 
-      <!-- Stats Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5 md:mb-6">
-        <!-- Current Date -->
-        <div
-          class="bg-white rounded-lg p-5 md:p-6 shadow-md border-l-4"
-          style="border-color: #10b981"
-        >
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-xs md:text-sm font-semibold text-gray-500">Today's Date</p>
-              <p class="text-lg md:text-xl font-bold mt-1" style="color: #002147">
-                {{ currentDate }}
-              </p>
-            </div>
-            <div class="rounded-lg p-3" style="background: #d1fae5">
-              <svg
-                class="w-6 h-6 md:w-7 md:h-7"
-                style="color: #10b981"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                ></path>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <!-- Current Time -->
-        <div
-          class="bg-white rounded-lg p-5 md:p-6 shadow-md border-l-4"
-          style="border-color: #fbbf24"
-        >
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-xs md:text-sm font-semibold text-gray-500">Current Time</p>
-              <p class="text-2xl md:text-3xl font-bold mt-1" style="color: #002147">
-                {{ currentTime }}
-              </p>
-            </div>
-            <div class="rounded-lg p-3" style="background: #fef3c7">
-              <svg
-                class="w-6 h-6 md:w-7 md:h-7"
-                style="color: #fbbf24"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Activity Information Card (if activity is selected) -->
       <div
         v-if="selectedActivityId"
@@ -858,6 +793,71 @@
                   Ensure all information is accurate before submission. Screenshots must be clear
                   and readable.
                 </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats Cards -->
+          <div class="space-y-4">
+            <!-- Current Date -->
+            <div
+              class="bg-white rounded-lg p-5 md:p-6 shadow-md border-l-4"
+              style="border-color: #10b981"
+            >
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-xs md:text-sm font-semibold text-gray-500">Today's Date</p>
+                  <p class="text-lg md:text-xl font-bold mt-1" style="color: #002147">
+                    {{ currentDate }}
+                  </p>
+                </div>
+                <div class="rounded-lg p-3" style="background: #d1fae5">
+                  <svg
+                    class="w-6 h-6 md:w-7 md:h-7"
+                    style="color: #10b981"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Current Time -->
+            <div
+              class="bg-white rounded-lg p-5 md:p-6 shadow-md border-l-4"
+              style="border-color: #fbbf24"
+            >
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-xs md:text-sm font-semibold text-gray-500">Current Time</p>
+                  <p class="text-2xl md:text-3xl font-bold mt-1" style="color: #002147">
+                    {{ currentTime }}
+                  </p>
+                </div>
+                <div class="rounded-lg p-3" style="background: #fef3c7">
+                  <svg
+                    class="w-6 h-6 md:w-7 md:h-7"
+                    style="color: #fbbf24"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                </div>
               </div>
             </div>
           </div>
